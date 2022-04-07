@@ -150,8 +150,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-04-01 22:50:54</span>
-        <span class="mobile">2022-04-01 22:50</span>
+        <span class="pc">2022-04-07 17:13:58</span>
+        <span class="mobile">2022-04-07 17:13</span>
     </span>
     
     
@@ -175,7 +175,7 @@
             <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>类的构造函数是类的一种特殊的成员函数，它会在每次创建类的新对象时执行。<br><br></p>
 <p>构造函数的名称与类的名称是完全相同的，并且不会返回任何类型，也不会返回 void。构造函数可用于为某些成员变量设置初始值。</p>
 <h3 id="默认构造函数"><a href="#默认构造函数" class="headerlink" title="默认构造函数"></a>默认构造函数</h3><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
- 
+
 using namespace std;
  
 class Line
@@ -192,7 +192,7 @@ class Line
 &#x2F;&#x2F; 成员函数定义，包括构造函数
 Line::Line(void)
 &#123;
-    cout &lt;&lt; &quot;Object is being created&quot; &lt;&lt; endl;
+    cout &lt;&lt; &quot;创建!&quot; &lt;&lt; endl;
 &#125;
  
 void Line::setLength( double len )
@@ -211,10 +211,14 @@ int main( )
  
    &#x2F;&#x2F; 设置长度
    line.setLength(6.0); 
-   cout &lt;&lt; &quot;Length of line : &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
+   cout &lt;&lt; &quot;长度 &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
  
    return 0;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建!
+长度 6<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>构造函数也可以带有参数。这样在创建对象时就会给对象赋初始值<br><br></p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
@@ -235,7 +239,7 @@ class Line
 &#x2F;&#x2F; 成员函数定义，包括构造函数
 Line::Line( double len)
 &#123;
-    cout &lt;&lt; &quot;Object is being created, length &#x3D; &quot; &lt;&lt; len &lt;&lt; endl;
+    cout &lt;&lt; &quot;创建！长度为：&quot; &lt;&lt; len &lt;&lt; endl;
     length &#x3D; len;
 &#125;
  
@@ -254,16 +258,22 @@ int main( )
    Line line(10.0);
  
    &#x2F;&#x2F; 获取默认设置的长度
-   cout &lt;&lt; &quot;Length of line : &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
+   cout &lt;&lt; &quot;长度 &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
    &#x2F;&#x2F; 再次设置长度
    line.setLength(6.0); 
-   cout &lt;&lt; &quot;Length of line : &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
+   cout &lt;&lt; &quot;长度 &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
  
    return 0;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>运行结果：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建！长度为：10
+长度 10
+长度 6<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 <h4 id="为什么需要构造函数"><a href="#为什么需要构造函数" class="headerlink" title="为什么需要构造函数"></a>为什么需要构造函数</h4><ul>
 <li>设置构造函数的初衷，很多程序错误，是对象(变量)未能初始化引起的，故设置一个构造函数，自动调用它来进行初始化，以避免这类错误</li>
+<li>理解：我们讲究面向对象，那么作为一个对象，他生来就与众不同，就和人一样，并不是出生后在进行塑性，构造函数使得编程更加符合面向对象的要求，更加自然。</li>
 <li>初始化成员变量，分配内存空间。</li>
 <li>一般情况下（指类成员没有指针的情况）自定义类有没有构造函数影响不大。（但使用时要注意，因为默认构造函数下，成员是不被初始化的。）但如果有指针，而你又没有定义构造函数，那问题就大了。（使用没有初始化的指针会有什么问题？是不可预想的。）</li>
 </ul>
@@ -271,21 +281,22 @@ int main( )
 <li>让类进行自动初始化，为指针分配空间  </li>
 <li>用于在创建不同对象时用不同的值初始化不同对象的各种数据元素</li>
 </ul>
+<h4 id="重载函数"><a href="#重载函数" class="headerlink" title="重载函数"></a>重载函数</h4><p>重载函数是函数的一种特殊情况，为方便使用，C++允许在同一范围中声明几个功能类似的同名函数，但是这些同名函数的形式参数（指参数的个数、类型或者顺序）必须不同，也就是说用同一个函数完成不同的功能。 这就是重载函数。 重载函数常用来实现功能类似而所处理的数据类型不同的问题。 不能只有函数返回值类型不同。构造函数可以重载。</p>
 <h3 id="初始化列表"><a href="#初始化列表" class="headerlink" title="初始化列表"></a>初始化列表</h3><p>上述中构造函数</p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Line::Line( double len)
 &#123;
     length &#x3D; len;
-    cout &lt;&lt; &quot;Object is being created, length &#x3D; &quot; &lt;&lt; len &lt;&lt; endl;
+    cout &lt;&lt; &quot;创建！长度为：&quot; &lt;&lt; len &lt;&lt; endl;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>也可以使用下面方法代替：</p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">Line::Line( double len): length(len)
 &#123;
-    cout &lt;&lt; &quot;Object is being created, length &#x3D; &quot; &lt;&lt; len &lt;&lt; endl;
+    cout &lt;&lt; &quot;创建！长度为：&quot; &lt;&lt; len &lt;&lt; endl;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>当然当有多个值需初始化时就是下面这种格式：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">C::C( double a, double b, double c): X(a), Y(b), Z(c)
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">C::C( double a, double b, double c): x(a), y(b), z(c)
 &#123;
   ....
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
@@ -300,8 +311,8 @@ class Line
    public:
       void setLength( double len );
       double getLength( void );
-      Line();   &#x2F;&#x2F; 这是构造函数声明
-      ~Line();  &#x2F;&#x2F; 这是析构函数声明
+      Line();   &#x2F;&#x2F; 构造函数声明
+      ~Line();  &#x2F;&#x2F; 析构函数声明
  
    private:
       double length;
@@ -310,11 +321,11 @@ class Line
 &#x2F;&#x2F; 成员函数定义，包括构造函数
 Line::Line(void)
 &#123;
-    cout &lt;&lt; &quot;Object is being created&quot; &lt;&lt; endl;
+    cout &lt;&lt; &quot;创建！&quot; &lt;&lt; endl;
 &#125;
 Line::~Line(void)
 &#123;
-    cout &lt;&lt; &quot;Object is being deleted&quot; &lt;&lt; endl;
+    cout &lt;&lt; &quot;销毁！&quot; &lt;&lt; endl;
 &#125;
  
 void Line::setLength( double len )
@@ -333,15 +344,15 @@ int main( )
  
    &#x2F;&#x2F; 设置长度
    line.setLength(6.0); 
-   cout &lt;&lt; &quot;Length of line : &quot; &lt;&lt; line.getLength() &lt;&lt;endl;
+   cout &lt;&lt; &quot;长度为：&quot; &lt;&lt; line.getLength() &lt;&lt;endl;
  
    return 0;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>输出结果：</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">Object is being created
-Length of line : 6
-Object is being deleted
+<p>运行结果</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建！
+长度为：6
+销毁！
 &#96;&#96;&#96;  
 
 ### 拷贝构造函数
@@ -363,43 +374,69 @@ classname (const classname &amp;obj) &#123;
    &#x2F;&#x2F; 构造函数的主体
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>在这里，obj 是一个对象引用，该对象是用于初始化另一个对象的。</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;
+<p>在这里，obj 是一个对象引用，该对象是用于初始化另一个对象的。<br><br></p>
+<p>为什么是对象引用：防止无限递归，如果是传值即Line(Line obj)，那就要先复制一份，复制会调用拷贝构造函数，无限递归，所以要用引用，至于不用指针，效率问题。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+ 
 using namespace std;
-class CExample
+ 
+class Line
 &#123;
-private:
-    int a;
-public:
-    &#x2F;&#x2F;构造函数
-    CExample(int b)
-    &#123;
-        a&#x3D;b;
-        printf(&quot;constructor is called\n&quot;);
-    &#125;
-    &#x2F;&#x2F;拷贝构造函数
-    CExample(const CExample &amp; c)
-    &#123;
-        a&#x3D;c.a;
-        printf(&quot;copy constructor is called\n&quot;);
-    &#125;
-    &#x2F;&#x2F;析构函数
-    ~CExample()
-    &#123;
-        cout&lt;&lt;&quot;destructor is called\n&quot;;
-    &#125;
-    void Show()
-    &#123;
-        cout&lt;&lt;a&lt;&lt;endl;
-    &#125;
+   public:
+      void setLength( double len );
+      double getLength( void );
+      Line();   &#x2F;&#x2F; 构造函数声明
+      Line(const Line &amp;obj); &#x2F;&#x2F;拷贝函数声明
+      ~Line();  &#x2F;&#x2F; 析构函数声明
+ 
+   private:
+      double length;
 &#125;;
-int main()
+ 
+&#x2F;&#x2F; 成员函数定义，包括构造函数
+Line::Line(void)
 &#123;
-    CExample A(100);
-    CExample B&#x3D;A;
-    B.Show(); 
-    return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    cout &lt;&lt; &quot;创建！&quot; &lt;&lt; endl;
+&#125;
+Line::Line(const Line &amp;obj)
+&#123;
+    length&#x3D;obj.length;
+    cout &lt;&lt; &quot;拷贝！&quot; &lt;&lt; endl;
+&#125;
+Line::~Line(void)
+&#123;
+    cout &lt;&lt; &quot;销毁！&quot; &lt;&lt; endl;
+&#125;
+ 
+void Line::setLength( double len )
+&#123;
+    length &#x3D; len;
+&#125;
+ 
+double Line::getLength( void )
+&#123;
+    return length;
+&#125;
+&#x2F;&#x2F; 程序的主函数
+int main( )
+&#123;
+   Line line1;
+ 
+   &#x2F;&#x2F; 设置长度
+   line1.setLength(6.0); 
+   cout &lt;&lt; &quot;line1长度为：&quot; &lt;&lt; line1.getLength() &lt;&lt;endl;
+   Line line2 &#x3D; line1;
+   cout &lt;&lt; &quot;line2长度为：&quot; &lt;&lt; line2.getLength() &lt;&lt;endl;
+   return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建！
+line1长度为：6
+拷贝！
+line2长度为：6
+销毁！
+销毁！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="深拷贝和浅拷贝的区别"><a href="#深拷贝和浅拷贝的区别" class="headerlink" title="深拷贝和浅拷贝的区别"></a>深拷贝和浅拷贝的区别</h4><ul>
 <li><p>浅拷贝：将原对象或原数组的引用直接赋给新对象，新数组，新对象／数组只是原对象的一个引用</p>
@@ -409,117 +446,210 @@ int main()
 </ul>
 <h5 id="为什么要使用深拷贝？"><a href="#为什么要使用深拷贝？" class="headerlink" title="为什么要使用深拷贝？"></a>为什么要使用深拷贝？</h5><p>我们希望在改变新的数组（对象）的时候，不改变原数组（对象）</p>
 <h5 id="怎么检验深拷贝成功"><a href="#怎么检验深拷贝成功" class="headerlink" title="怎么检验深拷贝成功"></a>怎么检验深拷贝成功</h5><p>改变任意一个新对象数组中的属性元素，都不改变原对象&#x2F;数组</p>
-<h5 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">class Base&#123;
-public:
-    Base(): m_a(0), m_b(0)&#123; &#125;
-    Base(int a, int b): m_a(a), m_b(b)&#123; &#125;
-private:
-    int m_a;
-    int m_b;
-&#125;;
-int main()&#123;
-    int a &#x3D; 10;
-    int b &#x3D; a;  &#x2F;&#x2F;拷贝
-    Base obj1(10, 20);
-    Base obj2 &#x3D; obj1;  &#x2F;&#x2F;拷贝
-    return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h5 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h5><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
 
-<p>b 和 obj2 都是以拷贝的方式初始化的，具体来说，就是将 a 和 obj1 所在内存中的数据按照二进制位（Bit）复制到 b 和 obj2 所在的内存，这种默认的拷贝行为就是浅拷贝。<br><br></p>
-<p>对于简单的类，默认的拷贝构造函数一般就够用了，我们也没有必要再显式地定义一个功能类似的拷贝构造函数。但是当类持有其它资源时，例如动态分配的内存、指向其他数据的指针等，默认的拷贝构造函数就不能拷贝这些资源了，我们必须显式地定义拷贝构造函数，以完整地拷贝对象的所有数据。</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;cstdlib&gt;
-#include &lt;cstring&gt;
 using namespace std;
-&#x2F;&#x2F;变长数组类
-class Array&#123;
-public:
-    Array(int len);
-    Array(const Array &amp;arr);  &#x2F;&#x2F;拷贝构造函数
-    ~Array();
-public:
-    int operator[](int i) const &#123; return m_p[i]; &#125;  &#x2F;&#x2F;获取元素（读取）
-    int &amp;operator[](int i)&#123; return m_p[i]; &#125;  &#x2F;&#x2F;获取元素（写入）
-    int length() const &#123; return m_len; &#125;
-private:
-    int m_len;
-    int *m_p;
-&#125;;
-Array::Array(int len): m_len(len)&#123;
-    m_p &#x3D; (int*)calloc( len, sizeof(int) );
-&#125;
-Array::Array(const Array &amp;arr)&#123;  &#x2F;&#x2F;拷贝构造函数
-    this-&gt;m_len &#x3D; arr.m_len;
-    this-&gt;m_p &#x3D; (int*)calloc( this-&gt;m_len, sizeof(int) );
-    memcpy( this-&gt;m_p, arr.m_p, m_len * sizeof(int) );
-&#125;
-Array::~Array()&#123; free(m_p); &#125;
-&#x2F;&#x2F;打印数组元素
-void printArray(const Array &amp;arr)&#123;
-    int len &#x3D; arr.length();
-    for(int i&#x3D;0; i&lt;len; i++)&#123;
-        if(i &#x3D;&#x3D; len-1)&#123;
-            cout&lt;&lt;arr[i]&lt;&lt;endl;
-        &#125;else&#123;
-            cout&lt;&lt;arr[i]&lt;&lt;&quot;, &quot;;
-        &#125;
-    &#125;
-&#125;
-int main()&#123;
-    Array arr1(10);
-    for(int i&#x3D;0; i&lt;10; i++)&#123;
-        arr1[i] &#x3D; i;
-    &#125;
-    Array arr2 &#x3D; arr1;
-    arr2[5] &#x3D; 100;
-    arr2[3] &#x3D; 29;
-   
-    printArray(arr1);
-    printArray(arr2);
-   
-    return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>本例中我们显式地定义了拷贝构造函数，它除了会将原有对象的所有成员变量拷贝给新对象，还会为新对象再分配一块内存，并将原有对象所持有的内存也拷贝过来。这样做的结果是，原有对象和新对象所持有的动态内存是相互独立的，更改一个对象的数据不会影响另外一个对象，本例中我们更改了 arr2 的数据，就没有影响 arr1。<br><br></p>
-<p>这种将对象所持有的其它资源一并拷贝的行为叫做深拷贝，我们必须显式地定义拷贝构造函数才能达到深拷贝的目的。如果一个类拥有指针类型的成员变量，那么绝大部分情况下就需要深拷贝，因为只有这样，才能将指针指向的内容再复制出一份来，让原有对象和新生对象相互独立，彼此之间不受影响。如果类的成员变量没有指针，一般浅拷贝足以。另外一种需要深拷贝的情况就是在创建对象时进行一些预处理工作，比如统计创建过的对象的数目、记录对象创建的时间等，请看下面的例子：</p>
+class Line
+&#123;
+public:
+    void setLength(double len);
+    double getLength(void);
+    Line(double len); &#x2F;&#x2F; 这是构造函数
+private:
+    double length;
+&#125;;
+
+&#x2F;&#x2F; 成员函数定义，包括构造函数
+Line::Line(double len)
+&#123;
+    cout &lt;&lt; &quot;创建！长度为：&quot; &lt;&lt; len &lt;&lt; endl;
+    length &#x3D; len;
+&#125;
+
+void Line::setLength(double len)
+&#123;
+    length &#x3D; len;
+&#125;
+
+double Line::getLength(void)
+&#123;
+    return length;
+&#125;
+&#x2F;&#x2F; 程序的主函数
+int main()
+&#123;
+    int a &#x3D; 1;
+    int b &#x3D; a;
+    cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;
+    Line line1(10.0);
+    Line line2 &#x3D; line1;
+    cout &lt;&lt; &quot;line1长度 &quot; &lt;&lt; line1.getLength() &lt;&lt; endl;
+    cout &lt;&lt; &quot;line2长度 &quot; &lt;&lt; line2.getLength() &lt;&lt; endl;
+
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">a:1
+b:1
+创建！长度为：10
+line1长度 10
+line2长度 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>b 和 line2 都是以拷贝的方式初始化的，具体来说，就是将 a 和 line1 所在内存中的数据按照二进制位（Bit）复制到 b 和 line2 所在的内存，这种默认的拷贝行为就是浅拷贝。<br><br></p>
+<h5 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h5><p>对于简单的类，默认的拷贝构造函数一般就够用了，我们也没有必要再显式地定义一个功能类似的拷贝构造函数。但是当类持有其它资源时，例如动态分配的内存、指向其他数据的指针等，默认的拷贝构造函数就不能拷贝这些资源了，我们必须显式地定义拷贝构造函数，以完整地拷贝对象的所有数据。</p>
 <pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;ctime&gt;
+#include &lt;malloc.h&gt;
+
+using namespace std;
+
+class Line
+&#123;
+public:
+    void setLength(double len);
+    double getLength(void);
+    Line();                &#x2F;&#x2F; 构造函数声明
+    Line(const Line &amp;obj); &#x2F;&#x2F;拷贝函数声明
+    ~Line();               &#x2F;&#x2F; 析构函数声明
+
+private:
+    double *length;
+&#125;;
+
+&#x2F;&#x2F; 成员函数定义，包括构造函数
+Line::Line(void)
+&#123;
+    length &#x3D; (double *)malloc(sizeof(double));
+    cout &lt;&lt; &quot;创建！&quot; &lt;&lt; endl;
+&#125;
+Line::Line(const Line &amp;obj)
+&#123;
+    length &#x3D; obj.length;
+    cout &lt;&lt; &quot;拷贝！&quot; &lt;&lt; endl;
+&#125;
+&#x2F;* Line::Line(const Line &amp;obj)
+&#123;
+    length &#x3D; (double *)malloc(sizeof(double));
+    *length &#x3D; *(obj.length);
+    cout &lt;&lt; &quot;拷贝！&quot; &lt;&lt; endl;
+&#125; *&#x2F;
+Line::~Line(void)
+&#123;
+    cout &lt;&lt; &quot;销毁！&quot; &lt;&lt; endl;
+&#125;
+
+void Line::setLength(double len)
+&#123;
+    *length &#x3D; len;
+&#125;
+
+double Line::getLength(void)
+&#123;
+    return *length;
+&#125;
+&#x2F;&#x2F; 程序的主函数
+int main()
+&#123;
+    Line line1;
+    &#x2F;&#x2F; 设置长度
+    line1.setLength(6.0);
+    cout &lt;&lt; &quot;line1长度为：&quot; &lt;&lt; line1.getLength() &lt;&lt; endl;
+    Line line2 &#x3D; line1;
+    cout &lt;&lt; &quot;line2长度为：&quot; &lt;&lt; line2.getLength() &lt;&lt; endl;
+    &#x2F;&#x2F;修改line2
+    line2.setLength(7.0);
+    cout &lt;&lt; &quot;line1长度为：&quot; &lt;&lt; line1.getLength() &lt;&lt; endl;
+    cout &lt;&lt; &quot;line2长度为：&quot; &lt;&lt; line2.getLength() &lt;&lt; endl;
+    return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>运行结果：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建！
+line1长度为：6
+拷贝！
+line2长度为：6
+line1长度为：7
+line2长度为：7
+销毁！
+销毁！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用深拷贝：</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">创建！
+line1长度为：6
+拷贝！
+line2长度为：6
+line1长度为：6
+line2长度为：7
+销毁！
+销毁！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>本例中我们显式地定义了拷贝构造函数，它除了会将原有对象的所有成员变量拷贝给新对象，还会为新对象再分配一块内存，并将原有对象所持有的内存也拷贝过来。这样做的结果是，原有对象和新对象所持有的动态内存是相互独立的，更改一个对象的数据不会影响另外一个对象，本例中我们更改了 line2 的数据，就没有影响 line1。<br><br></p>
+<p>这种将对象所持有的其它资源一并拷贝的行为叫做深拷贝，我们必须显式地定义拷贝构造函数才能达到深拷贝的目的。如果一个类拥有指针类型的成员变量，那么绝大部分情况下就需要深拷贝，因为只有这样，才能将指针指向的内容再复制出一份来，让原有对象和新生对象相互独立，彼此之间不受影响。如果类的成员变量没有指针，一般浅拷贝就可以。<br><br></p>
+<p>另外一种需要深拷贝的情况就是在创建对象时进行一些预处理工作，比如统计创建过的对象的数目、记录对象创建的时间等，请看下面的例子：</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
 #include &lt;unistd.h&gt;
+
 using namespace std;
-class Base&#123;
+
+class Line
+&#123;
 public:
-    Base(int a &#x3D; 0, int b &#x3D; 0);
-    Base(const Base &amp;obj);  &#x2F;&#x2F;拷贝构造函数
-public:
-    int getCount() const &#123; return m_count; &#125;
-    time_t getTime() const &#123; return m_time; &#125;
+    void setLength(double len);
+    double getLength(void);
+    time_t getTime(void);
+    Line();                &#x2F;&#x2F; 构造函数声明
+    Line(const Line &amp;obj); &#x2F;&#x2F;拷贝函数声明
+    ~Line();               &#x2F;&#x2F; 析构函数声明
+
 private:
-    int m_a;
-    int m_b;
-    time_t m_time;  &#x2F;&#x2F;对象创建时间
-    static int m_count;  &#x2F;&#x2F;创建过的对象的数目
+    double length;
+    time_t setTime;
 &#125;;
-int Base::m_count &#x3D; 0;
-Base::Base(int a, int b): m_a(a), m_b(b)&#123;
-    m_count++;
-    m_time &#x3D; time((time_t*)NULL);
+
+&#x2F;&#x2F; 成员函数定义，包括构造函数
+Line::Line(void)
+&#123;
+    time(&amp;setTime);
+    cout &lt;&lt; &quot;创建！&quot; &lt;&lt; endl;
 &#125;
-Base::Base(const Base &amp;obj)&#123;  &#x2F;&#x2F;拷贝构造函数
-    this-&gt;m_a &#x3D; obj.m_a;
-    this-&gt;m_b &#x3D; obj.m_b;
-    this-&gt;m_count++;
-    this-&gt;m_time &#x3D; time((time_t*)NULL);
+Line::Line(const Line &amp;obj)
+&#123;
+    length &#x3D; obj.length;
+    time(&amp;setTime);
+    cout &lt;&lt; &quot;拷贝！&quot; &lt;&lt; endl;
 &#125;
-int main()&#123;
-    Base obj1(10, 20);
-    cout&lt;&lt;&quot;obj1: count &#x3D; &quot;&lt;&lt;obj1.getCount()&lt;&lt;&quot;, time &#x3D; &quot;&lt;&lt;obj1.getTime()&lt;&lt;endl;
-   
-    sleep(3);
-   
-    Base obj2 &#x3D; obj1;
-    cout&lt;&lt;&quot;obj2: count &#x3D; &quot;&lt;&lt;obj2.getCount()&lt;&lt;&quot;, time &#x3D; &quot;&lt;&lt;obj2.getTime()&lt;&lt;endl;
+Line::~Line(void)
+&#123;
+    cout &lt;&lt; &quot;销毁！&quot; &lt;&lt; endl;
+&#125;
+
+void Line::setLength(double len)
+&#123;
+    length &#x3D; len;
+&#125;
+
+double Line::getLength(void)
+&#123;
+    return length;
+&#125;
+
+time_t Line::getTime(void)
+&#123;
+    return setTime;
+&#125;
+&#x2F;&#x2F; 程序的主函数
+int main()
+&#123;
+    Line line1;
+    sleep(2);
+    Line line2 &#x3D; line1;
+    cout &lt;&lt; line1.getTime() &lt;&lt; endl;
+    cout &lt;&lt; line2.getTime() &lt;&lt; endl;
     return 0;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:C++&#x2F;构造函数.md</p>
 <h3 id="析构函数-1"><a href="#析构函数-1" class="headerlink" title="析构函数"></a>析构函数</h3><ul>
 <li>类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。</li>
 <li>析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。</li>
@@ -572,17 +702,45 @@ int main( )
    return 0;
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>输出结果：</p>
-<pre><code>Object is being created
+<pre class="line-numbers language-none"><code class="language-none">Object is being created
 Length of line : 6
 Object is being deleted
-</code></pre>
-<h3 id="为什么需要构造函数-1"><a href="#为什么需要构造函数-1" class="headerlink" title="为什么需要构造函数"></a>为什么需要构造函数</h3><ul>
-<li>设置构造函数的初衷，很多程序错误，是对象(变量)未能初始化引起的，故设置一个构造函数，自动调用它来进行初始化，以避免这类错误</li>
-<li>初始化成员变量，分配内存空间。</li>
-<li>一般情况下（指类成员没有指针的情况）自定义类有没有构造函数影响不大。（但使用时要注意，因为默认构造函数下，成员是不被初始化的。）但如果有指针，而你又没有定义构造函数，那问题就大了。（使用没有初始化的指针会有什么问题？是不可预想的。）  <h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4></li>
-<li>让类进行自动初始化，为指针分配空间  </li>
-<li>用于在创建不同对象时用不同的值初始化不同对象的各种数据元素</li>
-</ul>
+&#96;&#96;&#96;  
+### 为什么需要构造函数
+- 设置构造函数的初衷，很多程序错误，是对象(变量)未能初始化引起的，故设置一个构造函数，自动调用它来进行初始化，以避免这类错误
+- 初始化成员变量，分配内存空间。
+- 一般情况下（指类成员没有指针的情况）自定义类有没有构造函数影响不大。（但使用时要注意，因为默认构造函数下，成员是不被初始化的。）但如果有指针，而你又没有定义构造函数，那问题就大了。（使用没有初始化的指针会有什么问题？是不可预想的。）  
+#### 优点
+- 让类进行自动初始化，为指针分配空间  
+- 用于在创建不同对象时用不同的值初始化不同对象的各种数据元素
+&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;
+
+运行结果：
+
+&#96;&#96;&#96;shell
+创建！
+拷贝！
+1649322232
+1649322234
+销毁！
+销毁！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="听讲笔记"><a href="#听讲笔记" class="headerlink" title="听讲笔记"></a>听讲笔记</h2><p>struct aaa{};、class aaa{};均可。只是struct默认变量属性是公开，class默认变量属性是私有。<br>构造函数可以用于类型转换。<br>函数参数可以设置默认值<br>int a(int t1&#x3D;45,int t2&#x3D;12,char t3&#x3D;’s’){}<br>默认值可以少写函数重载。且只能最后省。中间不能省。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>d4e1b68ac96726e4a840033d3c6291956bfef180:c++&#x2F;构造函数.md</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
         </div>
 
@@ -593,21 +751,21 @@ Object is being deleted
         
             <div class="article-nav">
                 
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/HexoBlog/2022/04/01/test/"
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/HexoBlog/2022/04/07/index/"
                         >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">test</span>
-                                <span class="post-nav-item">Prev posts</span>
+                                <span class="post-nav-title-item">cator</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
                             </span>
                         </a>
                     </div>
-                
                 
             </div>
         
@@ -726,7 +884,7 @@ Object is being deleted
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">默认构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">为什么需要构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">析构函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">深拷贝和浅拷贝的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%9F"><span class="nav-number">1.1.3.2.1.</span> <span class="nav-text">为什么要使用深拷贝？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A3%80%E9%AA%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%88%90%E5%8A%9F"><span class="nav-number">1.1.3.2.2.</span> <span class="nav-text">怎么检验深拷贝成功</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.1.3.2.3.</span> <span class="nav-text">浅拷贝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0-1"><span class="nav-number">1.1.4.</span> <span class="nav-text">析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0-1"><span class="nav-number">1.1.5.</span> <span class="nav-text">为什么需要构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%82%B9-1"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">优点</span></a></li></ol></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">默认构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">为什么需要构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E8%BD%BD%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">重载函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">初始化列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">析构函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">深拷贝和浅拷贝的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E6%B7%B1%E6%8B%B7%E8%B4%9D%EF%BC%9F"><span class="nav-number">1.1.3.2.1.</span> <span class="nav-text">为什么要使用深拷贝？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A3%80%E9%AA%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%88%90%E5%8A%9F"><span class="nav-number">1.1.3.2.2.</span> <span class="nav-text">怎么检验深拷贝成功</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.1.3.2.3.</span> <span class="nav-text">浅拷贝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.1.3.2.4.</span> <span class="nav-text">深拷贝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0-1"><span class="nav-number">1.1.4.</span> <span class="nav-text">析构函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AC%E8%AE%B2%E7%AC%94%E8%AE%B0"><span class="nav-number">1.2.</span> <span class="nav-text">听讲笔记</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
