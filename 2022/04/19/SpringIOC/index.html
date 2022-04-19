@@ -246,7 +246,7 @@
 <p>那么如何解决每次都new一个对象导致的内存浪费，就可以用反射来实现，在写程序的时候不告诉工厂我需要什么，而是在运行的时候告诉工厂。</p>
 <p>那么如何解决每次都要去工厂修改类呢，就让工厂去解析xml文件，通过反射，xml文件是给我什么，我就去生产什么，所以就不用每次去修改工厂类了，而是修改xml文件就行了</p>
 <ul>
-<li><img src="/HexoBlog/./SpringIOC/%E5%8F%8D%E5%B0%84.png" alt="avatar"></li>
+<li><img src="/HexoBlog/images/%E5%8F%8D%E5%B0%84.png" alt="avatar"></li>
 <li></li>
 </ul>
 <p>通过xml修改，除了方便之外，还有一个好处就是不用重新编译</p>
@@ -257,7 +257,7 @@
 </ul>
 <h1 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h1><p>既然理解了IOC那么依赖注入就比较简单了，依赖注入就是向容器去请求对象，然后容器给你，就叫容器把对象依赖注入给你了，然后你就可以用了，依赖注入有几种：xml、注解、以及java Config。几个注入的区别以及使用可以在该文章去看,在此不赘述</p>
 <p>文章链接： <a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29629813" >https://zhuanlan.zhihu.com/p/29629813<i class="fas fa-external-link-alt"></i></a></p>
-<p><img src="/HexoBlog/./SpringIOC/%E6%B3%A8%E8%A7%A3%E5%AF%B9%E6%AF%94.png"></p>
+<p><img src="/HexoBlog/images/%E6%B3%A8%E8%A7%A3%E5%AF%B9%E6%AF%94.png"></p>
 <p>这里主要用自己在遇到的例子来说明注入外部类时的java Config的两种注入方式，（同时也是笔者为何突然回来看IOC的原因，因为这两个例子看不懂了，狗头）。</p>
 <p>第一个例子就是spring Cache+redis的时候，因为重写了redisTemplate的序列化配置（如果没学的话，不要紧，就理解为要重写外部类的配置，）所以就用最基本的configration+bean</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
@@ -476,7 +476,6 @@
         <span class="token punctuation">&#125;</span>
         <span class="token keyword">return</span> redisTemplate<span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
 
 
         </div>
