@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="lj">
+    
+    <title>
+        
+            SpringCache |
+        
+        LjBlog
+    </title>
+    
+<link rel="stylesheet" href="/HexoBlog/css/style.css">
+
+    <link rel="shortcut icon" href="/HexoBlog/images/logo.svg">
+    
+<link rel="stylesheet" href="/HexoBlog/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"ljkk23.github.io","root":"/HexoBlog/","language":"zh-CN"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/HexoBlog/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                LjBlog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/categories">分类</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">SpringCache</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/HexoBlog/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">lj</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-04-19 21:00:18</span>
+        <span class="mobile">2022-04-19 21:00</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/HexoBlog/categories/SpringCache/">SpringCache</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/HexoBlog/tags/SpringCache/">SpringCache</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Spring-Cache"><a href="#Spring-Cache" class="headerlink" title="Spring Cache"></a>Spring Cache</h1><p>本篇文章基于该文章：<a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6997440726627778597" >https://juejin.cn/post/6997440726627778597<i class="fas fa-external-link-alt"></i></a></p>
+<p>下面这张图就是这篇文章的介绍思路</p>
+<p><img src="/HexoBlog/2022/04/19/SpringCache/liuchengtu.awebp" alt="整篇文章的思路"></p>
+<p>做一些补充：</p>
+<h2 id="Spring-Cache整合redis与单独使用redis的不同"><a href="#Spring-Cache整合redis与单独使用redis的不同" class="headerlink" title="Spring Cache整合redis与单独使用redis的不同"></a>Spring Cache整合redis与单独使用redis的不同</h2><ul>
+<li><p>若只用redis</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">QuestionEntity</span> <span class="token function">info</span><span class="token punctuation">(</span><span class="token class-name">Long</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   
+     questionEntity<span class="token operator">=</span>usermapper<span class="token punctuation">.</span><span class="token function">getquestion</span><span class="token punctuation">(</span>question1<span class="token punctuation">)</span>
+	<span class="token comment">// 更新缓存</span>
+	redisTemplate<span class="token punctuation">.</span><span class="token function">opsForValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"question1"</span><span class="token punctuation">,</span> questionEntity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>使用spring cache</p>
+<pre class="line-numbers language-none"><code class="language-none">@Cacheable(value&#x3D;&quot;question&quot;)
+public QuestionEntity info(Long id) &#123;
+    return getById(id); &#x2F;&#x2F; 查询数据库操作
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>只要在配置cache中配上redis</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"># 使用 Redis 作为缓存组件
+spring.cache.type=redis
+# 缓存过期时间为 3600s
+spring.cache.redis.time-to-live=3600000
+# 缓存的键的名字前缀
+spring.cache.redis.key-prefix=passjava_
+# 是否使用缓存前缀
+spring.cache.redis.use-key-prefix=true
+# 是否缓存控制，防止缓存穿透
+spring.cache.redis.cache-null-values=true
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>这样就可以省去操作redis的代码了，更多的注重于代码的逻辑而不是代码的操作，这也是spring所有框架的便利性所在，提高开发效率。</p>
+<h2 id="Cache-manager"><a href="#Cache-manager" class="headerlink" title="Cache manager"></a>Cache manager</h2><p>当我们操作cahche且使用redis默认配置的时候，我们经常会发现我们存入缓存中的数据通过工具查看会乱码，看不懂，这里是因为我们没有配置Cache，将redis作为缓存的话，默认是使用jdk序列化器，所以会乱码看不懂。</p>
+<p>如果需要配置redis的序列化方式,这里我们可以通过自定义CacheManager来解决问题。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@EnableCaching</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> redisConfig <span class="token keyword">extends</span> <span class="token class-name">CachingConfigurerSupport</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">CacheManager</span> <span class="token function">cacheManager</span><span class="token punctuation">(</span><span class="token class-name">RedisConnectionFactory</span> factory<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">RedisSerializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> redisSerializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringRedisSerializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Jackson2JsonRedisSerializer</span> jackson2JsonRedisSerializer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Jackson2JsonRedisSerializer</span><span class="token punctuation">(</span><span class="token class-name">Object</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//解决查询缓存转换异常的问题</span>
+        <span class="token class-name">ObjectMapper</span> om <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ObjectMapper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        om<span class="token punctuation">.</span><span class="token function">setVisibility</span><span class="token punctuation">(</span><span class="token class-name">PropertyAccessor</span><span class="token punctuation">.</span>ALL<span class="token punctuation">,</span> <span class="token class-name">JsonAutoDetect<span class="token punctuation">.</span>Visibility</span><span class="token punctuation">.</span>ANY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        om<span class="token punctuation">.</span><span class="token function">enableDefaultTyping</span><span class="token punctuation">(</span><span class="token class-name">ObjectMapper<span class="token punctuation">.</span>DefaultTyping</span><span class="token punctuation">.</span>NON_FINAL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jackson2JsonRedisSerializer<span class="token punctuation">.</span><span class="token function">setObjectMapper</span><span class="token punctuation">(</span>om<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 配置序列化（解决乱码的问题）,过期时间600秒</span>
+        <span class="token class-name">RedisCacheConfiguration</span> config <span class="token operator">=</span> <span class="token class-name">RedisCacheConfiguration</span><span class="token punctuation">.</span><span class="token function">defaultCacheConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">entryTtl</span><span class="token punctuation">(</span><span class="token class-name">Duration</span><span class="token punctuation">.</span><span class="token function">ofSeconds</span><span class="token punctuation">(</span><span class="token number">600</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">serializeKeysWith</span><span class="token punctuation">(</span><span class="token class-name">RedisSerializationContext<span class="token punctuation">.</span>SerializationPair</span><span class="token punctuation">.</span><span class="token function">fromSerializer</span><span class="token punctuation">(</span>redisSerializer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">serializeValuesWith</span><span class="token punctuation">(</span><span class="token class-name">RedisSerializationContext<span class="token punctuation">.</span>SerializationPair</span><span class="token punctuation">.</span><span class="token function">fromSerializer</span><span class="token punctuation">(</span>jackson2JsonRedisSerializer<span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">disableCachingNullValues</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">RedisCacheManager</span> cacheManager <span class="token operator">=</span> <span class="token class-name">RedisCacheManager</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>factory<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">cacheDefaults</span><span class="token punctuation">(</span>config<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> cacheManager<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>那么Cache manager到底是什么呢？</p>
+<p>这就可以联想到Spring cache的好处了，除了在上文文章链接中写到的spring cache的好处，即可以解决这两个痛点外</p>
+<ul>
+<li>需要手写操作缓存代码，如添加缓存、更新缓存、删除缓存。</li>
+<li>切换缓存组件并不容易，或者说没有对缓存层进行抽象封装，依赖具体的缓存中间件。</li>
+</ul>
+</li>
+</ul>
+<p>​        还有一种用的比较少（一般都不会自己去实现cache接口，至少我现在没遇到这种情况）的情况：如果我有多个缓存，一个是我自己设计的HashMap缓存，一个是名声很大的redis，还有….，那需要个缓存管理器呀，那么就用Cache manager来管理这些cache,举个例子让大家理解：</p>
+<p>（mybatis的二级缓存用redis就是自己实现了一个cache(好像用的也挺少，不知道为什么),大家可以去看看，文章链接如下：</p>
+<p>可以先看这个中讲解了mybatis的缓存机制 <a class="link"   target="_blank" rel="noopener" href="https://tech.meituan.com/2018/01/19/mybatis-cache.html" >https://tech.meituan.com/2018/01/19/mybatis-cache.html<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45106430/article/details/104972276" >https://blog.csdn.net/weixin_45106430&#x2F;article&#x2F;details&#x2F;104972276<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/ants_double/p/11484435.html#autoid-1-2-3" >https://www.cnblogs.com/ants_double&#x2F;p&#x2F;11484435.html#autoid-1-2-3<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38158631/article/details/78721794" >https://blog.csdn.net/qq_38158631&#x2F;article&#x2F;details&#x2F;78721794<i class="fas fa-external-link-alt"></i></a></p>
+<p>）</p>
+<p>​        首先，Springboot中会自动加载一个CacheManager（它有默认的实现类），所以只要写好一个自定义的Cache即可（如果想用系统定义好的或者第三方如RedisCache也行，记得向Spring注册这个bean即可</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token number">1</span> <span class="token annotation punctuation">@Component</span>
+<span class="token number">2</span> <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MyCache</span> <span class="token keyword">implements</span> <span class="token class-name">Cache</span> <span class="token punctuation">&#123;</span>
+<span class="token number">3</span>   <span class="token comment">/*
+4        实现接口方法，一些关于数据set和get的方法
+5        CacheManager是根据Cache的名字进行管理的
+6        所以假设这个Cache名为MyCache
+7   */</span>  
+<span class="token number">8</span> <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后在得出数据的方法上写上注释即可</p>
+<pre class="line-numbers language-none"><code class="language-none">1 @Cacheable(value &#x3D; &quot;MyCache&quot;,key &#x3D; &quot;#id&quot;)
+2 public String getNavegationURLs(String id) &#123;
+3         &#x2F;&#x2F;一个获取数据的方法
+4 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样就会在调用这个方法时，会以id为key值，在名为MyCache的Cache容器中查找（注解中value就是缓存名字，不同名字指定使用不同的缓存）</p>
+<p>如果没查到，则执行方法 getNavegationURLs，将返回值存入缓存</p>
+<p>如果找到了，就直接将从缓存取值，直接返回，不用执行方法 getNavegationURLs</p>
+<h2 id="理解Spring-cache-redis"><a href="#理解Spring-cache-redis" class="headerlink" title="理解Spring cache+redis"></a>理解Spring cache+redis</h2><p>那有的人就说了，为什么在用cache +redis的时候没有去实现Cache接口呢，是因为spring cache逐步发展的过程中，发现市场上用redis当缓存的实例很多，所以人家就干脆直接内部实现了rediscache接口，Spring会自动检测我们是否引入了相应的缓存框架，如果我们引入了spring-data-redis，Spring就会自动使用spring-data-redis提供的RedisCacheManager，RedisCache，那又有人问了，那为什么还要去实现cache manager呢，那这就是没有思考，我反问你，在只用spring整合redis的时候，为什么重写redisTemplate（可看我的上一篇文章SpringRedis），那就是因为要配置redis的序列化方式呀，那这里也是一样的呀，通过cache manager去管理rediscache的序列化方式。</p>
+<p>此外cache还实现了Ehcache、Caffeine，</p>
+<p>如果是用基于同一个JVM内存的缓存的话，个人比较推荐使用Caffeine，强烈不推荐用默认的基于ConcurrentHashMap的实现。</p>
+<p>那什么情况适合用Redis这种需要调用第三方进程的缓存呢？如果你的应用程序是分布式的，一个服务器查询出来后，希望其它服务器也能用这个缓存，那就推荐使用基于Redis的缓存</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>本篇文章仅作为本人学习的笔记，具体很多其他的细节本文暂未提到，只是让大家初步理解sprincache，以下一些更有用的文章链接，</p>
+<p>通过源码介绍：<a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/266804094" >https://zhuanlan.zhihu.com/p/266804094<i class="fas fa-external-link-alt"></i></a></p>
+<p>使用：<a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6997440726627778597" >https://juejin.cn/post/6997440726627778597<i class="fas fa-external-link-alt"></i></a></p>
+<p>其他：<a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/top-housekeeper/p/11865399.html" >https://www.cnblogs.com/top-housekeeper/p/11865399.html<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/HexoBlog/tags/SpringCache/">#SpringCache</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/HexoBlog/2022/04/19/SpringRedis/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SpringRedis</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">lj</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Cache"><span class="nav-number">1.</span> <span class="nav-text">Spring Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Cache%E6%95%B4%E5%90%88redis%E4%B8%8E%E5%8D%95%E7%8B%AC%E4%BD%BF%E7%94%A8redis%E7%9A%84%E4%B8%8D%E5%90%8C"><span class="nav-number">1.1.</span> <span class="nav-text">Spring Cache整合redis与单独使用redis的不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-manager"><span class="nav-number">1.2.</span> <span class="nav-text">Cache manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%A7%A3Spring-cache-redis"><span class="nav-number">1.3.</span> <span class="nav-text">理解Spring cache+redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">1.4.</span> <span class="nav-text">结束语</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/HexoBlog/js/utils.js"></script>
+
+<script src="/HexoBlog/js/main.js"></script>
+
+<script src="/HexoBlog/js/header-shrink.js"></script>
+
+<script src="/HexoBlog/js/back2top.js"></script>
+
+<script src="/HexoBlog/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/HexoBlog/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/HexoBlog/js/left-side-toggle.js"></script>
+
+<script src="/HexoBlog/js/libs/anime.min.js"></script>
+
+<script src="/HexoBlog/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
