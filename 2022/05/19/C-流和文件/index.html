@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="lj">
+    
+    <title>
+        
+            C++流和文件 |
+        
+        LjBlog
+    </title>
+    
+<link rel="stylesheet" href="/HexoBlog/css/style.css">
+
+    <link rel="shortcut icon" href="/HexoBlog/images/logo.svg">
+    
+<link rel="stylesheet" href="/HexoBlog/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"ljkk23.github.io","root":"/HexoBlog/","language":"zh-CN"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/HexoBlog/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                LjBlog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/categories">分类</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">C++流和文件</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/HexoBlog/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">lj</span>
+                        
+                            <span class="author-label">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-05-19 16:55:18</span>
+        <span class="mobile">2022-05-19 16:55</span>
+    </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="流"><a href="#流" class="headerlink" title="流"></a>流</h1><h2 id="流是什么？"><a href="#流是什么？" class="headerlink" title="流是什么？"></a>流是什么？</h2><ul>
+<li><p>程序中常用的 cin 和 cout，分别用于从键盘输入数据和向屏幕输出数据（简称为标准 I&#x2F;O）。除此之外，程序还可以从文件中读入数据，以及向文件中写入数据（简称为文件 I&#x2F;O)。</p>
+<p>数据输入和输出的过程也是数据传输的过程。数据像水一样从一个地方流动到另一个地方，因此，在 <a class="link"   target="_blank" rel="noopener" href="http://c.biancheng.net/cplus/" >C++<i class="fas fa-external-link-alt"></i></a> 中将此过程称为 “流（stream）”。</p>
+</li>
+</ul>
+<h2 id="C-中常见的流类"><a href="#C-中常见的流类" class="headerlink" title="C++中常见的流类"></a>C++中常见的流类</h2><p><img src="/HexoBlog/2022/05/19/C-%E6%B5%81%E5%92%8C%E6%96%87%E4%BB%B6/liulei.png"></p>
+<ul>
+<li>istream 是用于输入的流类，cin 就是该类的对象。</li>
+<li>ostream 是用于输出的流类，cout 就是该类的对象。</li>
+<li>ifstream 是用于从文件读取数据的类。</li>
+<li>ofstream 是用于向文件写入数据的类。</li>
+<li>iostream 是既能用于输入，又能用于输出的类。</li>
+<li>fstream 是既能从文件读取数据，又能向文件写入数据的类。</li>
+</ul>
+<h2 id="标准流对象"><a href="#标准流对象" class="headerlink" title="标准流对象"></a>标准流对象</h2><ul>
+<li>cin 对应于标准输入流，用于从键盘读取数据，也可以被重定向为从文件中读取数据。</li>
+<li>cout 对应于标准输出流，用于向屏幕输出数据，也可以被重定向为向文件写入数据。</li>
+<li>cerr 对应于标准错误输出流，用于向屏幕输出出错信息，不能被重定向。</li>
+<li>clog 对应于标准错误输出流，用于向屏幕输出出错信息，不能被重定向。</li>
+</ul>
+<h2 id="使用运算符"><a href="#使用运算符" class="headerlink" title="使用运算符"></a>使用运算符</h2><p>使用流插入运算符（ &lt;&lt; ）向流中写入信息</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">cout&lt;&lt;&quot;a&quot;&lt;&lt;endl;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>使用流提取运算符（ &gt;&gt; ）从流中读取信息</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">cin&gt;&gt;a;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="cin"><a href="#cin" class="headerlink" title="cin"></a>cin</h3><ul>
+<li><p>输入一个数字或字符</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+int main ()
+&#123;
+     int a,b;
+     cin&gt;&gt;a&gt;&gt;b;
+     cout&lt;&lt;a+b&lt;&lt;endl;
+   
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>接收一个字符串，遇“空格”、“TAB”、“回车”就结束</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+int main ()
+&#123;
+     char a[20];
+     cin&gt;&gt;a;
+     cout&lt;&lt;a&lt;&lt;endl;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="cin-getline"><a href="#cin-getline" class="headerlink" title="cin.getline()"></a>cin.getline()</h3><ul>
+<li><p>接收一个字符串，可以接收空格并输出</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+using namespace std;
+int main ()
+&#123;
+     char m[20];
+     cin.getline(m,5);
+     cout&lt;&lt;m&lt;&lt;endl;
+&#125;
+
+输入：jkljkljkl
+输出：jklj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><em><strong>*cin.getline()改为cin.getline(m,5,’a’)*</strong></em>;当输入jlkjkljkl时输出jklj，输入jkaljkljkl时，输出jk</p>
+</li>
+</ul>
+<h3 id="cin-ignore"><a href="#cin-ignore" class="headerlink" title="cin.ignore"></a>cin.ignore</h3><p>关于 cin.ignore() ，完整版本是 cin.ignore(int n, char a), 从输入流 (cin) 中提取字符，提取的字符被忽略 (ignore)，不被使用。每抛弃一个字符，它都要计数和比较字符：如果计数值达到 n 或者被抛弃的字符是 a，则 cin.ignore()函数执行终止；否则，它继续等待。它的一个常用功能就是用来清除以回车结束的输入缓冲区的内容，消除上一次输入对下一次输入的影响。比如可以这么用：cin.ignore(1024,’\n’)，通常把第一个参数设置得足够大，这样实际上总是只有第二个参数 \n 起作用，所以这一句就是把回车(包括回车)之前的所以字符从输入缓冲(流)中清除出去</p>
+<p>如果cin.ignore()不给参数，则默认参数为cin.ignore(1,EOF) 其中 EOF是end of file的缩写，表示”文字流”(stream)的结尾。</p>
+<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">#include&lt;iostream&gt;  
+using   namespace   std;  
+int main()  
+&#123;  
+    char   str1[30],str2[30],str3[30];  
+    cout   &lt;&lt;   &quot;请输入你的姓名：&quot;;  
+    cin&gt;&gt;str1;  
+    cout&lt;&lt;&quot;请输入你的住址：&quot;;  
+    cin.ignore();  
+    cin.getline(str2,30,&#39;a&#39;);  
+     cout&lt;&lt;str2;  
+    cout   &lt;&lt;   &quot;请输入你的籍贯：&quot;;  
+    cin.ignore();  
+    cin.getline(str3,30);  
+    cout&lt;&lt;str3;  
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">请输入你的姓名：qwer
+请输入你的住址：sadf
+s请输入你的籍贯：f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>在地址那里输入 sadf 那么此时流里面剩的是 df\n,此时 cin.ignore(); 吃掉的就是d了，这是流里还剩下 f\n 直接交给 cin.getline(str3,30); 应为有个 \n 所以这里 getline 就直接返回</p>
+<h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><p><img src="/HexoBlog/2022/05/19/C-%E6%B5%81%E5%92%8C%E6%96%87%E4%BB%B6/liu.png"></p>
+<h2 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h2><p>在从文件读取信息或者向文件写入信息之前，必须先打开文件。<strong>ofstream</strong> 和 <strong>fstream</strong> 对象都可以用来打开文件进行写操作，如果只需要打开文件进行读操作，则使用 <strong>ifstream</strong> 对象。</p>
+<p>下面是 open() 函数的标准语法，open() 函数是 fstream、ifstream 和 ofstream 对象的一个成员。</p>
+<pre class="line-numbers language-none"><code class="language-none">void open(const char *filename, ios::openmode mode);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在这里，<strong>open()</strong> 成员函数的第一参数指定要打开的文件的名称和位置，第二个参数定义文件被打开的模式。</p>
+<table>
+<thead>
+<tr>
+<th align="left">模式标志</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ios::app</td>
+<td align="left">追加模式。所有写入都追加到文件末尾。</td>
+</tr>
+<tr>
+<td align="left">ios::ate</td>
+<td align="left">文件打开后定位到文件末尾。</td>
+</tr>
+<tr>
+<td align="left">ios::in</td>
+<td align="left">打开文件用于读取。</td>
+</tr>
+<tr>
+<td align="left">ios::out</td>
+<td align="left">打开文件用于写入。</td>
+</tr>
+<tr>
+<td align="left">ios::trunc</td>
+<td align="left">如果该文件已经存在，其内容将在打开文件之前被截断，即把文件长度设为 0。</td>
+</tr>
+</tbody></table>
+<p>您可以把以上两种或两种以上的模式结合使用。例如，如果您想要以写入模式打开文件，并希望截断文件，以防文件已存在，那么您可以使用下面的语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">ofstream outfile;
+outfile.open(&quot;file.dat&quot;, ios::out | ios::trunc );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>类似地，您如果想要打开一个文件用于读写，可以使用下面的语法：</p>
+<pre class="line-numbers language-none"><code class="language-none">ifstream  afile;
+afile.open(&quot;file.dat&quot;, ios::out | ios::in );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="关闭文件"><a href="#关闭文件" class="headerlink" title="关闭文件"></a>关闭文件</h2><p>当 C++ 程序终止时，它会自动关闭刷新所有流，释放所有分配的内存，并关闭所有打开的文件。但程序员应该养成一个好习惯，在程序终止前关闭所有打开的文件。</p>
+<p>下面是 close() 函数的标准语法，close() 函数是 fstream、ifstream 和 ofstream 对象的一个成员。</p>
+<pre class="line-numbers language-none"><code class="language-none">void close();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><p>在 C++ 编程中，我们使用流插入运算符（ &lt;&lt; ）向文件写入信息，就像使用该运算符输出信息到屏幕上一样。唯一不同的是，在这里您使用的是 <strong>ofstream</strong> 或 <strong>fstream</strong> 对象，而不是 <strong>cout</strong> 对象。</p>
+<h2 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h2><p>在 C++ 编程中，我们使用流提取运算符（ &gt;&gt; ）从文件读取信息，就像使用该运算符从键盘输入信息一样。唯一不同的是，在这里您使用的是 <strong>ifstream</strong> 或 <strong>fstream</strong> 对象，而不是 <strong>cin</strong> 对象。</p>
+<h2 id="读取-amp-写入实例"><a href="#读取-amp-写入实例" class="headerlink" title="读取 &amp; 写入实例"></a>读取 &amp; 写入实例</h2><p>下面的 C++ 程序以读写模式打开一个文件。在向文件 afile.txt写入用户输入的信息之后，程序从文件读取信息，并将其输出到屏幕上</p>
+<pre class="line-numbers language-none"><code class="language-none">#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+&#123;
+    
+   char data[100];
+   char buffer[256];
+ 
+   &#x2F;&#x2F;以写模式打开文件
+   ofstream outfile;
+   outfile.open(&quot;afile.txt&quot;);
+   
+ 
+   cout &lt;&lt; &quot;Writing to the file&quot; &lt;&lt; endl;
+   cout &lt;&lt; &quot;Enter your name: &quot;; 
+   cin.getline(data, 100);
+    &#x2F;&#x2F;cout &lt;&lt; data &lt;&lt; endl;
+   &#x2F;&#x2F; 向文件写入用户输入的数据
+   outfile &lt;&lt; data &lt;&lt; endl;
+ 
+   cout &lt;&lt; &quot;Enter your age: &quot;; 
+   cin &gt;&gt; data;
+   &#x2F;&#x2F; cin.ignore();
+   
+   &#x2F;&#x2F; 再次向文件写入用户输入的数据
+   outfile &lt;&lt; data &lt;&lt; endl;
+    outfile.close();
+    ofstream outfile2;
+   outfile2.open(&quot;afile.txt&quot;,ios::app);
+    cout &lt;&lt; &quot;Enter your sex: &quot;; 
+    cin &gt;&gt; data;
+    &#x2F;&#x2F;cin.ignore();
+   &#x2F;&#x2F; 再次向文件写入用户输入的数据
+   outfile2.seekp(0);
+   outfile2 &lt;&lt; data &lt;&lt; endl;
+   &#x2F;&#x2F; 关闭打开的文件
+   outfile2.close();
+ 
+   &#x2F;&#x2F; 以读模式打开文件
+   ifstream infile; 
+   infile.open(&quot;afile.txt&quot;); 
+ 
+   cout &lt;&lt; &quot;Reading from the file&quot; &lt;&lt; endl; 
+
+&#x2F;&#x2F;    infile.seekg(3);
+    &#x2F;&#x2F; infile.seekg(1,ios::end);
+&#x2F;&#x2F;    infile &gt;&gt; data; 
+ 
+   &#x2F;&#x2F; 在屏幕上写入数据
+&#x2F;&#x2F;    cout &lt;&lt; data &lt;&lt; endl;
+   
+   &#x2F;&#x2F; 再次从文件读取数据，并显示它
+&#x2F;&#x2F;    infile.seekg(3,ios::cur);
+&#x2F;&#x2F;    infile &gt;&gt; data; 
+&#x2F;&#x2F;    cout &lt;&lt; data &lt;&lt; endl; 
+
+   while (infile&gt;&gt;data)
+   &#123;
+       &#x2F;* code *&#x2F;
+       cout &lt;&lt; data &lt;&lt; endl; 
+   &#125;
+   
+ 
+   &#x2F;&#x2F; 关闭打开的文件
+   infile.close();
+ 
+   return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-none"><code class="language-none">Writing to the file
+Enter your name: liujian
+Enter your age: 20
+Enter your sex: 1
+Reading from the file
+liujian
+20
+1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>当上面的代码被编译和执行时，它会产生下列输入和输出：</p>
+<pre class="line-numbers language-none"><code class="language-none">$.&#x2F;a.out
+Writing to the file
+Enter your name: Zara
+Enter your age: 9
+Reading from the file
+Zara
+9<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上面的实例中使用了 cin 对象的附加函数，比如 getline()函数从外部读取一行，ignore() 函数会忽略掉之前读语句留下的多余字符。</p>
+<h2 id="文件位置指针"><a href="#文件位置指针" class="headerlink" title="文件位置指针"></a>文件位置指针</h2><p><strong>istream</strong> 和 <strong>ostream</strong> 都提供了用于重新定位文件位置指针的成员函数。这些成员函数包括关于 istream 的 <strong>seekg</strong>（”seek get”）和关于 ostream 的 <strong>seekp</strong>（”seek put”）。</p>
+<p>seekg 和 seekp 的参数通常是一个长整型。第二个参数可以用于指定查找方向。查找方向可以是 <strong>ios::beg</strong>（默认的，从流的开头开始定位），也可以是 <strong>ios::cur</strong>（从流的当前位置开始定位），也可以是 <strong>ios::end</strong>（从流的末尾开始定位）。</p>
+<p>文件位置指针是一个整数值，指定了从文件的起始位置到指针所在位置的字节数。下面是关于定位 “get” 文件位置指针的实例：</p>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">&#x2F;&#x2F; 定位到 fileObject 的第 n 个字节（假设是 ios::beg）
+fileObject.seekg( n );
+ 
+&#x2F;&#x2F; 把文件的读指针从 fileObject 当前位置向后移 n 个字节
+fileObject.seekg( n, ios::cur );
+ 
+&#x2F;&#x2F; 把文件的读指针从 fileObject 末尾往回移 n 个字节
+fileObject.seekg( n, ios::end );
+ 
+&#x2F;&#x2F; 定位到 fileObject 的末尾
+fileObject.seekg( 0, ios::end );<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+ 
+int main ()
+&#123;
+    
+   char data[100];
+ 
+   &#x2F;&#x2F;以写模式打开文件
+   ofstream outfile;
+   outfile.open(&quot;afile.txt&quot;);
+   
+ 
+   cout &lt;&lt; &quot;Writing to the file&quot; &lt;&lt; endl;
+   cout &lt;&lt; &quot;Enter your name: &quot;; 
+   cin.getline(data, 100);
+    &#x2F;&#x2F;cout &lt;&lt; data &lt;&lt; endl;
+   &#x2F;&#x2F; 向文件写入用户输入的数据
+   outfile &lt;&lt; data &lt;&lt; endl;
+ 
+   cout &lt;&lt; &quot;Enter your age: &quot;; 
+   cin &gt;&gt; data;
+   &#x2F;&#x2F; cin.ignore();
+   
+   &#x2F;&#x2F; 再次向文件写入用户输入的数据
+   outfile &lt;&lt; data &lt;&lt; endl;
+    outfile.close();
+    ofstream outfile2;
+   outfile2.open(&quot;afile.txt&quot;,ios::app);
+    cout &lt;&lt; &quot;Enter your sex: &quot;; 
+    cin &gt;&gt; data;
+    &#x2F;&#x2F;cin.ignore();
+   &#x2F;&#x2F; 再次向文件写入用户输入的数据
+   outfile2.seekp(0);
+   outfile2 &lt;&lt; data &lt;&lt; endl;
+   &#x2F;&#x2F; 关闭打开的文件
+   outfile2.close();
+ 
+   &#x2F;&#x2F; 以读模式打开文件
+   ifstream infile; 
+   infile.open(&quot;afile.txt&quot;); 
+ 
+   cout &lt;&lt; &quot;Reading from the file&quot; &lt;&lt; endl; 
+
+   infile.seekg(3);
+   infile &gt;&gt; data; 
+ 
+   &#x2F;&#x2F;在屏幕上写入数据
+   cout &lt;&lt; data &lt;&lt; endl;
+   
+   &#x2F;&#x2F;再次从文件读取数据，并显示它
+  &#x2F;&#x2F; infile.seekg(3,ios::cur);
+   infile &gt;&gt; data; 
+   cout &lt;&lt; data &lt;&lt; endl; 
+
+   while (infile&gt;&gt;data)
+   &#123;
+       &#x2F;* code *&#x2F;
+       cout &lt;&lt; data &lt;&lt; endl; 
+   &#125;
+   
+ 
+   &#x2F;&#x2F; 关闭打开的文件
+   infile.close();
+ 
+   return 0;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+        </div>
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/HexoBlog/2022/05/17/Mybatis-plus/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Mybatis-plus</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">lj</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%81"><span class="nav-number">1.</span> <span class="nav-text">流</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">流是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B5%81%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">C++中常见的流类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E6%B5%81%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.3.</span> <span class="nav-text">标准流对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.4.</span> <span class="nav-text">使用运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cin"><span class="nav-number">1.5.1.</span> <span class="nav-text">cin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cin-getline"><span class="nav-number">1.5.2.</span> <span class="nav-text">cin.getline()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cin-ignore"><span class="nav-number">1.5.3.</span> <span class="nav-text">cin.ignore</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6"><span class="nav-number">2.1.</span> <span class="nav-text">打开文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">关闭文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.</span> <span class="nav-text">写入文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">2.4.</span> <span class="nav-text">读取文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96-amp-%E5%86%99%E5%85%A5%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.5.</span> <span class="nav-text">读取 &amp; 写入实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B"><span class="nav-number">2.6.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE%E6%8C%87%E9%92%88"><span class="nav-number">2.7.</span> <span class="nav-text">文件位置指针</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/HexoBlog/js/utils.js"></script>
+
+<script src="/HexoBlog/js/main.js"></script>
+
+<script src="/HexoBlog/js/header-shrink.js"></script>
+
+<script src="/HexoBlog/js/back2top.js"></script>
+
+<script src="/HexoBlog/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/HexoBlog/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/HexoBlog/js/left-side-toggle.js"></script>
+
+<script src="/HexoBlog/js/libs/anime.min.js"></script>
+
+<script src="/HexoBlog/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
