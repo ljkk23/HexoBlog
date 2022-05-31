@@ -161,7 +161,7 @@
             <ul>
                 
                     <li>
-                        <a href="/HexoBlog/categories/mybatis/">mybatis</a>&nbsp;
+                        <a href="/HexoBlog/categories/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">java多线程</a>&nbsp;
                     </li>
                 
             </ul>
@@ -185,7 +185,63 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2>
+            <h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>Semaphore主要用于管理信号量，同样在创建Semaphore对象实例的时候通过传入构造参数设定可供管理的信号量的数值。简单说，信号量管理的信号就好比令牌，构造时传入令牌数量，也就是Semaphore控制并发的数量。线程在执行并发的代码前要先获取信号（通过aquire函数获取信号许可），执行后归还信号（通过release方法归还），每次acquire信号成功后，Semaphore可用的信号量就会减一，同样release成功之后，Semaphore可用信号量的数目会加一，如果信号量的数量减为0，acquire调用就会阻塞，直到release调用释放信号后，aquire才会获得信号返回。</p>
+<p><strong>一个例子</strong>：一个应用程序要读取几万个文件的数据，由于都是IO密集型任务，所以可以启动几十个（例如10）个线程并发地读取。读取到内存中后还要将数据存储到数据库，但是数据库的连接只有3个。此时就必须设置策略控制只有10个线程同时获取数据库连接并保存数据，否则会报错，无法连接到数据库，这时Semaphore就派上用场了，用它来做流量控制，即连接到数据库的线程数。</p>
+<p>本例中有限的公共资源是数据库连接。Java实现如下</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span></span><span class="token class-name">ExecutorService</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span></span><span class="token class-name">Executors</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span></span><span class="token class-name">Semaphore</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SemaphoreTest</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token comment">/* 读取文件数据的线程数量,并创建此容量的线程池 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">int</span> THREAD_COUNT <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">ExecutorService</span> executorService <span class="token operator">=</span> <span class="token class-name">Executors</span><span class="token punctuation">.</span><span class="token function">newFixedThreadPool</span><span class="token punctuation">(</span>THREAD_COUNT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/* 创建Semaphore对象实例，构造函数的参数指定信号量的数目，为了方便说明问题，设为3 */</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Semaphore</span> semaphore <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Semaphore</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+
+        <span class="token comment">/* 创建线程读取数据，并尝试获取数据库连接，将数据存储到数据库中 */</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>i <span class="token operator">&lt;</span> THREAD_COUNT<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">final</span> <span class="token keyword">int</span> index <span class="token operator">=</span> i<span class="token punctuation">;</span>
+
+            <span class="token class-name">Runnable</span> task <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                        <span class="token comment">/*从远程读数据*/</span>
+                        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"thread-"</span><span class="token operator">+</span> index <span class="token operator">+</span> <span class="token string">" is reading data from remote host"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+                        <span class="token comment">/* 通过acquire 函数获取数据库连接，如果成功将数据存储到数据库 */</span>
+                        semaphore<span class="token punctuation">.</span><span class="token function">acquire</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"thread-"</span><span class="token operator">+</span> index <span class="token operator">+</span> <span class="token string">" is saving data...."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token comment">/*模拟存储数据耗时*/</span>
+                        <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span><span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span><span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+
+                        <span class="token comment">/* 最终使用release 函数释放信号量 */</span>
+                        semaphore<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            executorService<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6844903635751534606" >https://juejin.cn/post/6844903635751534606<i class="fas fa-external-link-alt"></i></a></p>
+<p>解决哲学家问题：</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.heiz123.com/2022/03/547/" >https://www.heiz123.com/2022/03/547/<i class="fas fa-external-link-alt"></i></a></p>
+<p>更详细的说明信号量在：</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/eson_15/article/details/51577191" >https://blog.csdn.net/eson_15&#x2F;article&#x2F;details&#x2F;51577191<i class="fas fa-external-link-alt"></i></a></p>
+
         </div>
 
         
