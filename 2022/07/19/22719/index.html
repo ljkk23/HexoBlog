@@ -199,13 +199,150 @@
             <ul>
 <li><p>java 反射，jdbc、servlet、spring容器管理bean,应用：BeanUtils.copyProperties(source, result);<a class="link"   target="_blank" rel="noopener" href="https://www.zhihu.com/question/377483107" >https://www.zhihu.com/question/377483107<i class="fas fa-external-link-alt"></i></a></p>
 </li>
-<li></li>
-<li><pre><code class="java">public ResponseResult login(@RequestBody User user)
-</code></pre>
-<p>一般情况下来说常用其来处理application&#x2F;json类型</p>
+<li><p>java 泛型 <a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43734095/article/details/105521686" >https://blog.csdn.net/weixin_43734095&#x2F;article&#x2F;details&#x2F;105521686<i class="fas fa-external-link-alt"></i></a></p>
 </li>
-<li><p>ssh <username>@<hostname or IP address>通过ssh连接服务器，连接服务器的话，自动就安装了openssh，所以就只需要在服务器的&#x2F;etc&#x2F;ssh&#x2F;sshd_config文件设置PermitRootLogin yes 以及PubkeyAuthentication yes以及RSAAuthentication yes，然后用ssh <a class="link"   href="mailto:&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#x35;&#x30;&#46;&#x31;&#x35;&#56;&#46;&#x31;&#x34;&#x31;&#46;&#51;&#48;" >&#114;&#111;&#x6f;&#116;&#x40;&#x31;&#x35;&#x30;&#46;&#x31;&#x35;&#56;&#46;&#x31;&#x34;&#x31;&#46;&#51;&#48;<i class="fas fa-external-link-alt"></i></a>登陆，如果需要用密钥就需用在本机ssh-keygen -t rsa生成密钥对，然后将本机的id_rsa.pub这个为公钥将其放在服务器用户的ssh下，如果是root，就在&#x2F;root&#x2F;.ssh下，如果没有目录就创建，然后放在authorkey里面，然后记住需要重启ssh服务，sudo &#x2F;etc&#x2F;init.d&#x2F;ssh restart，注意还有可能需要对文件改权限，chmod 600 authorzed_keys以及chmod 700 &#x2F;root&#x2F;.ssh，然后再用本机连接</p>
+<li><p>前端参数位json数据</p>
+</li>
+<li><pre><code class="java">public ResponseResult login(@RequestBody User user)
+<pre class="line-numbers language-none"><code class="language-none">
+  一般情况下来说常用其来处理application&#x2F;json类型
+
+- redis启动，指定配置文件启动：redis-server .&#x2F;redis.conf
+  
+  redis连接：redis-cli -p -6380
+
+- sudo lsof -i tcp:7890
+  
+  sudo kill -9 你的PID
+
+- 编写系统代理：sudo nano ~&#x2F;.zashrc ，该用户是zsh   source ~&#x2F;.zashrc  
+  
+- 
+  
+- 编写desktop,cd ~&#x2F;.local&#x2F;share&#x2F;applications 
+  
+  &#96;&#96;&#96;shell
+  [Desktop Entry]
+  Name&#x3D;clashManjaro
+  Icon&#x3D;&#x2F;home&#x2F;lj&#x2F;tmp&#x2F;clash.png
+  Exec&#x3D;&#x2F;opt&#x2F;clash&#x2F;cfw
+  Type&#x3D;application<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</code></pre>
+</li>
+<li><p>编写service,&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;clash.service</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">[Unit]
+Description&#x3D;Clash core
+[Service]  
+Type&#x3D;simple   
+ExecStart&#x3D;&#x2F;opt&#x2F;clash&#x2F;clash -f &#x2F;opt&#x2F;clash&#x2F;config.yaml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>当我在使用七牛云实现对象存储OSS时，需要在application.yaml中实现oss的认证信息时，（为什么需要在yaml中配置，前面也说了是java反射的机制），因为这是自己从外面定义的，所以不会自动注入容器，（如果是spring.datasource 的配置，spring就会自动注入容器，方便mp找到），所以这里需要在application中配置两个注解：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@ConfigurationPropertiesScan</span>
+<span class="token annotation punctuation">@EnableConfigurationProperties</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>对应的yaml：</p>
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">oss:
+  accessKey: ieL1Biy32ALYzqRbUu-4FF36nnvwO3-WTXiMsyTf
+  secretKey: kcImZkWbcK4uiWUtwT1BJ2RMN9-M5TItBXtqQOsx
+  bucket: lj-blog<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>同时需要在oss配置中，加上@ConfigurationProperties(prefix &#x3D; “oss”)，他会自动读取accessKey这几个参数，并赋值进去</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token annotation punctuation">@Data</span>
+<span class="token annotation punctuation">@ConfigurationProperties</span><span class="token punctuation">(</span>prefix <span class="token operator">=</span> <span class="token string">"oss"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UploadServiceImpl</span> <span class="token keyword">implements</span> <span class="token class-name">UploadService</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> accessKey<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> secretKey<span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> bucket<span class="token punctuation">;</span>
+    
+    <span class="token keyword">private</span> <span class="token class-name">String</span> <span class="token function">upload</span><span class="token punctuation">(</span><span class="token class-name">MultipartFile</span> file<span class="token punctuation">,</span> <span class="token class-name">String</span> path<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//构造一个带指定 Region 对象的配置类</span>
+        <span class="token class-name">Configuration</span> cfg <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Configuration</span><span class="token punctuation">(</span><span class="token class-name">Region</span><span class="token punctuation">.</span><span class="token function">autoRegion</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//...其他参数参考类注释</span>
+
+        <span class="token class-name">UploadManager</span> uploadManager <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">UploadManager</span><span class="token punctuation">(</span>cfg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//...生成上传凭证，然后准备上传</span>
+<span class="token comment">//        String accessKey = "your access key";</span>
+<span class="token comment">//        String secretKey = "your secret key";</span>
+<span class="token comment">//        String bucket = "sg-blog";</span>
+
+        <span class="token comment">//默认不指定key的情况下，以文件内容的hash值作为文件名</span>
+        <span class="token class-name">String</span> key <span class="token operator">=</span> path<span class="token punctuation">;</span>
+
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+<span class="token comment">//            byte[] uploadBytes = "hello qiniu cloud".getBytes("utf-8");</span>
+<span class="token comment">//            ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);</span>
+
+
+            <span class="token class-name">InputStream</span> inputStream <span class="token operator">=</span> file<span class="token punctuation">.</span><span class="token function">getInputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">Auth</span> auth <span class="token operator">=</span> <span class="token class-name">Auth</span><span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>accessKey<span class="token punctuation">,</span> secretKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token class-name">String</span> upToken <span class="token operator">=</span> auth<span class="token punctuation">.</span><span class="token function">uploadToken</span><span class="token punctuation">(</span>bucket<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Response</span> response <span class="token operator">=</span> uploadManager<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>inputStream<span class="token punctuation">,</span>key<span class="token punctuation">,</span>upToken<span class="token punctuation">,</span><span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment">//解析上传成功的结果</span>
+                <span class="token class-name">DefaultPutRet</span> putRet <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Gson</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">fromJson</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">bodyString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">DefaultPutRet</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>putRet<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>putRet<span class="token punctuation">.</span>hash<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token string">"http://rcocs0mr3.hn-bkt.clouddn.com/"</span><span class="token operator">+</span>key<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">QiniuException</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">Response</span> r <span class="token operator">=</span> ex<span class="token punctuation">.</span>response<span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>err<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>r<span class="token punctuation">.</span><span class="token function">bodyString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">QiniuException</span> ex2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token comment">//ignore</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//ignore</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token string">"www"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">ResponseResult</span> <span class="token function">uploadImg</span><span class="token punctuation">(</span><span class="token class-name">MultipartFile</span> img<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//判断文件类型是否为png</span>
+        <span class="token class-name">String</span> originalFilename <span class="token operator">=</span> img<span class="token punctuation">.</span><span class="token function">getOriginalFilename</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>originalFilename<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">".png"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">SystemException</span><span class="token punctuation">(</span><span class="token class-name">AppHttpCodeEnum</span><span class="token punctuation">.</span>FILE_TYPE_ERROR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//TODO 判断文件大小</span>
+        <span class="token comment">//上传文件</span>
+        <span class="token comment">//生成保存路径</span>
+        <span class="token class-name">String</span> path<span class="token operator">=</span> <span class="token class-name">PathUtils</span><span class="token punctuation">.</span><span class="token function">generateFilePath</span><span class="token punctuation">(</span>originalFilename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">String</span> <span class="token class-name">ImgUrl</span> <span class="token operator">=</span> <span class="token function">upload</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token class-name">ResponseResult</span><span class="token punctuation">.</span><span class="token function">okResult</span><span class="token punctuation">(</span><span class="token class-name">ImgUrl</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+</li>
+<li><p>8.9:实现类内部接口的时候，需要将实现的类重新注入到类中，这个注解会在所有@bean注入、以及所有依赖加载后执行</p>
+</li>
+<li><p><img src="/HexoBlog/2022/07/19/22719/postConstruct.png"></p>
+</li>
+<li><p>ssh <username>@<hostname or IP address>通过ssh连接服务器，连接服务器的话，自动就安装了openssh，所以就只需要在服务器的&#x2F;etc&#x2F;ssh&#x2F;sshd_config文件设置PermitRootLogin yes 以及PubkeyAuthentication yes以及RSAAuthentication yes，然后用ssh <a class="link"   href="mailto:&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x35;&#48;&#46;&#49;&#53;&#x38;&#x2e;&#49;&#52;&#49;&#x2e;&#x33;&#48;" >&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x35;&#48;&#46;&#49;&#53;&#x38;&#x2e;&#49;&#52;&#49;&#x2e;&#x33;&#48;<i class="fas fa-external-link-alt"></i></a>登陆，如果需要用密钥就需用在本机ssh-keygen -t rsa生成密钥对，然后将本机的id_rsa.pub这个为公钥将其放在服务器用户的ssh下，如果是root，就在&#x2F;root&#x2F;.ssh下，如果没有目录就创建，然后放在authorkey里面，然后记住需要重启ssh服务，sudo &#x2F;etc&#x2F;init.d&#x2F;ssh restart，注意还有可能需要对文件改权限，chmod 600 authorzed_keys以及chmod 700 &#x2F;root&#x2F;.ssh，然后再用本机连接</p>
 <p>文章参考：<a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/set-ssh-login-key.html" >https://www.runoob.com/w3cnote/set-ssh-login-key.html<i class="fas fa-external-link-alt"></i></a></p>
+<ul>
+<li>8.24</li>
+</ul>
+<p>person a&#x3D;new person()和person a&#x3D;null的区别：前者是person a和a&#x3D;new person()的结合，所以前者在后者的基础之上增加了堆、和方法区的内存开辟和实例化，在默认实例化的时候，int默认为0,string默认为null</p>
+<ul>
+<li><p>8.26</p>
+<p>1.多模块下mapperscan，因为子模块依赖了父模块，所以可以直接用夫模块的路径。（可能不对，是我自己的理解）。</p>
+<p>2.mp的逻辑删除：有两种配置方式，一种是通过**@TableLogic**来进行标记，比较推荐的是在yaml中配置</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">mybatis<span class="token operator">-</span>plus<span class="token operator">:</span>
+  global<span class="token operator">-</span>config<span class="token operator">:</span>
+    db<span class="token operator">-</span>config<span class="token operator">:</span>
+      logic<span class="token operator">-</span>delete<span class="token operator">-</span>field<span class="token operator">:</span> isDelete #默认deleted
+      logic<span class="token operator">-</span>delete<span class="token operator">-</span>value<span class="token operator">:</span> <span class="token number">1</span>
+      logic<span class="token operator">-</span>not<span class="token operator">-</span>delete<span class="token operator">-</span>value<span class="token operator">:</span> <span class="token number">0</span>
+      id<span class="token operator">-</span>type<span class="token operator">:</span> auto<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
 </li>
 </ul>
 
