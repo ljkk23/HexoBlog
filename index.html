@@ -145,6 +145,123 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/09/13/springSecurity%E5%92%8Coauth2-0/">
+                        springSecurity和oauth2.0
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        springSecurity和oauth2.0oauth的理解无意中看到了接入第三方登陆，就很好奇，到底是怎么实现的，所以就抱着好奇的心态去看了看，哪知道是给自己挖坑，花了两天的时间，终于算是了解了，网上的资源也是称次不齐，对于一个新手（我）来说很不...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 13 2022 16:25:46 GMT+0800">2022-09-13</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/09/13/springSecurity%E5%92%8Coauth2-0/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/">
+                        websocket的原理
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        websocket是一种协议，为了兼容大多数浏览器，所以基于http的握手建立连接，具体参考
+https://www.zhihu.com/question/20215561
+
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 05 2022 11:15:40 GMT+0800">2022-09-05</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/09/05/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
+                        代理模式
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        代理模式在开发过程中使用的较少，但是spring AOp和RPC底层实现的原理都使用了动态代理，理解了代理模式可以帮助我们理解很多框架底层实现的原理。
+以下出自https://nyimac.gitee.io/2020/11/03/%E4%BB%A3%...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 05 2022 11:12:09 GMT+0800">2022-09-05</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/09/05/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/09/01/javaNio/">
+                        javaNio
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        javaNIO网络编程1.BIO 编程
+Blocking IO： 同步阻塞的编程方式。
+BIO编程方式通常是在JDK1.4版本之前常用的编程方式。编程实现过程为：首先在服务端启动一个ServerSocket来监听网络请求，客户端启动Socket发起网...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 01 2022 18:16:23 GMT+0800">2022-09-01</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/09/01/javaNio/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/HexoBlog/2022/08/24/leetcode/">
                         leetcode
                     </a>
@@ -154,10 +271,10 @@
                     
                         8.24leetcode 第三题：无重复的字符串
 滑动窗口:
-
-&#96;&#96;&#96;java分割字符串string:char tempChar&#x3D;s.charAt(i);b
-- &#96;&#96;&#96;java
-  找出集合中...
+滑动窗口：用hashmap判断是否有该key，
+如果有，就left滑动到该key+1
+class Solution &#123;
+    public int lengthOfLonges...
                     
                 </div>
 
@@ -279,9 +396,9 @@ public @interface systemLog ...
                         SpringSericurty首先先放两张认证和登陆的逻辑图:
 
 
-登陆所以需要我们自己实现的就是实现登陆接口：即controller的配置
+1.登陆所以需要我们自己实现的就是实现登陆接口：即controller的配置
 @PostMapping("/login")
-public ResponseResult login(@Re...
+public ResponseResult login(@...
                     
                 </div>
 
@@ -348,158 +465,6 @@ ja...
     </div>
 
     <a href="/HexoBlog/2022/07/19/22719/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/05/31/java%E4%BF%A1%E5%8F%B7%E9%87%8F/">
-                        java信号量
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        信号量Semaphore主要用于管理信号量，同样在创建Semaphore对象实例的时候通过传入构造参数设定可供管理的信号量的数值。简单说，信号量管理的信号就好比令牌，构造时传入令牌数量，也就是Semaphore控制并发的数量。线程在执行并发的代码前要...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue May 31 2022 20:57:54 GMT+0800">2022-05-31</span></span>
-        
-            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/HexoBlog/categories/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">java多线程</a>&nbsp;
-                        </li>
-                    
-                    
-                </ul>
-            </span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/05/31/java%E4%BF%A1%E5%8F%B7%E9%87%8F/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/05/19/C-%E6%B5%81%E5%92%8C%E6%96%87%E4%BB%B6/">
-                        C++流和文件
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        流流是什么？
-程序中常用的 cin 和 cout，分别用于从键盘输入数据和向屏幕输出数据（简称为标准 I&#x2F;O）。除此之外，程序还可以从文件中读入数据，以及向文件中写入数据（简称为文件 I&#x2F;O)。
-数据输入和输出的过程也是数据传输的...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu May 19 2022 16:55:18 GMT+0800">2022-05-19</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/05/19/C-%E6%B5%81%E5%92%8C%E6%96%87%E4%BB%B6/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/05/17/Mybatis-plus/">
-                        Mybatis-plus
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        mybatis-plushttps://juejin.cn/post/6961721367846715428#heading-22
-
-在autowrie中如果出现xxxmapper无法自动装配，是因为mybatis通过xml装配的mapper,IDE...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue May 17 2022 20:20:23 GMT+0800">2022-05-17</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/05/17/Mybatis-plus/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/04/21/MybatisCache/">
-                        MybatisCache
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        mybatis 缓存虽然在项目中更多的是在service层进行缓存，但是在dao层mybatis也有自己的缓存，而且有一级缓存和二级缓存，具体指什么可以看这篇文章https://tech.meituan.com/2018/01/19/mybatis-...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Apr 21 2022 08:24:28 GMT+0800">2022-04-21</span></span>
-        
-            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/HexoBlog/categories/mybatis/">mybatis</a>&nbsp;
-                        </li>
-                    
-                    
-                </ul>
-            </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fas fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/HexoBlog/tags/Mybatis/">Mybatis</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/HexoBlog/2022/04/21/MybatisCache/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

@@ -145,7 +145,7 @@
                     <div class="author">
                         <span class="name">lj</span>
                         
-                            <span class="author-label">Lv2</span>
+                            <span class="author-label">Lv3</span>
                         
                     </div>
                     <div class="meta-info">
@@ -177,7 +177,7 @@
             <h1 id="SpringSericurty"><a href="#SpringSericurty" class="headerlink" title="SpringSericurty"></a>SpringSericurty</h1><p>首先先放两张认证和登陆的逻辑图:</p>
 <p><img src="/HexoBlog/2022/08/02/springSercurty/details.png"></p>
 <p><img src="/HexoBlog/2022/08/02/springSercurty/login.png"></p>
-<h2 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h2><p>所以需要我们自己实现的就是实现登陆接口：即controller的配置</p>
+<h2 id="1-登陆"><a href="#1-登陆" class="headerlink" title="1.登陆"></a>1.登陆</h2><p>所以需要我们自己实现的就是实现登陆接口：即controller的配置</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@PostMapping</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">)</span>
 <span class="token keyword">public</span> <span class="token class-name">ResponseResult</span> <span class="token function">login</span><span class="token punctuation">(</span><span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">User</span> user<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token class-name">StringUtils</span><span class="token punctuation">.</span><span class="token function">hasText</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getUserName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
@@ -303,7 +303,7 @@
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>springSercurty的登陆密码比对逻辑就是通过userDetailsService去查找user的用户信息，然后返回一个userdetails,然后authenticate方法会去比对密码，判断密码是否正确。</p>
-<h2 id="校验"><a href="#校验" class="headerlink" title="校验"></a>校验</h2><p>​    ①定义Jwt认证过滤器</p>
+<h2 id="2-校验"><a href="#2-校验" class="headerlink" title="2.校验"></a>2.校验</h2><p>​    ①定义Jwt认证过滤器</p>
 <p>​                获取token</p>
 <p>​                解析token获取其中的userid</p>
 <p>​                从redis中获取用户信息</p>
@@ -645,7 +645,558 @@
 
 
 
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+<h2 id="设置权限访问"><a href="#设置权限访问" class="headerlink" title="设置权限访问"></a>设置权限访问</h2><p>当对某个请求需要设置权限访问：</p>
+<h3 id="第一步-：设置请求所需权限"><a href="#第一步-：设置请求所需权限" class="headerlink" title="第一步 ：设置请求所需权限"></a>第一步 ：设置请求所需权限</h3><h4 id="1-表达式控制-URL-路径权限"><a href="#1-表达式控制-URL-路径权限" class="headerlink" title="1.表达式控制 URL 路径权限"></a>1.表达式控制 URL 路径权限</h4><p>首先我们来看第一种，就是通过表达式控制 URL 路径权限，这种方式松哥在之前的文章中实际上和大家讲过，这里我们再来稍微复习一下。</p>
+<p>Spring Security 支持在 URL 和方法权限控制时使用 SpEL 表达式，如果表达式返回值为 true 则表示需要对应的权限，否则表示不需要对应的权限。提供表达式的类是 SecurityExpressionRoot：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/17/172bfdbba0285c86~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>可以看到，SecurityExpressionRoot 有两个实现类，表示在应对 URL 权限控制和应对方法权限控制时，分别对 SpEL 所做的拓展，例如在基于 URL 路径做权限控制时，增加了 hasIpAddress 选项。</p>
+<p>我们来看下 SecurityExpressionRoot 类中定义的最基本的 SpEL 有哪些：</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/17/172bfdbba2222e11~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt="img"></p>
+<p>可以看到，这些都是该类对应的表达式，这些表达式我来给大家稍微解释下：</p>
+<table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hasRole</td>
+<td>用户具备某个角色即可访问资源</td>
+</tr>
+<tr>
+<td>hasAnyRole</td>
+<td>用户具备多个角色中的任意一个即可访问资源</td>
+</tr>
+<tr>
+<td>hasAuthority</td>
+<td>类似于 hasRole</td>
+</tr>
+<tr>
+<td>hasAnyAuthority</td>
+<td>类似于 hasAnyRole</td>
+</tr>
+<tr>
+<td>permitAll</td>
+<td>统统允许访问</td>
+</tr>
+<tr>
+<td>denyAll</td>
+<td>统统拒绝访问</td>
+</tr>
+<tr>
+<td>isAnonymous</td>
+<td>判断是否匿名用户</td>
+</tr>
+<tr>
+<td>isAuthenticated</td>
+<td>判断是否认证成功</td>
+</tr>
+<tr>
+<td>isRememberMe</td>
+<td>判断是否通过记住我登录的</td>
+</tr>
+<tr>
+<td>isFullyAuthenticated</td>
+<td>判断是否用户名&#x2F;密码登录的</td>
+</tr>
+<tr>
+<td>principle</td>
+<td>当前用户</td>
+</tr>
+<tr>
+<td>authentication</td>
+<td>从 SecurityContext 中提取出来的用户对象</td>
+</tr>
+</tbody></table>
+<p>这是最基本的，在它的继承类中，还有做一些拓展，我这个我就不重复介绍了。</p>
+<p>如果是通过 URL 进行权限控制，那么我们只需要按照如下方式配置即可：</p>
+<pre class="line-numbers language-scss" data-language="scss"><code class="language-scss">protected void <span class="token function">configure</span><span class="token punctuation">(</span>HttpSecurity http<span class="token punctuation">)</span> <span class="token selector">throws Exception </span><span class="token punctuation">&#123;</span>
+    http.<span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            .<span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/admin/**"</span><span class="token punctuation">)</span>.<span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"admin"</span><span class="token punctuation">)</span>
+            .<span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/user/**"</span><span class="token punctuation">)</span>.<span class="token function">hasAnyRole</span><span class="token punctuation">(</span><span class="token string">"admin"</span><span class="token punctuation">,</span> <span class="token string">"user"</span><span class="token punctuation">)</span>
+            .<span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span>.<span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            .<span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            ...
+<span class="token punctuation">&#125;</span>
+复制代码<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里表示访问 <code>/admin/**</code> 格式的路径需要 admin 角色，访问 <code>/user/**</code> 格式的路径需要 admin 或者 user 角色。</p>
+<h4 id="2-表达式控制方法权限"><a href="#2-表达式控制方法权限" class="headerlink" title="2.表达式控制方法权限"></a>2.表达式控制方法权限</h4><p>当然，我们也可以通过在方法上添加注解来控制权限。</p>
+<p>在方法上添加注解控制权限，需要我们首先开启注解的使用，在 Spring Security 配置类上添加如下内容：</p>
+<pre class="line-numbers language-scala" data-language="scala"><code class="language-scala"><span class="token annotation punctuation">@Configuration</span>
+<span class="token annotation punctuation">@EnableGlobalMethodSecurity</span><span class="token punctuation">(</span>prePostEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">,</span>securedEnabled <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+public <span class="token keyword">class</span> SecurityConfig <span class="token keyword">extends</span> WebSecurityConfigurerAdapter <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span>
+复制代码<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个配置开启了三个注解，分别是：</p>
+<ul>
+<li>@PreAuthorize：方法执行前进行权限检查</li>
+<li>@PostAuthorize：方法执行后进行权限检查</li>
+<li>@Secured：类似于 @PreAuthorize</li>
+</ul>
+<p>这三个结合 SpEL 之后，用法非常灵活，这里和大家稍微分享几个 Demo。</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">HelloService</span> <span class="token punctuation">&#123;</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PreAuthorize</span></span><span class="token punctuation">(</span><span class="token string">"principal.username.equals('javaboy')"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PreAuthorize</span></span><span class="token punctuation">(</span><span class="token string">"hasRole('admin')"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">admin</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token string">"admin"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Secured</span></span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">"ROLE_user"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">user</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token string">"user"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">PreAuthorize</span></span><span class="token punctuation">(</span><span class="token string">"#age>98"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> String <span class="token function">getAge</span><span class="token punctuation">(</span>Integer age<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+复制代码<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>第一个 hello 方法，注解的约束是，只有当前登录用户名为 javaboy 的用户才可以访问该方法。</li>
+<li>第二个 admin 方法，表示访问该方法的用户必须具备 admin 角色。</li>
+<li>第三个 user 方法，表示方法该方法的用户必须具备 user 角色，但是注意 user 角色需要加上 <code>ROLE_</code> 前缀。</li>
+<li>第四个 getAge 方法，表示访问该方法的 age 参数必须大于 98，否则请求不予通过。</li>
+</ol>
+<p>可以看到，这里的表达式还是非常丰富，如果想引用方法的参数，前面加上一个 <code>#</code> 即可，既可以引用基本类型的参数，也可以引用对象参数。</p>
+<p>缺省对象除了 principal ，还有 authentication（参考第一小节）。</p>
+<h4 id="3-使用过滤注解"><a href="#3-使用过滤注解" class="headerlink" title="3.使用过滤注解"></a>3.使用过滤注解</h4><p>Spring Security 中还有两个过滤函数 @PreFilter 和 @PostFilter，可以根据给出的条件，自动移除集合中的元素。</p>
+<pre class="line-numbers language-typescript" data-language="typescript"><code class="language-typescript"><span class="token decorator"><span class="token at operator">@</span><span class="token function">PostFilter</span></span><span class="token punctuation">(</span><span class="token string">"filterObject.lastIndexOf('2')!=-1"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">getAllUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    List<span class="token operator">&lt;</span>String<span class="token operator">></span> users <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList<span class="token operator">&lt;</span><span class="token operator">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>int i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        users<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token string">"javaboy:"</span> <span class="token operator">+</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> users<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">PreFilter</span></span><span class="token punctuation">(</span>filterTarget <span class="token operator">=</span> <span class="token string">"ages"</span><span class="token punctuation">,</span>value <span class="token operator">=</span> <span class="token string">"filterObject%2==0"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getAllAge</span><span class="token punctuation">(</span>List<span class="token operator">&lt;</span>Integer<span class="token operator">></span> ages<span class="token punctuation">,</span>List<span class="token operator">&lt;</span>String<span class="token operator">></span> users<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"ages = "</span> <span class="token operator">+</span> ages<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"users = "</span> <span class="token operator">+</span> users<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+复制代码<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>在 getAllUser 方法中，对集合进行过滤，只返回后缀为 2 的元素，filterObject 表示要过滤的元素对象。</li>
+<li>在 getAllAge 方法中，由于有两个集合，因此使用 filterTarget 指定过滤对象。</li>
+</ul>
+<h4 id="4-动态处理用户权限：根据数据库设置的动态权限"><a href="#4-动态处理用户权限：根据数据库设置的动态权限" class="headerlink" title="4.动态处理用户权限：根据数据库设置的动态权限"></a>4.动态处理用户权限：根据数据库设置的动态权限</h4><h5 id="1-创建Hr和HrService"><a href="#1-创建Hr和HrService" class="headerlink" title="1.创建Hr和HrService"></a>1.创建Hr和HrService</h5><p>首先我们需要创建Hr类，即我们的用户类，该类实现了UserDetails接口，该类的属性如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">public class Hr implements UserDetails &#123;
+    private Long id;
+    private String name;
+    private String phone;
+    private String telephone;
+    private String address;
+    private boolean enabled;
+    private String username;
+    private String password;
+    private String remark;
+    private List&lt;Role&gt; roles;
+    private String userface;
+	&#x2F;&#x2F;getter&#x2F;setter省略
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>如果小伙伴对属性的含义有疑问，可以参考<a class="link"   target="_blank" rel="noopener" href="https://github.com/lenve/vhr/wiki/1.%E6%9D%83%E9%99%90%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1" >1.权限数据库设计<i class="fas fa-external-link-alt"></i></a>.</p>
+</blockquote>
+<p>UserDetails接口默认有几个方法需要实现，这几个方法中，除了isEnabled返回了正常的enabled之外，其他的方法我都统一返回true，因为我这里的业务逻辑并不涉及到账户的锁定、密码的过期等等，只有账户是否被禁用，因此只处理了isEnabled方法，这一块小伙伴可以根据自己的实际情况来调整。另外，UserDetails中还有一个方法叫做getAuthorities，该方法用来获取当前用户所具有的角色，但是小伙伴也看到了，我的Hr中有一个roles属性用来描述当前用户的角色，因此我的getAuthorities方法的实现如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() &#123;
+    List&lt;GrantedAuthority&gt; authorities &#x3D; new ArrayList&lt;&gt;();
+    for (Role role : roles) &#123;
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+    &#125;
+    return authorities;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>即直接从roles中获取当前用户所具有的角色，构造SimpleGrantedAuthority然后返回即可。</p>
+<p>创建好Hr之后，接下来我们需要创建HrService，用来执行登录等操作，HrService需要实现UserDetailsService接口，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">@Service
+@Transactional
+public class HrService implements UserDetailsService &#123;
+
+    @Autowired
+    HrMapper hrMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException &#123;
+        Hr hr &#x3D; hrMapper.loadUserByUsername(s);
+        if (hr &#x3D;&#x3D; null) &#123;
+            throw new UsernameNotFoundException(&quot;用户名不对&quot;);
+        &#125;
+        return hr;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里最主要是实现了UserDetailsService接口中的loadUserByUsername方法，在执行登录的过程中，这个方法将根据用户名去查找用户，如果用户不存在，则抛出UsernameNotFoundException异常，否则直接将查到的Hr返回。HrMapper用来执行数据库的查询操作，这个不在本系列的介绍范围内，所有涉及到数据库的操作都将只介绍方法的作用。</p>
+<h5 id="自定义FilterInvocationSecurityMetadataSource"><a href="#自定义FilterInvocationSecurityMetadataSource" class="headerlink" title="自定义FilterInvocationSecurityMetadataSource"></a>自定义FilterInvocationSecurityMetadataSource</h5><p>FilterInvocationSecurityMetadataSource有一个默认的实现类DefaultFilterInvocationSecurityMetadataSource，该类的主要功能就是通过当前的请求地址，获取该地址需要的用户角色，我们照猫画虎，自己也定义一个FilterInvocationSecurityMetadataSource，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">@Component
+public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource &#123;
+    @Autowired
+    MenuService menuService;
+    AntPathMatcher antPathMatcher &#x3D; new AntPathMatcher();
+
+    @Override
+    public Collection&lt;ConfigAttribute&gt; getAttributes(Object o) throws IllegalArgumentException &#123;
+        &#x2F;&#x2F;获取请求地址
+        String requestUrl &#x3D; ((FilterInvocation) o).getRequestUrl();
+        if (&quot;&#x2F;login_p&quot;.equals(requestUrl)) &#123;
+            return null;
+        &#125;
+        List&lt;Menu&gt; allMenu &#x3D; menuService.getAllMenu();
+        for (Menu menu : allMenu) &#123;
+            if (antPathMatcher.match(menu.getUrl(), requestUrl)&amp;&amp;menu.getRoles().size()&gt;0) &#123;
+                List&lt;Role&gt; roles &#x3D; menu.getRoles();
+                int size &#x3D; roles.size();
+                String[] values &#x3D; new String[size];
+                for (int i &#x3D; 0; i &lt; size; i++) &#123;
+                    values[i] &#x3D; roles.get(i).getName();
+                &#125;
+                return SecurityConfig.createList(values);
+            &#125;
+        &#125;
+        &#x2F;&#x2F;没有匹配上的资源，都是登录访问
+        return SecurityConfig.createList(&quot;ROLE_LOGIN&quot;);
+    &#125;
+
+    @Override
+    public Collection&lt;ConfigAttribute&gt; getAllConfigAttributes() &#123;
+        return null;
+    &#125;
+
+    @Override
+    public boolean supports(Class&lt;?&gt; aClass) &#123;
+        return FilterInvocation.class.isAssignableFrom(aClass);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>关于自定义这个类，我说如下几点：</p>
+<p>1.一开始注入了MenuService，MenuService的作用是用来查询数据库中url pattern和role的对应关系，查询结果是一个List集合，集合中是Menu类，Menu类有两个核心属性，一个是url pattern，即匹配规则(比如<code>/admin/**</code>)，还有一个是List,即这种规则的路径需要哪些角色才能访问。</p>
+<p>2.我们可以从getAttributes(Object o)方法的参数o中提取出当前的请求url，然后将这个请求url和数据库中查询出来的所有url pattern一一对照，看符合哪一个url pattern，然后就获取到该url pattern所对应的角色，当然这个角色可能有多个，所以遍历角色，最后利用SecurityConfig.createList方法来创建一个角色集合。</p>
+<p>3.第二步的操作中，涉及到一个优先级问题，比如我的地址是<code>/employee/basic/hello</code>,这个地址既能被<code>/employee/**</code>匹配，也能被<code>/employee/basic/**</code>匹配，这就要求我们从数据库查询的时候对数据进行排序，将<code>/employee/basic/**</code>类型的url pattern放在集合的前面去比较。</p>
+<p>4.如果getAttributes(Object o)方法返回null的话，意味着当前这个请求不需要任何角色就能访问，甚至不需要登录。但是在我的整个业务中，并不存在这样的请求，我这里的要求是，所有未匹配到的路径，都是认证(登录)后可访问，因此我在这里返回一个<code>ROLE_LOGIN</code>的角色，这种角色在我的角色数据库中并不存在，因此我将在下一步的角色比对过程中特殊处理这种角色。</p>
+<p>5.如果地址是&#x2F;login_p，这个是登录页，不需要任何角色即可访问，直接返回null。</p>
+<p>6.getAttributes(Object o)方法返回的集合最终会来到AccessDecisionManager类中，接下来我们再来看AccessDecisionManager类。</p>
+<h5 id="自定义AccessDecisionManager"><a href="#自定义AccessDecisionManager" class="headerlink" title="自定义AccessDecisionManager"></a>自定义AccessDecisionManager</h5><p>自定义UrlAccessDecisionManager类实现AccessDecisionManager接口，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">@Component
+public class UrlAccessDecisionManager implements AccessDecisionManager &#123;
+    @Override
+    public void decide(Authentication authentication, Object o, Collection&lt;ConfigAttribute&gt; collection) throws AccessDeniedException, AuthenticationException &#123;
+        Iterator&lt;ConfigAttribute&gt; iterator &#x3D; collection.iterator();
+        while (iterator.hasNext()) &#123;
+            ConfigAttribute ca &#x3D; iterator.next();
+            &#x2F;&#x2F;当前请求需要的权限
+            String needRole &#x3D; ca.getAttribute();
+            if (&quot;ROLE_LOGIN&quot;.equals(needRole)) &#123;
+                if (authentication instanceof AnonymousAuthenticationToken) &#123;
+                    throw new BadCredentialsException(&quot;未登录&quot;);
+                &#125; else
+                    return;
+            &#125;
+            &#x2F;&#x2F;当前用户所具有的权限
+            Collection&lt;? extends GrantedAuthority&gt; authorities &#x3D; authentication.getAuthorities();
+            for (GrantedAuthority authority : authorities) &#123;
+                if (authority.getAuthority().equals(needRole)) &#123;
+                    return;
+                &#125;
+            &#125;
+        &#125;
+        throw new AccessDeniedException(&quot;权限不足!&quot;);
+    &#125;
+
+    @Override
+    public boolean supports(ConfigAttribute configAttribute) &#123;
+        return true;
+    &#125;
+
+    @Override
+    public boolean supports(Class&lt;?&gt; aClass) &#123;
+        return true;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>关于这个类，我说如下几点：</p>
+<p>1.decide方法接收三个参数，其中第一个参数中保存了当前登录用户的角色信息，第三个参数则是UrlFilterInvocationSecurityMetadataSource中的getAttributes方法传来的，表示当前请求需要的角色（可能有多个）。</p>
+<p>2.如果当前请求需要的权限为<code>ROLE_LOGIN</code>则表示登录即可访问，和角色没有关系，此时我需要判断authentication是不是AnonymousAuthenticationToken的一个实例，如果是，则表示当前用户没有登录，没有登录就抛一个BadCredentialsException异常，登录了就直接返回，则这个请求将被成功执行。</p>
+<p>3.遍历collection，同时查看当前用户的角色列表中是否具备需要的权限，如果具备就直接返回，否则就抛异常。</p>
+<p>4.这里涉及到一个all和any的问题：假设当前用户具备角色A、角色B，当前请求需要角色B、角色C，那么是要当前用户要包含所有请求角色才算授权成功还是只要包含一个就算授权成功？我这里采用了第二种方案，即只要包含一个即可。小伙伴可根据自己的实际情况调整decide方法中的逻辑。</p>
+<h5 id="自定义AccessDeniedHandler"><a href="#自定义AccessDeniedHandler" class="headerlink" title="自定义AccessDeniedHandler"></a>自定义AccessDeniedHandler</h5><p>通过自定义AccessDeniedHandler我们可以自定义403响应的内容，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">@Component
+public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler &#123;
+    @Override
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) throws IOException, ServletException &#123;
+        resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        resp.setCharacterEncoding(&quot;UTF-8&quot;);
+        PrintWriter out &#x3D; resp.getWriter();
+        out.write(&quot;&#123;\&quot;status\&quot;:\&quot;error\&quot;,\&quot;msg\&quot;:\&quot;权限不足，请联系管理员!\&quot;&#125;&quot;);
+        out.flush();
+        out.close();
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="配置WebSecurityConfig"><a href="#配置WebSecurityConfig" class="headerlink" title="配置WebSecurityConfig"></a>配置WebSecurityConfig</h5><p>最后在webSecurityConfig中完成简单的配置即可，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter &#123;
+
+    @Autowired
+    HrService hrService;
+    @Autowired
+    UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
+    @Autowired
+    UrlAccessDecisionManager urlAccessDecisionManager;
+    @Autowired
+    AuthenticationAccessDeniedHandler authenticationAccessDeniedHandler;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception &#123;
+        auth.userDetailsService(hrService);
+    &#125;
+
+    @Override
+    public void configure(WebSecurity web) throws Exception &#123;
+        web.ignoring().antMatchers(&quot;&#x2F;index.html&quot;, &quot;&#x2F;static&#x2F;**&quot;);
+    &#125;
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception &#123;
+        http.authorizeRequests()
+                .withObjectPostProcessor(new ObjectPostProcessor&lt;FilterSecurityInterceptor&gt;() &#123;
+                    @Override
+                    public &lt;O extends FilterSecurityInterceptor&gt; O postProcess(O o) &#123;
+                        o.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource);
+                        o.setAccessDecisionManager(urlAccessDecisionManager);
+                        return o;
+                    &#125;
+                &#125;).and().formLogin().loginPage(&quot;&#x2F;login_p&quot;).loginProcessingUrl(&quot;&#x2F;login&quot;).usernameParameter(&quot;username&quot;).passwordParameter(&quot;password&quot;).permitAll().failureHandler(new AuthenticationFailureHandler() &#123;
+            @Override
+            public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException &#123;
+                httpServletResponse.setContentType(&quot;application&#x2F;json;charset&#x3D;utf-8&quot;);
+                PrintWriter out &#x3D; httpServletResponse.getWriter();
+                StringBuffer sb &#x3D; new StringBuffer();
+                sb.append(&quot;&#123;\&quot;status\&quot;:\&quot;error\&quot;,\&quot;msg\&quot;:\&quot;&quot;);
+                if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) &#123;
+                    sb.append(&quot;用户名或密码输入错误，登录失败!&quot;);
+                &#125; else if (e instanceof DisabledException) &#123;
+                    sb.append(&quot;账户被禁用，登录失败，请联系管理员!&quot;);
+                &#125; else &#123;
+                    sb.append(&quot;登录失败!&quot;);
+                &#125;
+                sb.append(&quot;\&quot;&#125;&quot;);
+                out.write(sb.toString());
+                out.flush();
+                out.close();
+            &#125;
+        &#125;).successHandler(new AuthenticationSuccessHandler() &#123;
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException &#123;
+                httpServletResponse.setContentType(&quot;application&#x2F;json;charset&#x3D;utf-8&quot;);
+                PrintWriter out &#x3D; httpServletResponse.getWriter();
+                ObjectMapper objectMapper &#x3D; new ObjectMapper();
+                String s &#x3D; &quot;&#123;\&quot;status\&quot;:\&quot;success\&quot;,\&quot;msg\&quot;:&quot; + objectMapper.writeValueAsString(HrUtils.getCurrentHr()) + &quot;&#125;&quot;;
+                out.write(s);
+                out.flush();
+                out.close();
+            &#125;
+        &#125;).and().logout().permitAll().and().csrf().disable().exceptionHandling().accessDeniedHandler(authenticationAccessDeniedHandler);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>关于这个配置，我说如下几点：</p>
+<p>1.在configure(HttpSecurity http)方法中，通过withObjectPostProcessor将刚刚创建的UrlFilterInvocationSecurityMetadataSource和UrlAccessDecisionManager注入进来。到时候，请求都会经过刚才的过滤器（除了configure(WebSecurity web)方法忽略的请求）。</p>
+<p>2.successHandler中配置登录成功时返回的JSON，登录成功时返回当前用户的信息。</p>
+<p>3.failureHandler表示登录失败，登录失败的原因可能有多种，我们根据不同的异常输出不同的错误提示即可。</p>
+<p>OK，这些操作都完成之后，我们可以通过POSTMAN或者RESTClient来发起一个登录请求，看到如下结果则表示登录成功:</p>
+<h3 id="第二步：封装用户权限"><a href="#第二步：封装用户权限" class="headerlink" title="第二步：封装用户权限"></a>第二步：封装用户权限</h3><p>1.在之前的jwtfilter中，我们查到了该用户，密码正确之后，就将其存入SecurityContextHolder中，而这个时候我们需要传入权限进去</p>
+<p>原先的：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">UsernamePasswordAuthenticationToken</span> usernamePasswordAuthenticationToken<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">UsernamePasswordAuthenticationToken</span><span class="token punctuation">(</span>userDetails<span class="token punctuation">,</span><span class="token keyword">null</span><span class="token punctuation">,</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token class-name">SecurityContextHolder</span><span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">setAuthentication</span><span class="token punctuation">(</span>usernamePasswordAuthenticationToken<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/HexoBlog/2022/08/02/springSercurty/loginUser1.png"></p>
+<p><img src="/HexoBlog/2022/08/02/springSercurty/loginUser2.png"></p>
+<p><img src="/HexoBlog/2022/08/02/springSercurty/Jwtfilter.png"></p>
+<h2 id="自定义设置认证和授权失败处理"><a href="#自定义设置认证和授权失败处理" class="headerlink" title="自定义设置认证和授权失败处理"></a>自定义设置认证和授权失败处理</h2><h4 id="1-认证失败"><a href="#1-认证失败" class="headerlink" title="1.认证失败"></a>1.认证失败</h4><p>认证失败分为两种，一种是直接访问需要登陆的资源，另一种是登陆接口用户密码错误导致认证失败</p>
+<h5 id="1）直接访问需要认证的资源认证失败"><a href="#1）直接访问需要认证的资源认证失败" class="headerlink" title="1）直接访问需要认证的资源认证失败"></a>1）直接访问需要认证的资源认证失败</h5><p>直接访问需要认证 的资源，就需要设置authenticationEntryPoint，这种是在filter链如果访问时没有认证成功，就会被该捕捉，</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exceptionHandling</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">authenticationEntryPoint</span><span class="token punctuation">(</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> resp<span class="token punctuation">,</span> authException<span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+                            resp<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            <span class="token class-name">PrintWriter</span> out <span class="token operator">=</span> resp<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            out<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"尚未登录，请先登录"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            out<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                            out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>securityConfig配置</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"logout"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/article/hotArticleList"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>访问这种资源时如果没有认证，就会被authenticationEntryPoint拦截，</p>
+<h5 id="（2）登陆时失败"><a href="#（2）登陆时失败" class="headerlink" title="（2）登陆时失败"></a>（2）登陆时失败</h5><h6 id="（1）使用security的formlogin在登陆的时候用户密码错误用failureHandler来实现"><a href="#（1）使用security的formlogin在登陆的时候用户密码错误用failureHandler来实现" class="headerlink" title="（1）使用security的formlogin在登陆的时候用户密码错误用failureHandler来实现"></a>（1）使用security的formlogin在登陆的时候用户密码错误用failureHandler来实现</h6><p>需要在自定义formlogin后面设置handler，这种如果登陆失败，就会被该handler捕获进行对应的处理</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">http<span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/admin/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"admin"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">antMatchers</span><span class="token punctuation">(</span><span class="token string">"/user/**"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">hasRole</span><span class="token punctuation">(</span><span class="token string">"user"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">authenticated</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">loginProcessingUrl</span><span class="token punctuation">(</span><span class="token string">"/doLogin"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">successHandler</span><span class="token punctuation">(</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> resp<span class="token punctuation">,</span> authentication<span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">Object</span> principal <span class="token operator">=</span> authentication<span class="token punctuation">.</span><span class="token function">getPrincipal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    resp<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">PrintWriter</span> out <span class="token operator">=</span> resp<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ObjectMapper</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeValueAsString</span><span class="token punctuation">(</span>principal<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">failureHandler</span><span class="token punctuation">(</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> resp<span class="token punctuation">,</span> e<span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+                    resp<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">PrintWriter</span> out <span class="token operator">=</span> resp<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logoutUrl</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logoutSuccessHandler</span><span class="token punctuation">(</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span> resp<span class="token punctuation">,</span> authentication<span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+                    resp<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span><span class="token string">"application/json;charset=utf-8"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token class-name">PrintWriter</span> out <span class="token operator">=</span> resp<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"注销成功"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h6 id="（2）自定义login接口时用authenticationEntryPoint"><a href="#（2）自定义login接口时用authenticationEntryPoint" class="headerlink" title="（2）自定义login接口时用authenticationEntryPoint"></a>（2）自定义login接口时用authenticationEntryPoint</h6><p>虽然authenticationEntryPoint一般在用来判断在直接访问需要认证 的资源时有没有认证，但是在当login设置匿名登陆之后，如果在authenticate方法中报错，也会来到authenticationEntryPoint，因为在判断在直接访问需要认证 的资源时有没有认证时，底层也是调用的authenticate方法，所以当然会来到authenticationEntryPoint</p>
+<h5 id=""><a href="#" class="headerlink" title=""></a></h5><h6 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h6><ul>
+<li><p>以上两种方式都是以匿名类实现的，当然也可以以实现接口然后注入，然后配置：如下</p>
+<p>实现authenticationEntryPoint</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AuthenticationEntryPointImpl</span> <span class="token keyword">implements</span> <span class="token class-name">AuthenticationEntryPoint</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">commence</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> request<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> response<span class="token punctuation">,</span> <span class="token class-name">AuthenticationException</span> authException<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span><span class="token punctuation">,</span> <span class="token class-name">ServletException</span> <span class="token punctuation">&#123;</span>
+
+        authException<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//InsufficientAuthenticationException</span>
+        <span class="token comment">//BadCredentialsException</span>
+        <span class="token class-name">ResponseResult</span> result <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>authException <span class="token keyword">instanceof</span> <span class="token class-name">BadCredentialsException</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            result <span class="token operator">=</span> <span class="token class-name">ResponseResult</span><span class="token punctuation">.</span><span class="token function">errorResult</span><span class="token punctuation">(</span><span class="token class-name">AppHttpCodeEnum</span><span class="token punctuation">.</span>LOGIN_ERROR<span class="token punctuation">.</span><span class="token function">getCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>authException<span class="token punctuation">.</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>authException <span class="token keyword">instanceof</span> <span class="token class-name">InsufficientAuthenticationException</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            result <span class="token operator">=</span> <span class="token class-name">ResponseResult</span><span class="token punctuation">.</span><span class="token function">errorResult</span><span class="token punctuation">(</span><span class="token class-name">AppHttpCodeEnum</span><span class="token punctuation">.</span>NEED_LOGIN<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            result <span class="token operator">=</span> <span class="token class-name">ResponseResult</span><span class="token punctuation">.</span><span class="token function">errorResult</span><span class="token punctuation">(</span><span class="token class-name">AppHttpCodeEnum</span><span class="token punctuation">.</span>SYSTEM_ERROR<span class="token punctuation">.</span><span class="token function">getCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token string">"认证或授权失败"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//响应给前端</span>
+        <span class="token class-name">WebUtils</span><span class="token punctuation">.</span><span class="token function">renderString</span><span class="token punctuation">(</span>response<span class="token punctuation">,</span> JSON<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置securityConfig</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">AuthenticationEntryPointImpl</span> authenticationEntryPoint<span class="token punctuation">;</span>
+<span class="token comment">//添加自定义认证失败异常处理</span>
+        http<span class="token punctuation">.</span><span class="token function">exceptionHandling</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">authenticationEntryPoint</span><span class="token punctuation">(</span>authenticationEntryPoint<span class="token punctuation">)</span>
+                        <span class="token punctuation">.</span><span class="token function">accessDeniedHandler</span><span class="token punctuation">(</span>accessDeniedHandler<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>实现handler</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AuthenticationSuccessHandlerImpl</span> <span class="token keyword">implements</span> <span class="token class-name">AuthenticationSuccessHandler</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">UserAuthDao</span> userAuthDao<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">onAuthenticationSuccess</span><span class="token punctuation">(</span><span class="token class-name">HttpServletRequest</span> httpServletRequest<span class="token punctuation">,</span> <span class="token class-name">HttpServletResponse</span> httpServletResponse<span class="token punctuation">,</span> <span class="token class-name">Authentication</span> authentication<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 返回登录信息</span>
+        <span class="token class-name">UserInfoDTO</span> userLoginDTO <span class="token operator">=</span> <span class="token class-name">BeanCopyUtils</span><span class="token punctuation">.</span><span class="token function">copyObject</span><span class="token punctuation">(</span><span class="token class-name">UserUtils</span><span class="token punctuation">.</span><span class="token function">getLoginUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">UserInfoDTO</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        httpServletResponse<span class="token punctuation">.</span><span class="token function">setContentType</span><span class="token punctuation">(</span>APPLICATION_JSON<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        httpServletResponse<span class="token punctuation">.</span><span class="token function">getWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>JSON<span class="token punctuation">.</span><span class="token function">toJSONString</span><span class="token punctuation">(</span><span class="token class-name">Result</span><span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span>userLoginDTO<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 更新用户ip，最近登录时间</span>
+        <span class="token function">updateUserInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>配置和注入和上面一样。</p>
+<p>当然handler和authenticationEntryPoint可以联合使用，例子demo：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 配置登录注销路径</span>
+        http<span class="token punctuation">.</span><span class="token function">formLogin</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">loginProcessingUrl</span><span class="token punctuation">(</span><span class="token string">"/login"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">successHandler</span><span class="token punctuation">(</span>authenticationSuccessHandler<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">failureHandler</span><span class="token punctuation">(</span>authenticationFailHandler<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logoutUrl</span><span class="token punctuation">(</span><span class="token string">"/logout"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">logoutSuccessHandler</span><span class="token punctuation">(</span>logoutSuccessHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 配置路由权限信息</span>
+        http<span class="token punctuation">.</span><span class="token function">authorizeRequests</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">withObjectPostProcessor</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ObjectPostProcessor</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">FilterSecurityInterceptor</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token annotation punctuation">@Override</span>
+                    <span class="token keyword">public</span> <span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">O</span> <span class="token keyword">extends</span> <span class="token class-name">FilterSecurityInterceptor</span><span class="token punctuation">></span></span> <span class="token class-name">O</span> <span class="token function">postProcess</span><span class="token punctuation">(</span><span class="token class-name">O</span> fsi<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        fsi<span class="token punctuation">.</span><span class="token function">setSecurityMetadataSource</span><span class="token punctuation">(</span><span class="token function">securityMetadataSource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        fsi<span class="token punctuation">.</span><span class="token function">setAccessDecisionManager</span><span class="token punctuation">(</span><span class="token function">accessDecisionManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token keyword">return</span> fsi<span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">anyRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">permitAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token comment">// 关闭跨站请求防护</span>
+                <span class="token punctuation">.</span><span class="token function">csrf</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">disable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">exceptionHandling</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token comment">// 未登录处理</span>
+                <span class="token punctuation">.</span><span class="token function">authenticationEntryPoint</span><span class="token punctuation">(</span>authenticationEntryPoint<span class="token punctuation">)</span>
+                <span class="token comment">// 权限不足处理</span>
+                <span class="token punctuation">.</span><span class="token function">accessDeniedHandler</span><span class="token punctuation">(</span>accessDeniedHandler<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>既配置了handler也配置了authenticationEntryPoint，这样就可以不用自己在重新定义一个login的接口了，使用默认的提供的login,只需要重新写一下loadUserDetails,这样的话就是handler和authenticationEntryPoint分工合作，（虽然authenticationEntryPoint一个就可以实现这两种失败的处理）</p>
+</li>
+</ul>
+<h3 id="3-通过自定义登陆和授权来理清登陆和授权的逻辑"><a href="#3-通过自定义登陆和授权来理清登陆和授权的逻辑" class="headerlink" title="3.通过自定义登陆和授权来理清登陆和授权的逻辑"></a>3.通过自定义登陆和授权来理清登陆和授权的逻辑</h3><h4 id="1）登陆"><a href="#1）登陆" class="headerlink" title="1）登陆"></a>1）登陆</h4><p>先不去搜索学习资料，先理一下现有的思路：</p>
+<p>首先需要向 security 的过滤链中添加一个过滤器，能够捕捉我们的登录请求，然后通过请求中的手机号码等信息封装一个用户信息 ，并交给用户信息处理者进行处理匹配，这个用户匹配到对应的处理者之后，通过处理者的业务调用，拿到对应的数据源，然后进行密码匹配，匹配成功就返回已认证的用户信息，逐级返回到过滤器中，过滤器中将用户信息存到安全上下文Holder中，方便后续请求使用，并跳过后面过滤链。</p>
+<p>转化为我们理解的使用类与接口：</p>
+<p>首先向 security 的过滤链中添加一个过滤器（需要继承AbstractAuthenticationProcessingFilter，比如UsernamePasswordAuthenticationFilter）（怎样添加过滤器?），并能够捕捉我们的登录请求（怎样配置请求？），然后通过请求中的手机号码等信息封装一个用户信息（继承 AbstractAuthenticationToken，比如UsernamePasswordAuthenticationToken） ，并交给用户信息处理者（ProviderManager）进行处理匹配，这个用户匹配到自定义的处理者（继承 AbstractUserDetailsAuthenticationProvider，比如 DaoAuthenticationProvider ）之后（怎样添加 Provider?），通过处理者的业务调用（UserDetailsService），拿到对应的数据源，然后进行密码匹配，匹配成功就返回已认证的自定义用户信息，逐级返回到过滤器中，过滤器中将用户信息存到安全上下文中（SecurityContext），并放到Holder中（SecurityContextHolder），方便后续请求使用，并跳过后面过滤链。</p>
+<p>那我们的开发步骤呢：</p>
+<ol>
+<li><p>首先先创建用户信息配置类 PhonePasswordAuthenticationToken ，并继承 UsernamePasswordAuthenticationToken，思考:为什么不继承 AbstractAuthenticationToken？</p>
+</li>
+<li><p>然后创建 PhoneAuthenticationProvider，并继承 AbstractUserDetailsAuthenticationProvider；</p>
+</li>
+<li><p>之后创建 PhonePasswordFilter 并继承 AbstractAuthenticationProcessingFilter；</p>
+</li>
+<li><p>最后将过滤器添加到过滤链中，并将 Provider 添加到 Manager 中。</p>
+</li>
+</ol>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/vaevaevae233/article/details/122176775?spm=1001.2014.3001.5502#t5" >https://blog.csdn.net/vaevaevae233/article/details/122176775?spm=1001.2014.3001.5502#t5<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="2-授权"><a href="#2-授权" class="headerlink" title="2)授权"></a>2)授权</h4><p>6.2.1 自定义FilterSecurityInterceptor授权认证步骤<br>先来理一下思路再来写代码：</p>
+<p>首先，先保证身份认证业务模块的代码是正常的（可看 day01-day05），这样才能够拿取到用户的授权信息（角色，权限）。之后需要添加一个过滤器，能够拦截到所有请求的过滤器，因为所有请求都是需要经过授权认证的。在这个过滤器中我们需要将白名单（也就是不需要权限的请求）放行，之后根据当前用户拿到他的权限列表、根据当前请求接口拿到所需的最小权限（这里必然是拿到最小的所需权限，这样才能够匹配上），将所需最小权限与用户权限对比，若能够匹配上则能够访问然后执行后面的业务，若所有都匹配不上则没有权限访问直接返回403（403 forbidden，表示对请求资源的访问被服务器拒绝）。</p>
+<p>这里需要了解，我们不用 security 默认的权限认证的，那我们就需要自己提供一个权限认证规则，我们使用 RBAC（Role-Based Access Control，基于角色的访问控制）的控制规则，一个用户拥有若干角色，每一个角色拥有若干权限。所以我们拿到用户后，再根据用户的角色（role）获取权限（resource）。</p>
+<p>像下面这样，（补数据模型图） </p>
+<p>然后思考一下步骤：</p>
+<p>1.数据库、持久层准备，也就是数据库表和数据、表实体、mapper接口和xml文件。</p>
+<p>2.修改自定义的 UserDetailsService，需要给封装用户信息的对象加入我们自己的用户信息和权限信息。用于获取用户信息和权限信息。</p>
+<p>3.创建 Dynamic01FilterSecurityInterceptor 类，继承 FilterSecurityInterceptor 类，并覆写 invoke() 方法。用于拦截所有请求并确定是否校验。</p>
+<p>4.创建 DynamicSecurityMetadataSource 类，实现 FilterInvocationSecurityMetadataSource，并覆写 getAttributes() 方法。用户获取平台所有权限。</p>
+<p>5.创建 DynamicAccessDecisionManager 类，实现 AccessDecisionManager ，并覆写 decide() 方法。用于校验当前用户是否有请求权限。</p>
+<p>6.修改 WebSecurityConfig 配置类，加入滤链和需要的 bean 。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/vaevaevae233/article/details/122266079?spm=1001.2014.3001.5502" >https://blog.csdn.net/vaevaevae233/article/details/122266079?spm=1001.2014.3001.5502<i class="fas fa-external-link-alt"></i></a></p>
+
         </div>
 
         
@@ -803,7 +1354,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringSericurty"><span class="nav-number">1.</span> <span class="nav-text">SpringSericurty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E9%99%86"><span class="nav-number">1.1.</span> <span class="nav-text">登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C"><span class="nav-number">1.2.</span> <span class="nav-text">校验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">认证授权失败处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">统一异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.3.</span> <span class="nav-text">退出登录接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.9.1 接口设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.9.2 代码实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.2.4.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringSericurty"><span class="nav-number">1.</span> <span class="nav-text">SpringSericurty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%99%BB%E9%99%86"><span class="nav-number">1.1.</span> <span class="nav-text">1.登陆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%A1%E9%AA%8C"><span class="nav-number">1.2.</span> <span class="nav-text">2.校验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">认证授权失败处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%9F%E4%B8%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">统一异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.3.</span> <span class="nav-text">退出登录接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-1-%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">3.9.1 接口设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-9-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">3.9.2 代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%9D%83%E9%99%90%E8%AE%BF%E9%97%AE"><span class="nav-number">1.3.</span> <span class="nav-text">设置权限访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%EF%BC%9A%E8%AE%BE%E7%BD%AE%E8%AF%B7%E6%B1%82%E6%89%80%E9%9C%80%E6%9D%83%E9%99%90"><span class="nav-number">1.3.1.</span> <span class="nav-text">第一步 ：设置请求所需权限</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8E%A7%E5%88%B6-URL-%E8%B7%AF%E5%BE%84%E6%9D%83%E9%99%90"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1.表达式控制 URL 路径权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95%E6%9D%83%E9%99%90"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2.表达式控制方法权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8%E8%BF%87%E6%BB%A4%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">3.使用过滤注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%8A%A8%E6%80%81%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%EF%BC%9A%E6%A0%B9%E6%8D%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E7%BD%AE%E7%9A%84%E5%8A%A8%E6%80%81%E6%9D%83%E9%99%90"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">4.动态处理用户权限：根据数据库设置的动态权限</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BAHr%E5%92%8CHrService"><span class="nav-number">1.3.1.4.1.</span> <span class="nav-text">1.创建Hr和HrService</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89FilterInvocationSecurityMetadataSource"><span class="nav-number">1.3.1.4.2.</span> <span class="nav-text">自定义FilterInvocationSecurityMetadataSource</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89AccessDecisionManager"><span class="nav-number">1.3.1.4.3.</span> <span class="nav-text">自定义AccessDecisionManager</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89AccessDeniedHandler"><span class="nav-number">1.3.1.4.4.</span> <span class="nav-text">自定义AccessDeniedHandler</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEWebSecurityConfig"><span class="nav-number">1.3.1.4.5.</span> <span class="nav-text">配置WebSecurityConfig</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%B0%81%E8%A3%85%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="nav-number">1.3.2.</span> <span class="nav-text">第二步：封装用户权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%BE%E7%BD%AE%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83%E5%A4%B1%E8%B4%A5%E5%A4%84%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">自定义设置认证和授权失败处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%AE%A4%E8%AF%81%E5%A4%B1%E8%B4%A5"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">1.认证失败</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%EF%BC%89%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E9%9C%80%E8%A6%81%E8%AE%A4%E8%AF%81%E7%9A%84%E8%B5%84%E6%BA%90%E8%AE%A4%E8%AF%81%E5%A4%B1%E8%B4%A5"><span class="nav-number">1.4.0.1.1.</span> <span class="nav-text">1）直接访问需要认证的资源认证失败</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E7%99%BB%E9%99%86%E6%97%B6%E5%A4%B1%E8%B4%A5"><span class="nav-number">1.4.0.1.2.</span> <span class="nav-text">（2）登陆时失败</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E4%BD%BF%E7%94%A8security%E7%9A%84formlogin%E5%9C%A8%E7%99%BB%E9%99%86%E7%9A%84%E6%97%B6%E5%80%99%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E9%94%99%E8%AF%AF%E7%94%A8failureHandler%E6%9D%A5%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.4.0.1.2.1.</span> <span class="nav-text">（1）使用security的formlogin在登陆的时候用户密码错误用failureHandler来实现</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E8%87%AA%E5%AE%9A%E4%B9%89login%E6%8E%A5%E5%8F%A3%E6%97%B6%E7%94%A8authenticationEntryPoint"><span class="nav-number">1.4.0.1.2.2.</span> <span class="nav-text">（2）自定义login接口时用authenticationEntryPoint</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link"><span class="nav-number">1.4.0.1.3.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number">1.4.0.1.3.1.</span> <span class="nav-text">注意：</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%9A%E8%BF%87%E8%87%AA%E5%AE%9A%E4%B9%89%E7%99%BB%E9%99%86%E5%92%8C%E6%8E%88%E6%9D%83%E6%9D%A5%E7%90%86%E6%B8%85%E7%99%BB%E9%99%86%E5%92%8C%E6%8E%88%E6%9D%83%E7%9A%84%E9%80%BB%E8%BE%91"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.通过自定义登陆和授权来理清登陆和授权的逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%EF%BC%89%E7%99%BB%E9%99%86"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1）登陆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8E%88%E6%9D%83"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2)授权</span></a></li></ol></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>

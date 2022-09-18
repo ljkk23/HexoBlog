@@ -145,7 +145,7 @@
                     <div class="author">
                         <span class="name">lj</span>
                         
-                            <span class="author-label">Lv2</span>
+                            <span class="author-label">Lv3</span>
                         
                     </div>
                     <div class="meta-info">
@@ -176,6 +176,25 @@
         <div class="article-content markdown-body">
             <h2 id="8-24"><a href="#8-24" class="headerlink" title="8.24"></a>8.24</h2><p>leetcode 第三题：无重复的字符串</p>
 <p>滑动窗口:</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">滑动窗口：用hashmap判断是否有该key，
+如果有，就left滑动到该key<span class="token operator">+</span><span class="token number">1</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">lengthOfLongestSubstring</span><span class="token punctuation">(</span><span class="token class-name">String</span> s<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Character</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span><span class="token punctuation">></span></span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Character</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> max <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> left <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> s<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i <span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">containsKey</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                left <span class="token operator">=</span> <span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>left<span class="token punctuation">,</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            map<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            max <span class="token operator">=</span> <span class="token class-name">Math</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>max<span class="token punctuation">,</span>i<span class="token operator">-</span>left<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> max<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ul>
 <li>&#96;&#96;&#96;java<br>分割字符串string:char tempChar&#x3D;s.charAt(i);b<pre class="line-numbers language-none"><code class="language-none">
 - &#96;&#96;&#96;java
@@ -193,6 +212,70 @@
 <li><p>题解需要实现为log(m+n)的话，就需要用二分查找，<br>简单的二分查找就是在一个有序数组中查找，<br>而这里因为不能够合并，所以就需要将我们需要找的数二分<br>就是说，我们需要找到第（m+n+1）&#x2F;2（奇数）或者（偶数）(m+n)&#x2F;2+(m+n)&#x2F;2+1<br>所以我们k为中心，二分，比较A[k&#x2F;2-1]和B[K&#x2F;2-1]，然后就可以排除一部分</p>
 </li>
 </ul>
+<h2 id="8-30"><a href="#8-30" class="headerlink" title="8.30"></a>8.30</h2><p>第五题：寻找最大回文字串</p>
+<p>方法有：</p>
+<ul>
+<li><p>中心扩散法，遍历字符串的index奇数和index偶数，然后判断两边是否构成回文字串</p>
+</li>
+<li><p>动态规划：利用回文字串的特点：回文字串去除头和尾也是回文字串，所以状态转移：判断i到j是不是回文字串，先判断chars[i]是否等于chars[j],如果相等，在判断i+1到j-1是不是回文字串（条件是j-1到i+1的距离大于1），</p>
+</li>
+</ul>
+<h2 id="9-2"><a href="#9-2" class="headerlink" title="9.2"></a>9.2</h2><p>第六题;Z字形字符变化:花时：一个多小时</p>
+<p>主要是要设置方向变化的flag,</p>
+<ul>
+<li><p>可以用二维数组，但是二维数组不知道大小，只知道有多少行，这里过滤空字符时，判断zchar&#x3D;’\u0000’</p>
+</li>
+<li><p>最好是设置numRows个数的StringBuffer.然后到了这个行就加到对应的StringBuffer中去，最后在按顺序toString</p>
+</li>
+<li><p>&#96;&#96;&#96;java<br>class Solution {<br>public String convert(String s, int numRows) {<br>    if(numRows &lt; 2) return s;<br>    List<StringBuilder> rows &#x3D; new ArrayList<StringBuilder>();<br>    for(int i &#x3D; 0; i &lt; numRows; i++) rows.add(new StringBuilder());<br>    int i &#x3D; 0, flag &#x3D; -1;<br>    for(char c : s.toCharArray()) {<br>        rows.get(i).append(c);<br>        if(i &#x3D;&#x3D; 0 || i &#x3D;&#x3D; numRows -1) flag &#x3D; - flag;<br>        i +&#x3D; flag;<br>    }<br>    StringBuilder res &#x3D; new StringBuilder();<br>    for(StringBuilder row : rows) res.append(row);<br>    return res.toString();<br>}<br>}</p>
+<pre class="line-numbers language-none"><code class="language-none">
+## 9.3数组
+
+11题：盛最多水的容器
+
+自己写的时候想的是两个for循环，没有想到双指针的做法
+
+## 9.4数组
+
+15题：三数之和
+
+重点在于要想到先排序，之后遍历数组中的每一个元素，用双指针l&#x3D;i+1,r&#x3D;lenth-1,来向内收缩，排了序之后的去重就简单很多了，
+
+&#96;&#96;&#96;java
+                    &#x2F;&#x2F;去重，因为 i 不变，当此时 l取的数的值与前一个数相同，所以不用在计算，直接跳
+                    while(l &lt; r &amp;&amp; nums[l] &#x3D;&#x3D; nums[l+1]) &#123;
+                        l++;
+                    &#125;
+                    &#x2F;&#x2F;去重，因为 i不变，当此时 r 取的数的值与前一个相同，所以不用在计算
+                    while(l&lt; r &amp;&amp; nums[r] &#x3D;&#x3D; nums[r-1])&#123;
+                        r--;
+                    &#125; 	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<p>16题：最接近的三位数</p>
+<p>和15题差不多，只不过判断条件不是与0比较了，而是比较绝对值Math.abs</p>
+<h2 id="9-6数组"><a href="#9-6数组" class="headerlink" title="9.6数组"></a>9.6数组</h2><p>18题：四数之和，对于循环的i和j也可以进行去重处理，</p>
+<p>这里注意int相加产生溢出，int[] nums&#x3D;new int[]{1000000000,1000000000,1000000000,1000000000}，</p>
+<p>相加就溢出了，等于-294967296，int最大表示数2,147,483,647（2^31 - 1）</p>
+<p><strong>int：</strong></p>
+<ul>
+<li>int 数据类型是32位、有符号的以二进制补码表示的整数；</li>
+<li>最小值是 <strong>-2,147,483,648（-2^31）</strong>；</li>
+<li>最大值是 <strong>2,147,483,647（2^31 - 1）</strong>；</li>
+<li>一般地整型变量默认为 int 类型；</li>
+<li>默认值是 <strong>0</strong> ；</li>
+<li>例子：int a &#x3D; 100000, int b &#x3D; -200000。</li>
+</ul>
+<p><strong>long：</strong></p>
+<ul>
+<li>long 数据类型是 64 位、有符号的以二进制补码表示的整数；</li>
+<li>最小值是 <strong>-9,223,372,036,854,775,808（-2^63）</strong>；</li>
+<li>最大值是 <strong>9,223,372,036,854,775,807（2^63 -1）</strong>；</li>
+<li>这种类型主要使用在需要比较大整数的系统上；</li>
+<li>默认值是 <strong>0L</strong>；</li>
+<li>例子： <strong>long a &#x3D; 100000L</strong>，<strong>long b &#x3D; -200000L</strong>。<br>“L”理论上不分大小写，但是若写成”l”容易与数字”1”混淆，不容易分辩。所以最好大写。</li>
+</ul>
+<p>26：去除重复数字</p>
+<p>双指针：一个前，一个后，判断是否相等。</p>
 
         </div>
 
@@ -202,6 +285,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/HexoBlog/2022/09/01/javaNio/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">javaNio</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -336,7 +434,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-24"><span class="nav-number">1.</span> <span class="nav-text">8.24</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-24"><span class="nav-number">1.</span> <span class="nav-text">8.24</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-30"><span class="nav-number">2.</span> <span class="nav-text">8.30</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2"><span class="nav-number">3.</span> <span class="nav-text">9.2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-6%E6%95%B0%E7%BB%84"><span class="nav-number">4.</span> <span class="nav-text">9.6数组</span></a></li></ol>
     </div>
 </div>
         </aside>

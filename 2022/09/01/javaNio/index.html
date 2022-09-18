@@ -9,7 +9,7 @@
     
     <title>
         
-            MybatisCache |
+            javaNio |
         
         LjBlog
     </title>
@@ -133,7 +133,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">MybatisCache</span>
+            <span class="title-hover-animation">javaNio</span>
         </div>
 
         
@@ -152,32 +152,10 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-04-21 08:24:28</span>
-        <span class="mobile">2022-04-21 08:24</span>
+        <span class="pc">2022-09-01 18:16:23</span>
+        <span class="mobile">2022-09-01 18:16</span>
     </span>
     
-        <span class="article-categories article-meta-item">
-            <i class="fas fa-folder"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/HexoBlog/categories/mybatis/">mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/HexoBlog/tags/Mybatis/">Mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -196,67 +174,37 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="mybatis-缓存"><a href="#mybatis-缓存" class="headerlink" title="mybatis 缓存"></a>mybatis 缓存</h2><p>虽然在项目中更多的是在service层进行缓存，但是在dao层mybatis也有自己的缓存，而且有一级缓存和二级缓存，具体指什么可以看这篇文章<a class="link"   target="_blank" rel="noopener" href="https://tech.meituan.com/2018/01/19/mybatis-cache.html" >https://tech.meituan.com/2018/01/19/mybatis-cache.html<i class="fas fa-external-link-alt"></i></a> 里面有对一级缓存和二级缓存的具体详解，本文只做demo演示</p>
-<h3 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h3><p>mybatis默认开启了一级缓存，所以不用特别配置，但如果想看到演示过程，我们在这里把log级别设置成debug</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">logging:
-  level:
-    com:
-      example:
-        rediscache:
-          mapper: debug<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>要开启事务，因为mybatis在每一次查询自动关闭链接</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Transactional</span><span class="token punctuation">(</span>rollbackFor <span class="token operator">=</span> <span class="token class-name">Throwable</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
-    <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">User</span> user1<span class="token operator">=</span>userMapper<span class="token punctuation">.</span><span class="token function">selectByPrimaryKey</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">User</span> user2<span class="token operator">=</span>userMapper<span class="token punctuation">.</span><span class="token function">selectByPrimaryKey</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> user1<span class="token punctuation">;</span>
-
-    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<p>没有开启事务就：</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/noTran.png"> </p>
-<p>开启事务</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/tranOne.png"></p>
-<h3 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h3><p>避免一级缓存的干扰，设置一级缓存的级别为Statement,同时开启Cache-enbled</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">configuration:
-    local-cache-scope: statement #一级缓存指定为statement级别
-    cache-enabled: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>同时在mapper中开启cache</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/mapperCache.png"></p>
-<p>演示结果：</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/erji.png"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本来想总结点什么的，但是觉得推荐文章中总结的非常好，直接引用了：<a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6844903815703953422" >https://juejin.cn/post/6844903815703953422<i class="fas fa-external-link-alt"></i></a></p>
-<ul>
-<li><p>MyBatis一级缓存的生命周期和SqlSession一致。</p>
-</li>
-<li><p>MyBatis一级缓存内部设计简单，只是一个没有容量限定的HashMap，在缓存的功能性上有所欠缺。</p>
-</li>
-<li><p>MyBatis的一级缓存最大范围是SqlSession内部，有多个SqlSession或者分布式的环境下，数据库写操作会引起脏数据，建议设定缓存级别为Statement。</p>
-</li>
-<li><p>MyBatis的二级缓存相对于一级缓存来说，实现了SqlSession之间缓存数据的共享，同时粒度更加的细，能够到namespace级别，通过Cache接口实现类不同的组合，对Cache的可控性也更强。 5.MyBatis在多表查询时，极大可能会出现脏数据，有设计上的缺陷，安全使用二级缓存的条件比较苛刻。</p>
-</li>
-<li><p>在分布式环境下，由于默认的MyBatis Cache实现都是基于本地的，分布式环境下必然会出现读取到脏数据，需要使用集中式缓存将MyBatis的Cache接口实现，有一定的开发成本，直接使用Redis、Memcached等分布式缓存可能成本更低，安全性也更高。</p>
-</li>
-<li><p>个人建议MyBatis缓存特性在生产环境中进行关闭，单纯作为一个ORM框架使用可能更为合适。</p>
-</li>
-</ul>
+            <h2 id="javaNIO网络编程"><a href="#javaNIO网络编程" class="headerlink" title="javaNIO网络编程"></a>javaNIO网络编程</h2><p><strong>1.BIO 编程</strong></p>
+<p>Blocking IO： 同步阻塞的编程方式。</p>
+<p>BIO编程方式通常是在JDK1.4版本之前常用的编程方式。编程实现过程为：首先在服务端启动一个ServerSocket来监听网络请求，客户端启动Socket发起网络请求，默认情况下ServerSocket回建立一个线程来处理此请求，如果服务端没有线程可用，客户端则会阻塞等待或遭到拒绝。</p>
+<p>且建立好的连接，在通讯过程中，是同步的。在并发处理效率上比较低。大致结构如下：</p>
+<p>同步并阻塞，服务器实现模式为一个连接一个线程，即客户端有连接请求时服务器端就需要启动一个线程进行处理，如果这个连接不做任何事情会造成不必要的线程开销，当然可以通过线程池机制改善。</p>
+<p>BIO方式适用于连接数目比较小且固定的架构，这种方式对服务器资源要求比较高，并发局限于应用中，JDK1.4以前的唯一选择，但程序直观简单易理解。</p>
+<p>使用线程池机制改善后的BIO模型图如下:</p>
+<p><strong>2.NIO 编程：Unblocking IO（New IO）： 同步非阻塞的编程方式。</strong></p>
+<p>NIO本身是基于事件驱动思想来完成的，其主要想解决的是BIO的大并发问题，NIO基于Reactor，当socket有流可读或可写入socket时，操作系统会相应的通知引用程序进行处理，应用再将流读取到缓冲区或写入操作系统。也就是说，这个时候，已经不是一个连接就要对应一个处理线程了，而是有效的请求，对应一个线程，当连接没有数据时，是没有工作线程来处理的。</p>
+<p>NIO的最重要的地方是当一个连接创建后，不需要对应一个线程，这个连接会被注册到多路复用器上面，所以所有的连接只需要一个线程就可以搞定，当这个线程中的多路复用器进行轮询的时候，发现连接上有请求的话，才开启一个线程进行处理，也就是一个请求一个线程模式。</p>
+<p>在NIO的处理方式中，当一个请求来的话，开启线程进行处理，可能会等待后端应用的资源(JDBC连接等)，其实这个线程就被阻塞了，当并发上来的话，还是会有BIO一样的问题</p>
+<p><strong>3.AIO编程：Asynchronous IO： 异步非阻塞的编程方式。</strong></p>
+<p>与NIO不同，当进行读写操作时，只须直接调用API的read或write方法即可。这两种方法均为异步的，对于读操作而言，当有流可读取时，操作系统会将可读的流传入read方法的缓冲区，并通知应用程序；对于写操作而言，当操作系统将write方法传递的流写入完毕时，操作系统主动通知应用程序。即可以理解为，read&#x2F;write方法都是异步的，完成后会主动调用回调函数。在JDK1.7中，这部分内容被称作NIO.2，主要在java.nio.channels包下增加了下面四个异步通道：AsynchronousSocketChannel、AsynchronousServerSocketChannel、AsynchronousFileChannel、AsynchronousDatagramChannel</p>
+<p>多路复用器Selector是Java NIO编程的基础，熟练地掌握Selector对于掌握NIO编程至关重要。多路复用器提供选择已经就绪的任务的能力。简单来讲，Selector会不断地轮询注册在其上的Channel，如果某个Channel上面有新的TCP连接接入、读和写事件，这个Channel就处于就绪状态，会被Selector轮询出来，然后通过SelectionKey可以获取就绪Channel的集合，进行后续的I&#x2F;O操作。</p>
+<p>　　一个多路复用器Selector可以同时轮询多个Channel，由于JDK使用了epoll代替传统的select实现，所以它并没有最大连接句柄1024&#x2F;2048的限制。这也就意味着只需要一个线程负责Selector的轮询，就可以介入成千上万的客户端。</p>
+<p>Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接。</p>
+<h3 id="一、为什么使用Selector"><a href="#一、为什么使用Selector" class="headerlink" title="一、为什么使用Selector?"></a>一、为什么使用Selector?</h3><p>仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。</p>
+<p>但是，需要记住，现代的操作系统和CPU在多任务方面表现的越来越好，所以多线程的开销随着时间的推移，变得越来越小了。实际上，如果一个CPU有多个内核，不使用多任务可能是在浪费CPU能力。不管怎么说，关于那种设计的讨论应该放在另一篇不同的文章中。在这里，只要知道使用Selector能够处理多个通道就足够了。</p>
+<p>下面是单线程使用一个Selector处理3个channel的示例图：</p>
+<p> <img src="https://images2017.cnblogs.com/blog/285763/201801/285763-20180111113704754-1240119073.png" alt="img"></p>
+<h2 id="NIO服务端序列图"><a href="#NIO服务端序列图" class="headerlink" title="NIO服务端序列图"></a>NIO服务端序列图</h2><p><img src="https://yqfile.alicdn.com/img_f6ddb1b90928e2a5e22ee6762a198017.png" alt="img"></p>
+<h2 id="NIO客户端序列图"><a href="#NIO客户端序列图" class="headerlink" title="NIO客户端序列图"></a>NIO客户端序列图</h2><p><img src="https://yqfile.alicdn.com/img_a5db223d06cc7b83c6742f4c53d6a271.png" alt="img"></p>
+<p>这两个图的实现代码在<a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/574525" >https://developer.aliyun.com/article/574525<i class="fas fa-external-link-alt"></i></a></p>
+<p>这篇文章详细介绍了javaBIO和JAVANIO的真正差别(<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/wangpaiblog/article/details/124828234)[https://blog.csdn.net/wangpaiblog/article/details/124828234]" >https://blog.csdn.net/wangpaiblog/article/details/124828234)[https://blog.csdn.net/wangpaiblog/article/details/124828234]<i class="fas fa-external-link-alt"></i></a></p>
+<p>注意：</p>
+<p>一般情况下的 阻塞、非阻塞 指的就是笔者上面博客中的意思，不过，Java NIO 的非阻塞指的并不是上面博客中的意思。前面有言，Java NIO 的非阻塞，是相对于连接的非阻塞，而不是指方法调用时的非阻塞。这是什么意思呢？一般来说，方法的非阻塞，指的是调用该方法时，如果该方法能立刻返回而不阻塞调用该方法的线程，那么该方法就是非阻塞的。而 Java NIO 的非阻塞，是相对于连接的非阻塞。当通信连接就断开时，Java NIO 中的 处理线程 也不会阻塞到某一个连接中，而是根据所有连接中 I&#x2F;O 事件的有无作出处理。</p>
 
         </div>
 
         
 
-        
-            <ul class="post-tags-box">
-                
-                    <li class="tag-item">
-                        <a href="/HexoBlog/tags/Mybatis/">#Mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
         
 
         
@@ -265,13 +213,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/HexoBlog/2022/05/17/Mybatis-plus/"
+                           href="/HexoBlog/2022/09/05/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">Mybatis-plus</span>
+                                <span class="post-nav-title-item">代理模式</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -281,10 +229,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/HexoBlog/2022/04/19/SpringCache/"
+                           href="/HexoBlog/2022/08/24/leetcode/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">SpringCache</span>
+                                <span class="post-nav-title-item">leetcode</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -410,7 +358,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mybatis-%E7%BC%93%E5%AD%98"><span class="nav-number">1.</span> <span class="nav-text">mybatis 缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.1.</span> <span class="nav-text">一级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.</span> <span class="nav-text">二级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#javaNIO%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">javaNIO网络编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8Selector"><span class="nav-number">1.1.</span> <span class="nav-text">一、为什么使用Selector?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%BA%8F%E5%88%97%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">NIO服务端序列图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NIO%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BA%8F%E5%88%97%E5%9B%BE"><span class="nav-number">3.</span> <span class="nav-text">NIO客户端序列图</span></a></li></ol>
     </div>
 </div>
         </aside>

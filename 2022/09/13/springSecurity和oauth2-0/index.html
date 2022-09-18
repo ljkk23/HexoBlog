@@ -9,7 +9,7 @@
     
     <title>
         
-            MybatisCache |
+            springSecurity和oauth2.0 |
         
         LjBlog
     </title>
@@ -133,7 +133,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">MybatisCache</span>
+            <span class="title-hover-animation">springSecurity和oauth2.0</span>
         </div>
 
         
@@ -152,32 +152,10 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-04-21 08:24:28</span>
-        <span class="mobile">2022-04-21 08:24</span>
+        <span class="pc">2022-09-13 16:25:46</span>
+        <span class="mobile">2022-09-13 16:25</span>
     </span>
     
-        <span class="article-categories article-meta-item">
-            <i class="fas fa-folder"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/HexoBlog/categories/mybatis/">mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/HexoBlog/tags/Mybatis/">Mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -196,95 +174,52 @@
         
 
         <div class="article-content markdown-body">
-            <h2 id="mybatis-缓存"><a href="#mybatis-缓存" class="headerlink" title="mybatis 缓存"></a>mybatis 缓存</h2><p>虽然在项目中更多的是在service层进行缓存，但是在dao层mybatis也有自己的缓存，而且有一级缓存和二级缓存，具体指什么可以看这篇文章<a class="link"   target="_blank" rel="noopener" href="https://tech.meituan.com/2018/01/19/mybatis-cache.html" >https://tech.meituan.com/2018/01/19/mybatis-cache.html<i class="fas fa-external-link-alt"></i></a> 里面有对一级缓存和二级缓存的具体详解，本文只做demo演示</p>
-<h3 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a>一级缓存</h3><p>mybatis默认开启了一级缓存，所以不用特别配置，但如果想看到演示过程，我们在这里把log级别设置成debug</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">logging:
-  level:
-    com:
-      example:
-        rediscache:
-          mapper: debug<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>要开启事务，因为mybatis在每一次查询自动关闭链接</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Transactional</span><span class="token punctuation">(</span>rollbackFor <span class="token operator">=</span> <span class="token class-name">Throwable</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
-    <span class="token keyword">public</span> <span class="token class-name">User</span> <span class="token function">getUser</span><span class="token punctuation">(</span><span class="token keyword">int</span> id<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token class-name">User</span> user1<span class="token operator">=</span>userMapper<span class="token punctuation">.</span><span class="token function">selectByPrimaryKey</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">User</span> user2<span class="token operator">=</span>userMapper<span class="token punctuation">.</span><span class="token function">selectByPrimaryKey</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> user1<span class="token punctuation">;</span>
-
-    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<p>没有开启事务就：</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/noTran.png"> </p>
-<p>开启事务</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/tranOne.png"></p>
-<h3 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a>二级缓存</h3><p>避免一级缓存的干扰，设置一级缓存的级别为Statement,同时开启Cache-enbled</p>
-<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">configuration:
-    local-cache-scope: statement #一级缓存指定为statement级别
-    cache-enabled: true<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>同时在mapper中开启cache</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/mapperCache.png"></p>
-<p>演示结果：</p>
-<p><img src="/HexoBlog/2022/04/21/MybatisCache/erji.png"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本来想总结点什么的，但是觉得推荐文章中总结的非常好，直接引用了：<a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6844903815703953422" >https://juejin.cn/post/6844903815703953422<i class="fas fa-external-link-alt"></i></a></p>
-<ul>
-<li><p>MyBatis一级缓存的生命周期和SqlSession一致。</p>
-</li>
-<li><p>MyBatis一级缓存内部设计简单，只是一个没有容量限定的HashMap，在缓存的功能性上有所欠缺。</p>
-</li>
-<li><p>MyBatis的一级缓存最大范围是SqlSession内部，有多个SqlSession或者分布式的环境下，数据库写操作会引起脏数据，建议设定缓存级别为Statement。</p>
-</li>
-<li><p>MyBatis的二级缓存相对于一级缓存来说，实现了SqlSession之间缓存数据的共享，同时粒度更加的细，能够到namespace级别，通过Cache接口实现类不同的组合，对Cache的可控性也更强。 5.MyBatis在多表查询时，极大可能会出现脏数据，有设计上的缺陷，安全使用二级缓存的条件比较苛刻。</p>
-</li>
-<li><p>在分布式环境下，由于默认的MyBatis Cache实现都是基于本地的，分布式环境下必然会出现读取到脏数据，需要使用集中式缓存将MyBatis的Cache接口实现，有一定的开发成本，直接使用Redis、Memcached等分布式缓存可能成本更低，安全性也更高。</p>
-</li>
-<li><p>个人建议MyBatis缓存特性在生产环境中进行关闭，单纯作为一个ORM框架使用可能更为合适。</p>
-</li>
-</ul>
-
+            <h1 id="springSecurity和oauth2-0"><a href="#springSecurity和oauth2-0" class="headerlink" title="springSecurity和oauth2.0"></a>springSecurity和oauth2.0</h1><h3 id="oauth的理解"><a href="#oauth的理解" class="headerlink" title="oauth的理解"></a>oauth的理解</h3><p>无意中看到了接入第三方登陆，就很好奇，到底是怎么实现的，所以就抱着好奇的心态去看了看，哪知道是给自己挖坑，花了两天的时间，终于算是了解了，网上的资源也是称次不齐，对于一个新手（我）来说很不友好，所以在此记录一下看到的有用的网址</p>
+<p>1.首先要先了解什么是oauth2.0</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7066716559808397343#heading-5" >https://juejin.cn/post/7066716559808397343#heading-5<i class="fas fa-external-link-alt"></i></a></p>
+<p>2.了解了oauth2.0之后，就来看看从最底层自己手写实现这个oauth2.0授权码模式，这是最底层的一步一步自己去发送请求，获取信息，解析，然后再发送</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/CSDN2497242041/article/details/120416969#t5" >https://blog.csdn.net/CSDN2497242041/article/details/120416969#t5<i class="fas fa-external-link-alt"></i></a></p>
+<p>3.接下来就是spring boot 手动oauth </p>
+<p>这个也是手动通过restTemplate，去发起请求</p>
+<p><a class="link"   target="_blank" rel="noopener" href="http://www.javaboy.org/2020/0424/github-oauth2.html" >http://www.javaboy.org/2020/0424/github-oauth2.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>4.接下来了解一下spring boot,springSecurity,以及oauth的历史</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342883010" >https://zhuanlan.zhihu.com/p/342883010<i class="fas fa-external-link-alt"></i></a></p>
+<p>5.然后就知道现在如果想更快捷的用，就是实现oauth client</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7094806710811885575" >https://juejin.cn/post/7094806710811885575<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/993108?spm=a2c6h.12873639.article-detail.27.2ff86ed2oKSE74" >https://developer.aliyun.com/article/993108?spm=a2c6h.12873639.article-detail.27.2ff86ed2oKSE74<i class="fas fa-external-link-alt"></i></a></p>
+<p>6.了解spring Security整合的流程，重点是帮我们做了哪些事</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.zyc.red/Spring/Security/OAuth2/OAuth2-Client/" >https://www.zyc.red/Spring/Security/OAuth2/OAuth2-Client/<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/simpleito/p/15786122.html" >https://www.cnblogs.com/simpleito/p/15786122.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>这是上面那个的git地址</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/SimpleIto/spring-security-oauth2-sample" >https://github.com/SimpleIto/spring-security-oauth2-sample<i class="fas fa-external-link-alt"></i></a></p>
+<p>7.sping security 对于github和facebook、以及google,在其内部都有uri,实现较为标准，但是面对国内的qq以及微博或者自定义的登陆就需要麻烦自己配置，security也有相应的自定义标准</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/971871" >https://developer.aliyun.com/article/971871<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7095176555961253919#heading-7" >https://juejin.cn/post/7095176555961253919#heading-7<i class="fas fa-external-link-alt"></i></a></p>
+<p>最后有一个较为完整的专栏,里面有github、gitee以及自定义的登陆</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40972073/article/details/126456539?spm=1001.2014.3001.5501" >https://blog.csdn.net/weixin_40972073&#x2F;article&#x2F;details&#x2F;126456539?spm&#x3D;1001.2014.3001.5501<i class="fas fa-external-link-alt"></i></a></p>
+<p>这是对应的git地址</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/jujunchen/21Study" >https://github.com/jujunchen/21Study<i class="fas fa-external-link-alt"></i></a></p>
+<p>从上文也能看出，不得不提用SpringSecurity很多时候宁愿迁出去自己写套Configuer&#x2F;Filter&#x2F;Provider…，官方虽提供了很多服务，而且也能看出在尽可能定制化，但背后还是强制引入了太多逻辑，很难与实际业务契合，即便稍有不同在它基础上定制也都需要付出很大代价。这代价不仅指新增代码行数，为了定制或运行稳定 你首先就得彻底清楚它原本引入了哪些逻辑（这点官网文档又做得不好），这就需要源码阅读和上手成本。</p>
+<p>看了这么多文章，其中还包括了官网的文章<a class="link"   target="_blank" rel="noopener" href="https://spring.io/guides/tutorials/spring-boot-oauth2/" >https://spring.io/guides/tutorials/spring-boot-oauth2/<i class="fas fa-external-link-alt"></i></a>以及demo代码，都不能成功运行，不知道为什么，现在想了想，等什么时候需要了再来填坑吧</p>
+<p>来填坑了。代码以及所有配置都没有错，出现bug的原因是因为国内访问github会出现网络原因，其他人用我的代码就可以正常运行，我用gitee也能够正常运行</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
         </div>
 
         
 
         
-            <ul class="post-tags-box">
-                
-                    <li class="tag-item">
-                        <a href="/HexoBlog/tags/Mybatis/">#Mybatis</a>&nbsp;
-                    </li>
-                
-            </ul>
-        
 
         
             <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/HexoBlog/2022/05/17/Mybatis-plus/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">Mybatis-plus</span>
-                                <span class="post-nav-item">上一篇</span>
-                            </span>
-                        </a>
-                    </div>
                 
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/HexoBlog/2022/04/19/SpringCache/"
+                           href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">SpringCache</span>
+                                <span class="post-nav-title-item">websocket的原理</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -410,7 +345,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mybatis-%E7%BC%93%E5%AD%98"><span class="nav-number">1.</span> <span class="nav-text">mybatis 缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.1.</span> <span class="nav-text">一级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="nav-number">1.2.</span> <span class="nav-text">二级缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#springSecurity%E5%92%8Coauth2-0"><span class="nav-number">1.</span> <span class="nav-text">springSecurity和oauth2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.0.1.</span> <span class="nav-text">oauth的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">1.0.2.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol>
     </div>
 </div>
         </aside>
