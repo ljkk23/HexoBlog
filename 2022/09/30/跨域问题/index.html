@@ -9,7 +9,7 @@
     
     <title>
         
-            springSecurity和oauth2.0 |
+            跨域问题 |
         
         LjBlog
     </title>
@@ -133,7 +133,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">springSecurity和oauth2.0</span>
+            <span class="title-hover-animation">跨域问题</span>
         </div>
 
         
@@ -152,8 +152,8 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fas fa-edit"></i>&nbsp;
-        <span class="pc">2022-09-13 16:25:46</span>
-        <span class="mobile">2022-09-13 16:25</span>
+        <span class="pc">2022-09-30 11:01:20</span>
+        <span class="mobile">2022-09-30 11:01</span>
     </span>
     
     
@@ -174,37 +174,12 @@
         
 
         <div class="article-content markdown-body">
-            <h1 id="springSecurity和oauth2-0"><a href="#springSecurity和oauth2-0" class="headerlink" title="springSecurity和oauth2.0"></a>springSecurity和oauth2.0</h1><h3 id="oauth的理解"><a href="#oauth的理解" class="headerlink" title="oauth的理解"></a>oauth的理解</h3><p>无意中看到了接入第三方登陆，就很好奇，到底是怎么实现的，所以就抱着好奇的心态去看了看，哪知道是给自己挖坑，花了两天的时间，终于算是了解了，网上的资源也是称次不齐，对于一个新手（我）来说很不友好，所以在此记录一下看到的有用的网址</p>
-<p>1.首先要先了解什么是oauth2.0</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7066716559808397343#heading-5" >https://juejin.cn/post/7066716559808397343#heading-5<i class="fas fa-external-link-alt"></i></a></p>
-<p>2.了解了oauth2.0之后，就来看看从最底层自己手写实现这个oauth2.0授权码模式，这是最底层的一步一步自己去发送请求，获取信息，解析，然后再发送</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/CSDN2497242041/article/details/120416969#t5" >https://blog.csdn.net/CSDN2497242041/article/details/120416969#t5<i class="fas fa-external-link-alt"></i></a></p>
-<p>3.接下来就是spring boot 手动oauth </p>
-<p>这个也是手动通过restTemplate，去发起请求</p>
-<p><a class="link"   target="_blank" rel="noopener" href="http://www.javaboy.org/2020/0424/github-oauth2.html" >http://www.javaboy.org/2020/0424/github-oauth2.html<i class="fas fa-external-link-alt"></i></a></p>
-<p>4.接下来了解一下spring boot,springSecurity,以及oauth的历史</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342883010" >https://zhuanlan.zhihu.com/p/342883010<i class="fas fa-external-link-alt"></i></a></p>
-<p>5.然后就知道现在如果想更快捷的用，就是实现oauth client</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7094806710811885575" >https://juejin.cn/post/7094806710811885575<i class="fas fa-external-link-alt"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/993108?spm=a2c6h.12873639.article-detail.27.2ff86ed2oKSE74" >https://developer.aliyun.com/article/993108?spm=a2c6h.12873639.article-detail.27.2ff86ed2oKSE74<i class="fas fa-external-link-alt"></i></a></p>
-<p>6.了解spring Security整合的流程，重点是帮我们做了哪些事</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://www.zyc.red/Spring/Security/OAuth2/OAuth2-Client/" >https://www.zyc.red/Spring/Security/OAuth2/OAuth2-Client/<i class="fas fa-external-link-alt"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/simpleito/p/15786122.html" >https://www.cnblogs.com/simpleito/p/15786122.html<i class="fas fa-external-link-alt"></i></a></p>
-<p>这是上面那个的git地址</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/SimpleIto/spring-security-oauth2-sample" >https://github.com/SimpleIto/spring-security-oauth2-sample<i class="fas fa-external-link-alt"></i></a></p>
-<p>7.sping security 对于github和facebook、以及google,在其内部都有uri,实现较为标准，但是面对国内的qq以及微博或者自定义的登陆就需要麻烦自己配置，security也有相应的自定义标准</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/971871" >qq登陆<i class="fas fa-external-link-alt"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7095176555961253919#heading-7" >https://juejin.cn/post/7095176555961253919#heading-7<i class="fas fa-external-link-alt"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://www.java-family.cn/#/OAuth2.0/Spring-Cloud-OAuth2-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%88%E6%9D%83%E6%A8%A1%E5%BC%8F" >https://www.java-family.cn/#/OAuth2.0/Spring-Cloud-OAuth2-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%88%E6%9D%83%E6%A8%A1%E5%BC%8F<i class="fas fa-external-link-alt"></i></a></p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://blog.51cto.com/u_14558366/5547916" >微信登陆<i class="fas fa-external-link-alt"></i></a></p>
-<p> <a class="link"   target="_blank" rel="noopener" href="https://blog.51cto.com/itrunner/2457336" >https://blog.51cto.com/itrunner/2457336<i class="fas fa-external-link-alt"></i></a></p>
-<p>最后有一个较为完整的专栏,里面有github、gitee以及自定义的登陆</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40972073/article/details/126456539?spm=1001.2014.3001.5501" >https://blog.csdn.net/weixin_40972073&#x2F;article&#x2F;details&#x2F;126456539?spm&#x3D;1001.2014.3001.5501<i class="fas fa-external-link-alt"></i></a></p>
-<p>这是对应的git地址</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/jujunchen/21Study" >https://github.com/jujunchen/21Study<i class="fas fa-external-link-alt"></i></a></p>
-<p>从上文也能看出，不得不提用SpringSecurity很多时候宁愿迁出去自己写套Configuer&#x2F;Filter&#x2F;Provider…，官方虽提供了很多服务，而且也能看出在尽可能定制化，但背后还是强制引入了太多逻辑，很难与实际业务契合，即便稍有不同在它基础上定制也都需要付出很大代价。这代价不仅指新增代码行数，为了定制或运行稳定 你首先就得彻底清楚它原本引入了哪些逻辑（这点官网文档又做得不好），这就需要源码阅读和上手成本。</p>
-<p>看了这么多文章，其中还包括了官网的文章<a class="link"   target="_blank" rel="noopener" href="https://spring.io/guides/tutorials/spring-boot-oauth2/" >https://spring.io/guides/tutorials/spring-boot-oauth2/<i class="fas fa-external-link-alt"></i></a>以及demo代码，都不能成功运行，不知道为什么，现在想了想，等什么时候需要了再来填坑吧</p>
-<p>来填坑了。代码以及所有配置都没有错，出现bug的原因是因为国内访问github会出现网络原因，其他人用我的代码就可以正常运行，我用gitee也能够正常运行</p>
+            <h3 id="跨域问题"><a href="#跨域问题" class="headerlink" title="跨域问题"></a>跨域问题</h3><p>发现这个问题是源于在看nginx的配置时，有些文章写了这个，和在debug前端的请求时，有一个proxy,就看看是什么，就了解到了这个问题</p>
+<p>有很多种方法解决，在springboot中就只需要在webConfig中配置允许跨域就行，</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7083094730086547492#heading-0" >https://juejin.cn/post/7083094730086547492#heading-0<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6991353535442976799#heading-1" >https://juejin.cn/post/6991353535442976799#heading-1<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34065582" >https://zhuanlan.zhihu.com/p/34065582<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000037474856" >https://segmentfault.com/a/1190000037474856<i class="fas fa-external-link-alt"></i></a></p>
 
         </div>
 
@@ -218,13 +193,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/HexoBlog/2022/09/23/java%E5%8F%8D%E5%B0%84/"
+                           href="/HexoBlog/2022/10/13/webflux%E4%BB%A5%E5%8F%8A%E5%BC%82%E6%AD%A5IO/"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">java反射</span>
+                                <span class="post-nav-title-item">webflux以及异步IO</span>
                                 <span class="post-nav-item">上一篇</span>
                             </span>
                         </a>
@@ -234,10 +209,10 @@
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/"
+                           href="/HexoBlog/2022/09/26/docker-nginx%E9%83%A8%E7%BD%B2springboot-vue%E9%A1%B9%E7%9B%AE/"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">websocket的原理</span>
+                                <span class="post-nav-title-item">docker+nginx部署springboot-vue项目</span>
                                 <span class="post-nav-item">下一篇</span>
                             </span>
                             <span class="right arrow-icon flex-center">
@@ -363,7 +338,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#springSecurity%E5%92%8Coauth2-0"><span class="nav-number">1.</span> <span class="nav-text">springSecurity和oauth2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.0.1.</span> <span class="nav-text">oauth的理解</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">跨域问题</span></a></li></ol>
     </div>
 </div>
         </aside>

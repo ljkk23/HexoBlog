@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="lj">
+    
+    <title>
+        
+            docker+nginx部署springboot-vue项目 |
+        
+        LjBlog
+    </title>
+    
+<link rel="stylesheet" href="/HexoBlog/css/style.css">
+
+    <link rel="shortcut icon" href="/HexoBlog/images/logo.svg">
+    
+<link rel="stylesheet" href="/HexoBlog/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"ljkk23.github.io","root":"/HexoBlog/","language":"zh-CN"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/HexoBlog/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                LjBlog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/categories">分类</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">docker+nginx部署springboot-vue项目</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/HexoBlog/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">lj</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-09-26 17:58:03</span>
+        <span class="mobile">2022-09-26 17:58</span>
+    </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h3 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h3><p>记录一次从零开始部署项目到服务器上</p>
+<h3 id="梳理步骤："><a href="#梳理步骤：" class="headerlink" title="梳理步骤："></a>梳理步骤：</h3><p>先梳理一下部署项目的步骤，</p>
+<p>1：首先我们需要将我们写的springboot项目打包成jar包，这里就需要去了解springboot项目怎么打包成jar包（其中包括了多模块项目）</p>
+<p>2：接着我们还需要将我们的前端vue代码打包，这里就需要去了解怎么打包</p>
+<p>3：接下来我们就需要将jar包和vue打包后的文件夹传输到我们的服务器上，这里就需要去了解怎么传输到服务器上</p>
+<p>4：传输到服务器之后，我们就可以去了解docker了</p>
+<p>5：然后就又可以去了解nginx</p>
+<p>6：了解完docker之后，就可以去搜索怎么通过docker去部署vue项目，以及docker部署springboot项目</p>
+<p>然后我们就详细介绍每个步骤</p>
+<h3 id="1：springboot项目打包成jar包"><a href="#1：springboot项目打包成jar包" class="headerlink" title="1：springboot项目打包成jar包"></a>1：springboot项目打包成jar包</h3><p>有的人就问了，为什么我们之前在javaweb中，是将整个项目打包成存档型的war包，那这里为什么不打包成war包呢，其实是可以的，但是这是另外一种方式，而且不太推荐，应该也没有人这么做。</p>
+<p>这是其中一个文章，网上有很多这种类型，搜索springboot打包成war部署到tomcat上</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/yalishadaa/article/details/70037846" >https://blog.csdn.net/yalishadaa/article/details/70037846<i class="fas fa-external-link-alt"></i></a></p>
+<p>这里面有几个欠缺，第一个就是必须有一个tomcat环境，第二就是访问该项目：<a href="http://localhost:[端口号]/[打包项目名]，需要写war包的名字，这样就对前端请求访问造成了一定的麻烦">http://localhost:[端口号]/[打包项目名]，需要写war包的名字，这样就对前端请求访问造成了一定的麻烦</a></p>
+<p>那我们这里介绍以及推荐的就是打包成jar包，直接通过java -jar xxxx.jar，就可以运行了，那么多模块项目怎么打包成jar呢，</p>
+<p>在打包的时候，可以用springboot-maven插件，这是专门用来打包springboot项目的，方便轻松，按照下面这个配置就可以了，</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.superweb999.com/article/397804.html" >https://www.superweb999.com/article/397804.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>如果你看的很茫然，那就看看下面这个的步骤</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42875345/article/details/110790933?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-110790933-blog-115152850.t0_edu_mlt&spm=1001.2101.3001.4242.2&utm_relevant_index=4#t5">https://blog.csdn.net/qq_42875345&#x2F;article&#x2F;details&#x2F;110790933?utm_medium&#x3D;distribute.pc_relevant.none-task-blog-2<del>default</del>baidujs_baidulandingword~default-1-110790933-blog-115152850.t0_edu_mlt&amp;spm&#x3D;1001.2101.3001.4242.2&amp;utm_relevant_index&#x3D;4#t5</a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/baidu_41885330/article/details/81875395" >https://blog.csdn.net/baidu_41885330&#x2F;article&#x2F;details&#x2F;81875395<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/architectforest/p/13570144.html" >https://www.cnblogs.com/architectforest/p/13570144.html<i class="fas fa-external-link-alt"></i></a></p>
+<p>接下来使用maven自带的打包：</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.jianshu.com/p/29fdbfa40809" >https://www.jianshu.com/p/29fdbfa40809<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="2：前端vue代码打包"><a href="#2：前端vue代码打包" class="headerlink" title="2：前端vue代码打包"></a>2：前端vue代码打包</h3><p>在vue的根目录下，npm run build即可，就会在该目录下生产dist文件夹</p>
+<h3 id="3-传输文件到服务器上"><a href="#3-传输文件到服务器上" class="headerlink" title="3:传输文件到服务器上"></a>3:传输文件到服务器上</h3><p>这里有很多种方式，最简单的我认为的就是sftp,他是基于ssh,如果你弄了ssh就很方便，还有可视化的filezile服务，没弄过，好像是要服务器开启这个服务，还有其他的自行百度</p>
+<p>下面是sftp的相应文章</p>
+<p>put -r .&#x2F;data&#x2F;* .&#x2F;blog</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.linuxprobe.com/ssh-sftp-scp.html" >https://www.linuxprobe.com/ssh-sftp-scp.html<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="4-docker"><a href="#4-docker" class="headerlink" title="4.docker"></a>4.docker</h3><p>docker网上文章太多了，这里放两篇，还不理解就自行百度</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/hanshuaikang/HanShu-Note/tree/master/Docker%E5%88%9D%E7%BA%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" >https://github.com/hanshuaikang/HanShu-Note/tree/master/Docker%E5%88%9D%E7%BA%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="5-nginx"><a href="#5-nginx" class="headerlink" title="5.nginx"></a>5.nginx</h3><p>nginx和docker一样，网上文章太多</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/hanshuaikang/HanShu-Note/tree/master/Nginx%E5%88%9D%E7%BA%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" >https://github.com/hanshuaikang/HanShu-Note/tree/master/Nginx%E5%88%9D%E7%BA%A7%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="6-docker部署vue项目"><a href="#6-docker部署vue项目" class="headerlink" title="6:docker部署vue项目"></a>6:docker部署vue项目</h3><p>docker部署vue项目，一般来说都是用拉取nginx镜像，然后配置nginx.conf中的location对应vue打包。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040844905" >https://segmentfault.com/a/1190000040844905<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.51cto.com/u_15585699/5179688" >https://blog.51cto.com/u_15585699&#x2F;5179688<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="7-docker部署springboot项目"><a href="#7-docker部署springboot项目" class="headerlink" title="7 docker部署springboot项目"></a>7 docker部署springboot项目</h3><p>docker 部署springboot 项目，前面在打包就说过，打包成一个jar包，然后运行就可以了，因为这里只用了jdk的环境，所以这里就自己写了个dockerfile，来编译一个镜像，</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://developer.aliyun.com/article/861758" >https://developer.aliyun.com/article/861758<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039731284" >https://segmentfault.com/a/1190000039731284<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这是一个总的部署流程，但是这个项目不是多模块的springboot,所以在打包jar包那里有所不同。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.talkxj.com/articles/13" >https://www.talkxj.com/articles/13<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/HexoBlog/2022/09/30/%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">跨域问题</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/HexoBlog/2022/09/24/java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">java集合框架</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">lj</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.</span> <span class="nav-text">部署项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%B3%E7%90%86%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">梳理步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%9Aspringboot%E9%A1%B9%E7%9B%AE%E6%89%93%E5%8C%85%E6%88%90jar%E5%8C%85"><span class="nav-number">3.</span> <span class="nav-text">1：springboot项目打包成jar包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%9A%E5%89%8D%E7%AB%AFvue%E4%BB%A3%E7%A0%81%E6%89%93%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">2：前端vue代码打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A"><span class="nav-number">5.</span> <span class="nav-text">3:传输文件到服务器上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-docker"><span class="nav-number">6.</span> <span class="nav-text">4.docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-nginx"><span class="nav-number">7.</span> <span class="nav-text">5.nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-docker%E9%83%A8%E7%BD%B2vue%E9%A1%B9%E7%9B%AE"><span class="nav-number">8.</span> <span class="nav-text">6:docker部署vue项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-docker%E9%83%A8%E7%BD%B2springboot%E9%A1%B9%E7%9B%AE"><span class="nav-number">9.</span> <span class="nav-text">7 docker部署springboot项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/HexoBlog/js/utils.js"></script>
+
+<script src="/HexoBlog/js/main.js"></script>
+
+<script src="/HexoBlog/js/header-shrink.js"></script>
+
+<script src="/HexoBlog/js/back2top.js"></script>
+
+<script src="/HexoBlog/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/HexoBlog/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/HexoBlog/js/left-side-toggle.js"></script>
+
+<script src="/HexoBlog/js/libs/anime.min.js"></script>
+
+<script src="/HexoBlog/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
