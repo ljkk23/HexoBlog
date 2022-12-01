@@ -135,6 +135,319 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/11/05/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1/">
+                        多线程下线程通信
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        线程间通信1.synchronized中wait和notify方式先了解下wait 和 notify的作用：
+这两个方法的目的是为了避免自旋(或者说是等待)带来的性能损失。如果没有wait&#x2F;notify，线程需要不停的轮询去查看某一条件是否...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Nov 05 2022 20:34:07 GMT+0800">2022-11-05</span></span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/categories/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/tags/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/HexoBlog/2022/11/05/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/11/04/HashMap%E5%92%8CConcurrentMap/">
+                        HashMap和ConcurrentMap
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        HashMap和ConcurrentMaphashmap 1.7数组加链表，线程不安全，多线程下因为扩容采取的是链表头插，容易导致环形链表
+hashmap 1.8采用数组加链表，但是当链表的长度到达一定长度就转为红黑树，在链表时扩容采取尾插，但也是线...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 04 2022 20:02:30 GMT+0800">2022-11-04</span></span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/categories/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/tags/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/HexoBlog/2022/11/04/HashMap%E5%92%8CConcurrentMap/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/11/04/Volatile/">
+                        Volatile
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        volaTtile详解首先大家从这几个方面来了解volatile
+
+为什么有votalile
+volatile是什么
+volatile有什么用，能干什么
+
+为什么有volatile为什么有volatile之前，大家需要了解一个JMM，JMM是java...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Nov 04 2022 16:59:30 GMT+0800">2022-11-04</span></span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/categories/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/tags/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/HexoBlog/2022/11/04/Volatile/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/11/03/JUC/">
+                        JUC
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        java 并发编程入门11.3
+可重入锁：https://www.jianshu.com/p/6e8a49121133
+lock和synchronized的区别：https://xie.infoq.cn/article/4e370ded27e4419...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Nov 03 2022 16:39:01 GMT+0800">2022-11-03</span></span>
+        
+            <span class="home-article-category"><i class="fas fa-folder"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/categories/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                    
+                </ul>
+            </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/HexoBlog/tags/JUC/">JUC</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/HexoBlog/2022/11/03/JUC/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/10/28/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
+                        消息队列
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        消息队列其实之前看过rabbitmq的教程视频的，但是看了就没有总结，过了一会就忘记了，今天又看了一篇有关消息队列的文章，就趁此机会来总结一下有关消息队列的知识。
+一 什么是消息队列我们可以把消息队列看作是一个存放消息的容器，当我们需要使用消息的时候...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Oct 28 2022 20:49:42 GMT+0800">2022-10-28</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/10/28/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/10/22/npm%E7%9A%84%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98/">
+                        npm的版本问题
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        npm问题没想到，一个做后端的人也有今天，被前端的版本依赖支配之日，是因为今天在做项目的时候，在找到前端代码之后，本来很普通的npm install和npm run 的，结果报错，
+第一次是报这个错：
+
+后来通过这个知道是自己npm安装的版本过高，就...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Oct 22 2022 20:16:25 GMT+0800">2022-10-22</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/10/22/npm%E7%9A%84%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/HexoBlog/2022/10/18/java8%E6%96%B0%E7%89%B9%E6%80%A7/">
+                        java8新特性
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        函数式编程-Stream流1. 概述1.1 为什么学？
+能够看懂公司里的代码
+大数量下处理集合效率高
+代码可读性高
+消灭嵌套地狱
+
+//查询未成年作家的评分在70以上的书籍 由于洋流影响所以作家和书籍可能出现重复，需要进行去重
+List&lt;Boo...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Oct 18 2022 18:06:49 GMT+0800">2022-10-18</span></span>
+        
+        
+    </div>
+
+    <a href="/HexoBlog/2022/10/18/java8%E6%96%B0%E7%89%B9%E6%80%A7/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/HexoBlog/2022/10/13/webflux%E4%BB%A5%E5%8F%8A%E5%BC%82%E6%AD%A5IO/">
                         webflux以及异步IO
                     </a>
@@ -216,214 +529,6 @@ https...
     </div>
 
     <a href="/HexoBlog/2022/09/26/docker-nginx%E9%83%A8%E7%BD%B2springboot-vue%E9%A1%B9%E7%9B%AE/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/24/java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">
-                        java集合框架
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        java集合框架java中有很多用来存储元素的容器，根据各种不同的需要，可以自己选择不同的容器，然后同时集合接口也有一系列简单的工具类和静态方法collecttions，包括排序等
-https://segmentfault.com/a/1190000...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat Sep 24 2022 16:04:47 GMT+0800">2022-09-24</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/24/java%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/23/java%E5%8F%8D%E5%B0%84/">
-                        java反射
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        反射首先了解反射是什么，就是一种通过class类获取实例的方法，
-https://nyimac.gitee.io/2020/10/13/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/#%E4%BA%8C%...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Sep 23 2022 17:26:08 GMT+0800">2022-09-23</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/23/java%E5%8F%8D%E5%B0%84/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/13/springSecurity%E5%92%8Coauth2-0/">
-                        springSecurity和oauth2.0
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        springSecurity和oauth2.0oauth的理解无意中看到了接入第三方登陆，就很好奇，到底是怎么实现的，所以就抱着好奇的心态去看了看，哪知道是给自己挖坑，花了两天的时间，终于算是了解了，网上的资源也是称次不齐，对于一个新手（我）来说很不...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Tue Sep 13 2022 16:25:46 GMT+0800">2022-09-13</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/13/springSecurity%E5%92%8Coauth2-0/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/">
-                        websocket的原理
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        websocket是一种协议，为了兼容大多数浏览器，所以基于http的握手建立连接，具体参考
-https://www.zhihu.com/question/20215561
-
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 05 2022 11:15:40 GMT+0800">2022-09-05</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/05/websocket%E7%9A%84%E5%8E%9F%E7%90%86/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/05/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
-                        代理模式
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        代理模式在开发过程中使用的较少，但是spring AOp和RPC底层实现的原理都使用了动态代理，理解了代理模式可以帮助我们理解很多框架底层实现的原理。
-以下出自https://nyimac.gitee.io/2020/11/03/%E4%BB%A3%...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 05 2022 11:12:09 GMT+0800">2022-09-05</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/05/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/09/01/javaNio/">
-                        javaNio
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        javaNIO网络编程1.BIO 编程
-Blocking IO： 同步阻塞的编程方式。
-BIO编程方式通常是在JDK1.4版本之前常用的编程方式。编程实现过程为：首先在服务端启动一个ServerSocket来监听网络请求，客户端启动Socket发起网...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Sep 01 2022 18:16:23 GMT+0800">2022-09-01</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/09/01/javaNio/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/HexoBlog/2022/08/24/leetcode/">
-                        leetcode
-                    </a>
-                </h3>
-
-                <div class="home-article-content markdown-body">
-                    
-                        8.24leetcode 第三题：无重复的字符串
-滑动窗口:
-滑动窗口：用hashmap判断是否有该key，
-如果有，就left滑动到该key+1
-class Solution &#123;
-    public int lengthOfLonges...
-                    
-                </div>
-
-                <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Aug 24 2022 16:22:39 GMT+0800">2022-08-24</span></span>
-        
-        
-    </div>
-
-    <a href="/HexoBlog/2022/08/24/leetcode/">阅读全文&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>

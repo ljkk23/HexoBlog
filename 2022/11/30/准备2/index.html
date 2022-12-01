@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="lj">
+    
+    <title>
+        
+            准备2 |
+        
+        LjBlog
+    </title>
+    
+<link rel="stylesheet" href="/HexoBlog/css/style.css">
+
+    <link rel="shortcut icon" href="/HexoBlog/images/logo.svg">
+    
+<link rel="stylesheet" href="/HexoBlog/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"ljkk23.github.io","root":"/HexoBlog/","language":"zh-CN"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":true},"first_screen":{"enable":true,"background_img":"/HexoBlog/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+  </script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                LjBlog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/archives"
+                            >
+                                归档
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/HexoBlog/categories"
+                            >
+                                分类
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/archives">归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/HexoBlog/categories">分类</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">准备2</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/HexoBlog/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">lj</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-11-30 17:06:49</span>
+        <span class="mobile">2022-11-30 17:06</span>
+    </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h2 id="day1"><a href="#day1" class="headerlink" title="day1"></a>day1</h2><h3 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h3><h5 id="存储引擎"><a href="#存储引擎" class="headerlink" title="存储引擎"></a>存储引擎</h5><h5 id="1-存储引擎是什么，"><a href="#1-存储引擎是什么，" class="headerlink" title="1.存储引擎是什么，"></a>1.存储引擎是什么，</h5><p>​    在百度百科上是这样说的：</p>
+<pre class="line-numbers language-none"><code class="language-none"> MySQL中的数据用各种不同的技术存储在文件（或者内存）中。这些技术中的每一种技术都使用不同的存储机制、索引技巧、锁定水平并且最终提供广泛的不同的功能和能力。通过选择不同的技术，你能够获得额外的速度或者功能，从而改善你的应用的整体功能。
+
+ 例如，如果你在研究大量的临时数据，你也许需要使用内存存储引擎。内存存储引擎能够在内存中存储所有的表格数据。又或者，你也许需要一个支持[事务处理]的数据库(以确保事务处理不成功时数据的回退能力)。
+
+这些不同的技术以及配套的相关功能在MySQL中被称作存储引擎(也称作表类型)。MySQL默认配置了许多不同的存储引擎，可以预先设置或者在MySQL服务器中启用。你可以选择适用于服务器、数据库和表格的存储引擎，以便在选择如何存储你的信息、如何检索这些信息以及你需要你的数据结合什么性能和功能的时候为你提供最大的灵活  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>总结：</p>
+<p>​    1.mysql根据不同的使用者的不同需求，在存储机制、索引技巧以及锁等方面有不同的实现，这些不同的技术配套组合起来就称为存储引擎。</p>
+<p>​    2.存储引擎是基于插件式架构，支持多重存储引擎，因为存储引擎是基于表的，所以我们甚至可以为不同的数据库设置不同的存储引擎，自己也可以根据mysql的标准存储引擎实现接口编写一个自己的存储引擎</p>
+<h5 id="2-mysql中常见的存储引擎"><a href="#2-mysql中常见的存储引擎" class="headerlink" title="2.mysql中常见的存储引擎"></a>2.mysql中常见的存储引擎</h5><p>​     mysql 5.5之前的默认存储引擎是 MyISAM,MyISAM的性能也不错，在全文索引、压缩、空间函数等都体现不错，但是因为不支持事务和行级锁，而且崩溃后无法安全恢复数据，所以就在mysql5.5之后，取而代之的是InnoDB，对比一下两个常见的存储引擎：</p>
+<p>1.是否支持行级锁：</p>
+<p>  MyISAM只支持表级锁，而 InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。所以在并发的时候就知道InnoDB的优势了</p>
+<p>2.是否支持事务</p>
+<p>MyISAM不提供支持事务</p>
+<p>​    innoDB支持事务，实现了sql标准的四个隔离级别，默认使用的是可重复读，可以解决幻读。具体事务级别看后面</p>
+<p>3.是否支持外键</p>
+<p>​    myISAM不支持外键，innoDB支持外键。</p>
+<p>​    外键的好处能对数据库的维护数据一致性有很好的帮助，但是在阿里的开发手册中明确提出禁止用外键，所以我们通常在开发项目的时候不再数据库层面使用外键，而将其在应用层实现，不过，到底用不用还是得看实际的项目</p>
+<p>4.是否支持数据库崩溃之后数据的安全恢复</p>
+<p>​    myISAM不支持。而mysql支持，mysql这个恢复i的过程基于redo log</p>
+<p>5.索引的实现不一样</p>
+<p>​    虽然都是用的B+树作索引，myISAM是索引文件而数据文件分离，innoDB数据文件就是索引文件，具体看后面</p>
+<h5 id="数据库的事务隔离级别"><a href="#数据库的事务隔离级别" class="headerlink" title="数据库的事务隔离级别"></a>数据库的事务隔离级别</h5><p>（1）读未提交：最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。</p>
+<p>问题：</p>
+<p>​    在一个事务a开启之后数据为2，如果另一个事务b修改了这数据3，a再读取这数据就为3，但是b事务回滚了，数据又变成了2,这里就出现了脏读</p>
+<p>（2）读已提交：可以解决脏读，在一个事务开启时，另一个事务修改的数据必须提交之后才能被其他事务读到</p>
+<p>（3）可重复读：： 对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。</p>
+<p>解决不可重复读：</p>
+<p>​        当b事务提交之后，a再次读这个数据就为3了，但是之前b事务还没有提交的时候，a就读取了这个数据为2,这样就造成了前后读的数据不一致，这就是不可重复读，所以如果是这个级别，之后再读取这个数据就还会是2。</p>
+<p>问题：</p>
+<p>​    但是会出现幻读，和可重复读差不多，只不过这次b事务不是去修改a读过的数据，而是增加或修改了其他数据，导致a事务再次去读的时候，就出现了两条数据（如果之前是一条数据），</p>
+<p>解决幻读：</p>
+<ol>
+<li>将事务隔离级别调整为 <code>SERIALIZABLE</code> 。</li>
+<li>在可重复读的事务级别下，给事务操作的这张表添加表锁。</li>
+<li>在可重复读的事务级别下，给事务操作的这张表添加 <code>Next-key Lock（Record Lock+Gap Lock）</code>。</li>
+</ol>
+<p>（4）可串行化：最高的隔离级别，完全服从 ACID 的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。</p>
+<p>总结：</p>
+<p>1.因为隔离级别越低，事务请求的锁越少，所以可串行化对并发量不太友好，所以mysql中innoDB默认隔离级别是不可重复读且解决了幻读的问题，虽然一般的数据库是读已提交，但是innoDB的可重复读不会有任何性能损失。</p>
+<p>2.innoDB解决幻读：通过MVCC机制快照读、使用Next-key Lock（Record Lock+Gap Lock）实现当前读</p>
+<h5 id="mysql-索引"><a href="#mysql-索引" class="headerlink" title="mysql 索引"></a>mysql 索引</h5><p>1.索引是什么：</p>
+<p>索引是一种快速查找数据和检索数据的数据结构</p>
+<p>2.索引的优缺点：</p>
+<p>优点：</p>
+<ul>
+<li>大大加快了检索数据的速度</li>
+<li>如果建立唯一性索引，还可以保证数据的唯一性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>索引需要空间，耗费空间</li>
+<li>创建和维护索引也需要一定的耗费时间，在对表进行增删查改的时候，有索引就需要维护索引，降低sql的执行效率</li>
+</ul>
+<p>3.索引底层数据结构</p>
+<p>（1）hash表，虽然hash表查询速度很快，但是因为hash不支持顺序和范围查询，而且每次IO只能取一个数据</p>
+<p>（2）b树和B+树：</p>
+<p>​    b树的所有节点都存放数据和key,这就导致了枝干节点的能够存放key的存储空间就比完全存放key的存储空间小，所以就导致整个树存储的数据比B+树少。</p>
+<p>​    b+树叶子节点有一条链表，在范围查询的时候比b树少一次IO</p>
+<p>​    B+树检索效率稳定，因为数据都在叶子节点</p>
+<p>4.myISAM和innoDB都是用的B+树</p>
+<p>但是不同点：</p>
+<p>​    myISAM用的是非聚簇索引，即叶子节点存放的是data的指针，找到叶子节点之后，需要多一次IO去读取真正的数据</p>
+<pre><code> innoDb用的是聚簇索引，叶子节点直接存放的是data。
+</code></pre>
+<p>5.索引的类型</p>
+<p>主键索引：拿主键作为索引，通过主键索引找到叶子节点存放的就是data</p>
+<p>二级索引：通过二级索引找到叶子节点，存放的就是主键的信息，然后再通过主键去找到data</p>
+<p>聚簇索引优缺点：</p>
+<p>优点：</p>
+<p>​    （1）查询data时速度更快，比较与非聚簇少一个IO操作</p>
+<p>​    （2）<strong>对排序查找和范围查找优化</strong> ：聚簇索引对于主键的排序查找和范围查找速度非常快。</p>
+<p>缺点：</p>
+<p>​    数据更改，索引就要更改，代价较大，非聚簇索引的数据改时，索引不用改，</p>
+<p>非聚簇：</p>
+<p>优点：</p>
+<p>​    数据更改，索引的树不用更改</p>
+<p>缺点：</p>
+<p>​     可能会二次查询。</p>
+<p>演示innoDB聚簇索引的主键索引和二级索引，和myIsam的非聚簇索引的主键索引和二级索引</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/suoying.png"></p>
+<ol>
+<li>InnoDB使用的是聚簇索引，将<strong>主键组织到一棵B+树</strong>中，而<strong>行数据就储存在叶子节点</strong>上，若使用”where id &#x3D; 14”这样的条件查找主键，则<strong>按照B+树的检索算法即可查找到对应的叶节点，之后获得行数据</strong>。</li>
+<li>若<strong>对Name列进行条件搜索，则需要两个步骤</strong>：<strong>第一步在辅助索引B+树中检索Name，到达其叶子节点获取对应的主键</strong>。第二步<strong>使用主键在主索引B+树种再执行一次B+树检索操作，最终到达叶子节点即可获取整行数据</strong>。（<strong>重点在于通过其他键需要建立辅助索引</strong>）</li>
+</ol>
+<p>MyISM使用的是非聚簇索引，<strong>非聚簇索引的两棵B+树看上去没什么不同</strong>，节点的结构完全一致只是存储的内容不同而已，主键索引B+树的节点存储了主键，辅助键索引B+树存储了辅助键。表数据存储在独立的地方，这两颗B+树的叶子节点都使用一个地址指向真正的表数据，对于表数据来说，这两个键没有任何差别。由于<strong>索引树是独立的，通过辅助键检索无需访问主键的索引树</strong>。</p>
+<p><strong>选择合适的字段创建索引</strong></p>
+<ul>
+<li>经常查询的字段</li>
+<li>不为空对象的字段</li>
+<li>作为条件的字段</li>
+<li>频繁作为连接的字段</li>
+<li>频繁更新的不适合作为索引</li>
+</ul>
+<p>​    innoDB选择默认是主键作为索引，如果没有主键就找一个唯一且不为null的字段，如果都没有，就自己生成一个6字节的索引，所以主键一般不为uuid或字符串这种难排序的，最好是自增的，因为这样方便插入和排序。</p>
+<h5 id="为什么主键通常建议使用自增id"><a href="#为什么主键通常建议使用自增id" class="headerlink" title="为什么主键通常建议使用自增id"></a><strong>为什么主键通常建议使用自增id</strong></h5><p>​    因为使用自增 id 可以避免页分裂，因为聚簇索引的物理存放顺序和索引顺序是一致的，只要索引相邻，对应的数据也相邻，如果主键不是自增id,那么就会不断的调整数据的物理分页。为什么呢？一下是解释</p>
+<p>​    mysql 在底层又是以数据页为单位来存储数据的，一个数据页大小默认为 16k，当然你也可以自定义大小，也就是说如果一个数据页存满了，mysql 就会去申请一个新的数据页来存储数据。</p>
+<p>​    如果主键为自增 id 的话，mysql 在写满一个数据页的时候，直接申请另一个新数据页接着写就可以了。</p>
+<p>​    如果主键是非自增 id，为了确保索引有序，mysql 就需要将每次插入的数据都放到合适的位置上。</p>
+<p>​    当往一个快满或已满的数据页中插入数据时，新插入的数据会将数据页写满，mysql 就需要申请新的数据页，并且把上个数据页中的部分数据挪到新的数据页上。</p>
+<p>对主键 id 还有一个小小的要求，在满足业务需求的情况下，尽量使用占空间更小的主键 id，因为普通索引的叶子节点上保存的是主键 id 的值，如果主键 id 占空间较大的话，那将会成倍增加 mysql 空间占用大小</p>
+<h5 id="MyISAM-和-InnoDB-如何选择？"><a href="#MyISAM-和-InnoDB-如何选择？" class="headerlink" title="MyISAM 和 InnoDB 如何选择？"></a>MyISAM 和 InnoDB 如何选择？</h5><p>​    一般来说我们都选择innoDB,因为innoDB支持事务、行锁、崩溃后数据能够安全恢复，这几个myISAM都不能做到，但是这几个又是我们日常业务的必须，其实innoDB的速度并不一定比myISAM慢，比如聚簇索引就比非聚簇索引少一层IO操作</p>
+<h5 id="MySQL-查询缓存"><a href="#MySQL-查询缓存" class="headerlink" title="MySQL 查询缓存"></a>MySQL 查询缓存</h5><p>​    在mysql8之前有，查询数据之前，会先查询缓存，但是在mysql8之后就移除了这个功能，原因是虽然缓存能够提高查询速度，但是维护和更新缓存无疑会增加带来额外开销，每一次操作之后都会做一次缓存操作，而且更新缓存和缓存不击中的情况比较多：（1）查询条件不同（2）缓存的数据的所在表更改（3）查询条件中函数以及临时表都不会缓存。</p>
+<h5 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a><strong>MVCC</strong></h5><p>参考：<a class="link"   target="_blank" rel="noopener" href="https://pdai.tech/md/db/sql-mysql/sql-mysql-mvcc.html#%E4%BB%80%E4%B9%88%E6%98%AFmvcc" >https://pdai.tech/md/db/sql-mysql/sql-mysql-mvcc.html#%E4%BB%80%E4%B9%88%E6%98%AFmvcc<i class="fas fa-external-link-alt"></i></a></p>
+<h6 id="MVCC-是什么"><a href="#MVCC-是什么" class="headerlink" title="MVCC 是什么"></a>MVCC 是什么</h6><p>​    MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。是一种控制并发的方法，是一种理念，在数据库管理系统中，实现对数据库的并发，在编程语言中实现事务。</p>
+<h6 id="当前读和快照读"><a href="#当前读和快照读" class="headerlink" title="当前读和快照读"></a>当前读和快照读</h6><p>​    在了解MVCC之前，先知道什么是当前读和快照读</p>
+<p>​    当前读：读取的是数据的最新版本，读取时会对数据进行加锁，例如：像select lock in share mode(共享锁), select for update ; update, insert ,delete(排他锁)这些操作都是一种当前读</p>
+<p>​    快照读：不加锁的读就是快照读，之所以会出现快照读，是因为提高并发，所以快照读基于多版本并发，他避免了加锁，因为是多版本，所以难免会读到数据的旧版本。</p>
+<p>快照即记录的历史版本，每行记录可能存在多个历史版本（多版本技术）。</p>
+<p>快照读的情况下，如果读取的记录正在执行 UPDATE&#x2F;DELETE 操作，读取操作不会因此去等待记录上 X 锁的释放，而是会去读取行的一个快照。</p>
+<p>只有在事务隔离级别 RC(读取已提交) 和 RR（可重读）下，InnoDB 才会使用一致性非锁定读：</p>
+<ul>
+<li>在 RC 级别下，对于快照数据，一致性非锁定读总是读取被锁定行的最新一份快照数据。</li>
+<li>在 RR 级别下，对于快照数据，一致性非锁定读总是读取本事务开始时的行数据版本。</li>
+</ul>
+<p>快照读比较适合对于数据一致性要求不是特别高且追求极致性能的业务场景。</p>
+<h6 id="MVCC-解决的问题以及好处"><a href="#MVCC-解决的问题以及好处" class="headerlink" title="MVCC 解决的问题以及好处"></a>MVCC 解决的问题以及好处</h6><p>数据库并发场景?</p>
+<p>有三种, 分别为：</p>
+<ul>
+<li><strong>读-读</strong>：不存在任何问题，也不需要并发控制</li>
+<li><strong>读-写</strong>：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读</li>
+<li><strong>写-写</strong>：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失，第二类更新丢失</li>
+</ul>
+<p>MVCC带来的好处是？</p>
+<p>MVCC多版本并发控制是一种解决读写冲突的无锁非阻塞，他为每一个事务分配一个单向增长的时间戳，版本与该时间戳关联，读操作（快照读）只读取该事务开始的版本</p>
+<p>在并发读写数据库时，可以做到在读操作时不用阻塞写操作，写操作也不用阻塞读操作，提高了数据库并发读写的性能 同时还可以解决脏读，幻读，不可重复读等事务隔离问题，但不能解决更新丢失问题</p>
+<h6 id="MVCC和当前读、快照读的关系"><a href="#MVCC和当前读、快照读的关系" class="headerlink" title="MVCC和当前读、快照读的关系"></a>MVCC和当前读、快照读的关系</h6><p>​    准确的说，MVCC只是一个理念，所以我们需要在数据库中实现，为了在数据库中实现这么一个理念，快照读就出来了，他解决了在读写问题中的阻塞问题。但其实MVCC整套理念的实现不仅只有一个快照读，MVCC模型的实现是靠4个隐式字段和undo log和readView实现的。</p>
+<h6 id="4个隐式字段"><a href="#4个隐式字段" class="headerlink" title="4个隐式字段"></a>4个隐式字段</h6><p>每行记录除了我们自定义的字段外，还有数据库隐式定义的DB_TRX_ID,DB_ROLL_PTR,DB_ROW_ID等字段</p>
+<ul>
+<li><strong>DB_ROW_ID</strong> 6byte, 隐含的自增ID（隐藏主键），如果数据表没有主键，InnoDB会自动以DB_ROW_ID产生一个聚簇索引</li>
+<li><strong>DB_TRX_ID</strong> 6byte, 最近修改(修改&#x2F;插入)事务ID：记录创建这条记录&#x2F;最后一次修改该记录的事务ID</li>
+<li><strong>DB_ROLL_PTR</strong> 7byte, 回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</li>
+<li><strong>DELETED_BIT</strong> 1byte, 记录被更新或删除并不代表真的删除，而是删除flag变了</li>
+</ul>
+<p>这里注意最后一个字段，</p>
+<h6 id="undo-log"><a href="#undo-log" class="headerlink" title="undo log"></a>undo log</h6><p>不同事务或者相同事务的对同一记录的修改，会导致该记录的undo log成为一条记录版本线性表，即链表，undo log的链首就是最新的旧记录，链尾就是最早的旧记录（当然就像之前说的该undo log的节点可能是会purge线程清除掉，向图中的第一条insert undo log，其实在事务提交之后可能就被删除丢失了，不过这里为了演示，所以还放在这里）</p>
+<h6 id="read-view（读视图）"><a href="#read-view（读视图）" class="headerlink" title="read view（读视图）"></a>read view（读视图）</h6><p>就是在事务快照读的时候，能够读到的数据是事务的哪些版本。</p>
+<p>read view 有三个全局属性，这三个属性都是全局的</p>
+<p><strong>trx_list</strong> 未提交事务ID列表，用来维护Read View生成时刻系统正活跃的事务ID</p>
+<p><strong>up_limit_id</strong> 记录trx_list列表中事务ID最小的ID</p>
+<p><strong>low_limit_id</strong> ReadView生成时刻系统尚未分配的下一个事务ID，也就是目前已出现过的事务ID的最大值+1</p>
+<p>生成read view流程：</p>
+<ul>
+<li>1.在某一个事务中快照读取某个数据时，首先看该数据的事务的隐式字段事务id是否小于<strong>up_limit_id</strong> （记录trx_list列表中事务ID最小的ID），如果是，就说明这个是已经提交的数据，可以读</li>
+<li>如果不小于当前活跃事务的最小id,就判断是否大于<strong>low_limit_id</strong>，如果是，说明该事务不符合可见性</li>
+<li>如果不大于low_limit_id，说明该事务处于活跃中，则去该事务的undo log中找事务id,再次通过流程判断，直到符合可见性</li>
+</ul>
+<h6 id="MVCC相关问题：RR和RC级别下的read-view"><a href="#MVCC相关问题：RR和RC级别下的read-view" class="headerlink" title="MVCC相关问题：RR和RC级别下的read view"></a>MVCC相关问题：RR和RC级别下的read view</h6><p><strong>总之在RC隔离级别下，是每个快照读都会生成并获取最新的Read View；而在RR隔离级别下，则是同一个事务中的第一个快照读才会创建Read View, 之后的快照读获取的都是同一个Read View</strong>。</p>
+<p>所以RC会出现不可重复读，RR会解决这个问题</p>
+<h5 id="mysql-锁"><a href="#mysql-锁" class="headerlink" title="mysql 锁"></a>mysql 锁</h5><h6 id="表锁和行锁"><a href="#表锁和行锁" class="headerlink" title="表锁和行锁"></a>表锁和行锁</h6><p><strong>表级锁和行级锁对比</strong> ：</p>
+<ul>
+<li><strong>表级锁：</strong> MySQL 中锁定粒度最大的一种锁，是针对非索引字段加的锁，对当前操作的整张表加锁，实现简单，资源消耗也比较少，加锁快，不会出现死锁。其锁定粒度最大，触发锁冲突的概率最高，并发度最低，MyISAM 和 InnoDB 引擎都支持表级锁。</li>
+<li><strong>行级锁：</strong> MySQL 中锁定粒度最小的一种锁，是针对索引字段加的锁，只针对当前操作的行记录进行加锁。 行级锁能大大减少数据库操作的冲突。其加锁粒度最小，并发度高，但加锁的开销也最大，加锁慢，会出现死锁。</li>
+</ul>
+<h6 id="行锁的使用的注意事项"><a href="#行锁的使用的注意事项" class="headerlink" title="行锁的使用的注意事项"></a>行锁的使用的注意事项</h6><p>innoDB的行锁的</p>
+
+        </div>
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/HexoBlog/2022/11/29/%E5%87%86%E5%A4%871/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">准备1</span>
+                                <span class="post-nav-item">下一篇</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2022&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">lj</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        访问人数&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            由 <a target="_blank" href="https://hexo.io">Hexo</a> 驱动&nbsp;|&nbsp;主题&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#day1"><span class="nav-number">1.</span> <span class="nav-text">day1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">1.1.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.存储引擎是什么，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-mysql%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">2.mysql中常见的存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">数据库的事务隔离级别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">mysql 索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BB%E9%94%AE%E9%80%9A%E5%B8%B8%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E8%87%AA%E5%A2%9Eid"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">为什么主键通常建议使用自增id</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MyISAM-%E5%92%8C-InnoDB-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%9F"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">MyISAM 和 InnoDB 如何选择？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MySQL-%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98"><span class="nav-number">1.1.0.8.</span> <span class="nav-text">MySQL 查询缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MVCC"><span class="nav-number">1.1.0.9.</span> <span class="nav-text">MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.0.9.1.</span> <span class="nav-text">MVCC 是什么</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E5%92%8C%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="nav-number">1.1.0.9.2.</span> <span class="nav-text">当前读和快照读</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E5%A5%BD%E5%A4%84"><span class="nav-number">1.1.0.9.3.</span> <span class="nav-text">MVCC 解决的问题以及好处</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E5%92%8C%E5%BD%93%E5%89%8D%E8%AF%BB%E3%80%81%E5%BF%AB%E7%85%A7%E8%AF%BB%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.0.9.4.</span> <span class="nav-text">MVCC和当前读、快照读的关系</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4%E4%B8%AA%E9%9A%90%E5%BC%8F%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.0.9.5.</span> <span class="nav-text">4个隐式字段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#undo-log"><span class="nav-number">1.1.0.9.6.</span> <span class="nav-text">undo log</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#read-view%EF%BC%88%E8%AF%BB%E8%A7%86%E5%9B%BE%EF%BC%89"><span class="nav-number">1.1.0.9.7.</span> <span class="nav-text">read view（读视图）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%EF%BC%9ARR%E5%92%8CRC%E7%BA%A7%E5%88%AB%E4%B8%8B%E7%9A%84read-view"><span class="nav-number">1.1.0.9.8.</span> <span class="nav-text">MVCC相关问题：RR和RC级别下的read view</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E9%94%81"><span class="nav-number">1.1.0.10.</span> <span class="nav-text">mysql 锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%A8%E9%94%81%E5%92%8C%E8%A1%8C%E9%94%81"><span class="nav-number">1.1.0.10.1.</span> <span class="nav-text">表锁和行锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%8C%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.1.0.10.2.</span> <span class="nav-text">行锁的使用的注意事项</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/HexoBlog/js/utils.js"></script>
+
+<script src="/HexoBlog/js/main.js"></script>
+
+<script src="/HexoBlog/js/header-shrink.js"></script>
+
+<script src="/HexoBlog/js/back2top.js"></script>
+
+<script src="/HexoBlog/js/dark-light-toggle.js"></script>
+
+
+
+
+
+    
+<script src="/HexoBlog/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/HexoBlog/js/left-side-toggle.js"></script>
+
+<script src="/HexoBlog/js/libs/anime.min.js"></script>
+
+<script src="/HexoBlog/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>

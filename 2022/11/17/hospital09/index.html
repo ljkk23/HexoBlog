@@ -204,6 +204,7 @@
 <p>  查询permission因为我们这里是全部服务都需要登陆，所以我直接把jwtFilter放在了common模块，jwtfliter做了什么呢，就是每个请求过来的时候，就通过token,解析token然后去redis中获取该对象userDetalis,然后将其注入到securityCoontext中，然后在接口上写上@PreAuthorize(“hasAnyAuthority(‘system:user:add’)”)最根本的用法（底层就是去securityCoontext拿到对象的权限比对），然后就可以实现接口层的鉴权。这里需要注意几个点，因为把jwtFilter放在了common模块，而且在jwtFilter模块中将对象userDetails写入在了securityContext中，所以这里需要在common模块中引入Spring securtiy的依赖，那么会出现什么问题，</p>
 <p>1.那么相当于所有引入了common的模块都引入了spring security,那又因为spring security引入后默认就会给所有的接口需要authtien，所以就需要在每个模块下都写一个security的config,用来放开所有接口的权限。</p>
 <p>2.因为登陆的时候需要openFeign远程调用该模块，所以需要在jwtFilter下设置白名单放行feign调用的接口</p>
+<p>真正思考过的人就会问，为什么在网关层已经token认证了还需要在common模块设置一个token的非法检验呢，这是为了防止直接访问服务不通过网关访问时，也要检验token</p>
 <h3 id="一：网关层的glabolFilter"><a href="#一：网关层的glabolFilter" class="headerlink" title="一：网关层的glabolFilter"></a>一：网关层的glabolFilter</h3><p><img src="/HexoBlog/2022/11/17/hospital09/gatewayFoder.png"></p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java">
 <span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TokenFilter</span> <span class="token keyword">implements</span> <span class="token class-name">GlobalFilter</span><span class="token punctuation">,</span> <span class="token class-name">Ordered</span> <span class="token punctuation">&#123;</span>
@@ -457,6 +458,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/HexoBlog/2022/11/19/hospital10/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">hospital10</span>
+                                <span class="post-nav-item">上一篇</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
