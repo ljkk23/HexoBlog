@@ -156,6 +156,28 @@
         <span class="mobile">2022-11-30 17:06</span>
     </span>
     
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/HexoBlog/categories/%E5%87%86%E5%A4%87/">准备</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/HexoBlog/tags/%E5%87%86%E5%A4%87/">准备</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -276,7 +298,7 @@
 <p>​    如果主键是非自增 id，为了确保索引有序，mysql 就需要将每次插入的数据都放到合适的位置上。</p>
 <p>​    当往一个快满或已满的数据页中插入数据时，新插入的数据会将数据页写满，mysql 就需要申请新的数据页，并且把上个数据页中的部分数据挪到新的数据页上。</p>
 <p>对主键 id 还有一个小小的要求，在满足业务需求的情况下，尽量使用占空间更小的主键 id，因为普通索引的叶子节点上保存的是主键 id 的值，如果主键 id 占空间较大的话，那将会成倍增加 mysql 空间占用大小</p>
-<h5 id="MyISAM-和-InnoDB-如何选择？"><a href="#MyISAM-和-InnoDB-如何选择？" class="headerlink" title="MyISAM 和 InnoDB 如何选择？"></a>MyISAM 和 InnoDB 如何选择？</h5><p>​    一般来说我们都选择innoDB,因为innoDB支持事务、行锁、崩溃后数据能够安全恢复，这几个myISAM都不能做到，但是这几个又是我们日常业务的必须，其实innoDB的速度并不一定比myISAM慢，比如聚簇索引就比非聚簇索引少一层IO操作</p>
+<h2 id="day2"><a href="#day2" class="headerlink" title="day2"></a>day2</h2><h5 id="MyISAM-和-InnoDB-如何选择？"><a href="#MyISAM-和-InnoDB-如何选择？" class="headerlink" title="MyISAM 和 InnoDB 如何选择？"></a>MyISAM 和 InnoDB 如何选择？</h5><p>​    一般来说我们都选择innoDB,因为innoDB支持事务、行锁、崩溃后数据能够安全恢复，这几个myISAM都不能做到，但是这几个又是我们日常业务的必须，其实innoDB的速度并不一定比myISAM慢，比如聚簇索引就比非聚簇索引少一层IO操作</p>
 <h5 id="MySQL-查询缓存"><a href="#MySQL-查询缓存" class="headerlink" title="MySQL 查询缓存"></a>MySQL 查询缓存</h5><p>​    在mysql8之前有，查询数据之前，会先查询缓存，但是在mysql8之后就移除了这个功能，原因是虽然缓存能够提高查询速度，但是维护和更新缓存无疑会增加带来额外开销，每一次操作之后都会做一次缓存操作，而且更新缓存和缓存不击中的情况比较多：（1）查询条件不同（2）缓存的数据的所在表更改（3）查询条件中函数以及临时表都不会缓存。</p>
 <h5 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a><strong>MVCC</strong></h5><p>参考：<a class="link"   target="_blank" rel="noopener" href="https://pdai.tech/md/db/sql-mysql/sql-mysql-mvcc.html#%E4%BB%80%E4%B9%88%E6%98%AFmvcc" >https://pdai.tech/md/db/sql-mysql/sql-mysql-mvcc.html#%E4%BB%80%E4%B9%88%E6%98%AFmvcc<i class="fas fa-external-link-alt"></i></a></p>
 <h6 id="MVCC-是什么"><a href="#MVCC-是什么" class="headerlink" title="MVCC 是什么"></a>MVCC 是什么</h6><p>​    MVCC，全称Multi-Version Concurrency Control，即多版本并发控制。是一种控制并发的方法，是一种理念，在数据库管理系统中，实现对数据库的并发，在编程语言中实现事务。</p>
@@ -324,17 +346,543 @@
 </ul>
 <h6 id="MVCC相关问题：RR和RC级别下的read-view"><a href="#MVCC相关问题：RR和RC级别下的read-view" class="headerlink" title="MVCC相关问题：RR和RC级别下的read view"></a>MVCC相关问题：RR和RC级别下的read view</h6><p><strong>总之在RC隔离级别下，是每个快照读都会生成并获取最新的Read View；而在RR隔离级别下，则是同一个事务中的第一个快照读才会创建Read View, 之后的快照读获取的都是同一个Read View</strong>。</p>
 <p>所以RC会出现不可重复读，RR会解决这个问题</p>
-<h5 id="mysql-锁"><a href="#mysql-锁" class="headerlink" title="mysql 锁"></a>mysql 锁</h5><h6 id="表锁和行锁"><a href="#表锁和行锁" class="headerlink" title="表锁和行锁"></a>表锁和行锁</h6><p><strong>表级锁和行级锁对比</strong> ：</p>
+<h2 id="day-3-12-5"><a href="#day-3-12-5" class="headerlink" title="day 3 12.5"></a>day 3 12.5</h2><h5 id="mysql-锁"><a href="#mysql-锁" class="headerlink" title="mysql 锁"></a>mysql 锁</h5><h6 id="表锁和行锁"><a href="#表锁和行锁" class="headerlink" title="表锁和行锁"></a>表锁和行锁</h6><p><strong>表级锁和行级锁对比</strong> ：</p>
 <ul>
 <li><strong>表级锁：</strong> MySQL 中锁定粒度最大的一种锁，是针对非索引字段加的锁，对当前操作的整张表加锁，实现简单，资源消耗也比较少，加锁快，不会出现死锁。其锁定粒度最大，触发锁冲突的概率最高，并发度最低，MyISAM 和 InnoDB 引擎都支持表级锁。</li>
 <li><strong>行级锁：</strong> MySQL 中锁定粒度最小的一种锁，是针对索引字段加的锁，只针对当前操作的行记录进行加锁。 行级锁能大大减少数据库操作的冲突。其加锁粒度最小，并发度高，但加锁的开销也最大，加锁慢，会出现死锁。</li>
 </ul>
-<h6 id="行锁的使用的注意事项"><a href="#行锁的使用的注意事项" class="headerlink" title="行锁的使用的注意事项"></a>行锁的使用的注意事项</h6><p>innoDB的行锁的</p>
+<h6 id="行锁的使用的注意事项"><a href="#行锁的使用的注意事项" class="headerlink" title="行锁的使用的注意事项"></a>行锁的使用的注意事项</h6><p>​    innoDB的行锁的是针对索引字段，表极锁是针对非索引字段，所以当我们执行update delete语句时，如果where未命中索引或者索引失效的话，就会全表的所有行记录进行加锁，所以这里要注意。</p>
+<p>​    这里需要注意的是，虽然我们用了索引，但是有些时候还会走全局扫描，所以这就是后面mysql优化器</p>
+<h6 id="共享锁和排他锁"><a href="#共享锁和排他锁" class="headerlink" title="共享锁和排他锁"></a>共享锁和排他锁</h6><p>​    不论是表锁还是行锁，都有共享锁和排他锁，由于MVCC的存在，所以一般的select语句是不会加任何锁的，可以显式的加锁查询</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//共享锁</span>
+select <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> lock in share mode
+ <span class="token comment">//排他锁</span>
+    select <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token keyword">for</span> update   <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h6><p>意向锁就是，在加表锁的时候，肯定需要去判断该表是否加了行锁，那怎么判断呢，如果一行一行的去遍历，性能太差，优秀的程序员怎么能容忍这种事情发生呢，所以就有了一个意向锁，在加共享锁或者排他锁之前，需要首先获得意向锁，比如加共享锁时，需要首先获得该记录的意向共享锁</p>
+<h6 id="innoDb-有哪些行锁"><a href="#innoDb-有哪些行锁" class="headerlink" title="innoDb 有哪些行锁"></a>innoDb 有哪些行锁</h6><p>mysql 支持三种行锁</p>
+<ul>
+<li>记录锁（record lock），属于单个行的锁</li>
+<li>间隙锁（Gap lock）：锁定一个范围，不包括记录本身</li>
+<li><strong>临键锁（Next-key Lock）</strong> ：Record Lock+Gap Lock，锁定一个范围，包含记录本身。记录锁只能锁住已经存在的记录，为了避免插入新记录，需要依赖间隙锁。</li>
+</ul>
+<p>mysql innoDB的RR是可以解决幻读的，本来一般的事务隔离级别为RR都不会解决幻读的，mysql innodb能解决是以下两种情况：</p>
+<ul>
+<li>快照读：通过mvcc机制保证不出现幻读，核心就是生成read view</li>
+<li>当前读：使用next-key lock 来加锁解决幻读</li>
+</ul>
+<h5 id="mysql-三大日志"><a href="#mysql-三大日志" class="headerlink" title="mysql 三大日志"></a>mysql 三大日志</h5><h6 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h6><p>​    redo log （重做日志）是innodb独有的，这也是前面说过的innoDB相比于myISAM的优势：能够在宕机后安全的恢复数据，就是基于这个实现的</p>
+<p>​    因为mysql 中的数据是以页为单位的，所以当你查询一条记录的时候，会把记所在的一页数据都加载到出来，放入到    BUffer pool，然后后续查找先去Buffer pool 中查找，包括更新数据也是先更新Buffer pool中的数据，然后会把“在某个数据页上做了什么修改”记录到重做日志缓存（<code>redo log buffer</code>）里，接着刷盘到 <code>redo log</code> 文件里。</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/03.png"></p>
+<p><strong>redo log的刷盘时机</strong></p>
+<p><code>InnoDB</code> 存储引擎为 <code>redo log</code> 的刷盘策略提供了 <code>innodb_flush_log_at_trx_commit</code> 参数，它支持三种策略</p>
+<p><strong>0</strong> ：设置为 0 的时候，表示每次事务提交时不进行刷盘操作</p>
+<p><strong>1</strong> ：设置为 1 的时候，表示每次事务提交时都将进行刷盘操作（默认值）</p>
+<p><strong>2</strong> ：设置为 2 的时候，表示每次事务提交时都只把 redo log buffer 内容写入 page cache</p>
+<p>另外，<code>InnoDB</code> 存储引擎有一个后台线程，每隔<code>1</code> 秒，就会把 <code>redo log buffer</code> 中的内容写到文件系统缓存（<code>page cache</code>），然后调用 <code>fsync</code> 刷盘。</p>
+<p>redo log 是由一组日志文件组</p>
+<h6 id="redo-log小结"><a href="#redo-log小结" class="headerlink" title="redo log小结"></a>redo log小结</h6><p>​    上面讲了redo log 的作用机制、刷盘时机以及存储形式。现在我们来思考一个问题： <strong>只要每次把修改后的数据页直接刷盘不就好了，还有 <code>redo log</code> 什么事？</strong></p>
+<p> 这里就有几个不同：</p>
+<ul>
+<li>一是：每次修改数据页可能就修改了几byte，这样就刷盘的话，会浪费资源</li>
+<li>二是：而且数据页的刷盘是随机读写，因为如果主键索没有用自增id,就有可能就造成数据页的刷盘的随机读写，性能很低，而日志文件都是一行记录占用byte少，而且日志文件是顺序读写，大大增强了性能，</li>
+</ul>
+<h6 id="bin-log"><a href="#bin-log" class="headerlink" title="bin log"></a>bin log</h6><p>​    redo log 是属于物理日志，记录的是在“某个数据页上做了什么修改”，属于innoDB存储引擎的;</p>
+<p>​    而bin log 属于归档日志，记录的是sql语句或者说记录的是sql语句的逻辑，类似于“给 ID&#x3D;2 这一行的 c 字段加 1”，属于mysql server层的，不管用什么存储引擎，只要表数更改了，就会产生bin log</p>
+<p>​    bin log 到底是干嘛的，有什么作用： binlog 主要用与数据库的备份、主从复制等，依靠bin log 来同步数据库，保持数据一致性。</p>
+<p><strong>记录格式</strong></p>
+<p><code>binlog</code> 日志有三种格式，可以通过<code>binlog_format</code>参数指定。</p>
+<ul>
+<li><p><strong>statement</strong>：记录的是sql的原语句：</p>
+</li>
+<li><p><strong>row</strong>：记录的增强版的sql,来保持数据一致性，比如要主从之间复制当地时间，所以就需要在主机时，就将sql中的值修改为主机的获取当地时间。</p>
+</li>
+<li><p><strong>mixed</strong>：row这种格式，需要更大的容量来记录，比较占用空间，恢复与同步时会更消耗<code>IO</code>资源，影响执行速度。</p>
+<p>所以就有了一种折中的方案，指定为<code>mixed</code>，记录的内容是前两者的混合。</p>
+</li>
+</ul>
+<h5 id="两阶段提交"><a href="#两阶段提交" class="headerlink" title="两阶段提交"></a>两阶段提交</h5><p>​    <code>redo log</code>（重做日志）让<code>InnoDB</code>存储引擎拥有了崩溃恢复能力。</p>
+<p>​        <code>    binlog</code>（归档日志）保证了<code>MySQL</code>集群架构的数据一致性。</p>
+<p>​    虽然它们都属于持久化的保证，但是侧重点不同。</p>
+<p>​    首先我们先整体知道一下执行语句更新的时候，整体流程：在执行更新语句过程，会记录<code>redo log</code>与<code>binlog</code>两块日志，以基本的事务为单位，<code>redo log</code>在事务执行过程中可以不断写入，而<code>binlog</code>只有在提交事务时才写入，所以<code>redo log</code>与<code>binlog</code>的写入时机不一样。</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/01-20220305234816065.png"></p>
+<p> 所以想象这样一个场景，当redo log 写完之后，当写入bin log 时，数据库宕机了，这样就会导致bin log 并没有成功写完，所以就导致了从机通过bin log 同步数据的时候，和主机数据不一致（因为主机通过redo log 已经更改了数据）。</p>
+<p>​    所以怎么解决这样一个问题呢，这明显是一个事务问题，所以我们这里就用了两阶段提交的方法，在更新数据之后，先将写redo log事务标记为prepare阶段，然后在写入bin log 之后，将redo log 事务标记为commit,然后就更新主机数据。这里就保证了数据的一致性。</p>
+<p>那么对于这个流程，通过以下问题进一步深刻了解：</p>
+<p>（1）有了bin log 为什么还需要redo log</p>
+<ul>
+<li>bin log 不知道数据库从哪一时刻丢了数据，所以只能从备份点开始对bin log 记录恢复数据，比较耗时，而redo log有一个check point</li>
+<li>bin log 需要手动恢复数据，redo log是自动恢复</li>
+<li>redo log 的wal+写缓存+异步刷盘提高IO利用</li>
+</ul>
+<p>（2）有了redo log 为什么还需要bin log</p>
+<ul>
+<li>bin log 是server 层的，redo log 是存储引擎innoDB的，其他存储引擎无法通过redo log 恢复</li>
+<li>主从机之间是通过bin log复制。</li>
+</ul>
+<p>（3）保证数据一致性的流程</p>
+<ul>
+<li>如果在prepare阶段写完之后，在写bin log时宕机从机不会更改，此时重启mysql,通过redo log 恢复数据，看到redo log 事务的处于prepare阶段然后去判断bin log 是否有对应记录，因为还没有写完整，所以不会更改该redo log,这样主从就一致</li>
+<li>如果在写bin log 之后，在提交的之前宕机，此时重启mysql,如果redo log是prepare,去判断bin log ，发现是完整的，然后就会更改主库</li>
+<li>至于有了第二种情况，为什么还需要有commit,这是为了性能，因为每次都去判断bin log 难免效率太低下，所以一旦是commit,就直接提交</li>
+</ul>
+<h5 id="sql语句执行流程"><a href="#sql语句执行流程" class="headerlink" title="sql语句执行流程"></a>sql语句执行流程</h5><p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/13526879-3037b144ed09eb88.png"></p>
+<p>以下面这条简单的 SQL 语句为例，我们来解释下执行器和 InnoDB 存储引擎在更新时做了哪些事情：</p>
+<pre class="line-numbers language-none"><code class="language-none">updatetablesetage&#x3D;age+1whereid&#x3D;1;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ol>
+<li>执行器：找<a class="link"   target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:2280710259%7D" >存储引擎<i class="fas fa-external-link-alt"></i></a>取到 id &#x3D; 1 这一行记录</li>
+<li>存储引擎：根据主键索引树找到这一行，如果 id &#x3D; 1 这一行所在的数据页本来就在内存池（Buffer Pool）中，就直接返回给执行器；否则，需要先从磁盘读入<a class="link"   target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=%E5%86%85%E5%AD%98%E6%B1%A0&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:2280710259%7D" >内存池<i class="fas fa-external-link-alt"></i></a>，然后再返回</li>
+<li>执行器：拿到存储引擎返回的行记录，把 age 字段加上 1，得到一行新的记录，然后再调用存储引擎的接口写入这行新记录</li>
+<li>存储引擎：将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 <code>prepare</code> 状态。然后告知执行器执行完成了，随时可以提交事务<br>注意不要把这里的提交事务和我们 sql 语句中的提交事务 commit 命令搞混了哈，我们这里说的提交事务，指的是事务提交过程中的一个小步骤，也是最后一步。当这个步骤执行完成后，[commit 命令](<a class="link"   target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=commit" >https://www.zhihu.com/search?q=commit<i class="fas fa-external-link-alt"></i></a> 命令&amp;search_source&#x3D;Entity&amp;hybrid_search_source&#x3D;Entity&amp;hybrid_search_extra&#x3D;{“sourceType”%3A”answer”%2C”sourceId”%3A2280710259})就执行成功了。</li>
+<li>执行器：生成这个操作的 bin log，并把 bin log 写入磁盘</li>
+<li>执行器：调用存储引擎的提交事务接口</li>
+<li>存储引擎：把刚刚写入的 redo log 状态改成提交（<code>commit</code>）状态，更新完成</li>
+</ol>
+<h2 id="day4-12-12"><a href="#day4-12-12" class="headerlink" title="day4 12.12"></a>day4 12.12</h2><h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><h4 id="创建型设计模式"><a href="#创建型设计模式" class="headerlink" title="创建型设计模式"></a>创建型设计模式</h4><h5 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h5><p>​    确保一个类只有一个实例，并提供该实例的全局访问点。</p>
+<p>​    有六种实现方式：饿汉式、枚举式、懒汉式、同步锁、双重校验锁、静态内部类</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/2_singleton_1.png"></p>
+<p>​    前面两种是初始化就加载对象，这种就需要满足初始化速度快而且占用内存小，不然会造成应用启动太慢。所以如果初始化速度慢或者占用内存大，就需要延迟加载，在初始化的时候不加载，而是使用的时候再加载，这样就节约了资源。</p>
+<p>​    哪些时候需要初始化就加载，比如电商中的一些热点数据访问较多的，所以就可以提前加载，免得第一次访问还要去加载，而当有些数据可能很久都不会用到，这些就可以用到的时候再加载，避免了没用到时的资源浪费</p>
+<p>（1）饿汉式：因为有new，所以就会直接加载类，后面会有类加载的时机，因为在初始化时就加载，所以不会存在线程安全问题。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">&#123;</span>
+
+   <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> uniqueInstance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>（2）枚举：枚举的静态代码块本身就根据jvm的类加载机制加载，所以只有一次加载，因为是静态变量，所以存在于类中，不会因对象而改变，所以这里也是线程安全的</p>
+<p>（3）懒汉式（线程不安全的版本）：因为多线程，所以if (uniqueInstance &#x3D;&#x3D; null) {这一段代码会有很多个线程进入，就造成了线程不安全</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> uniqueInstance<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> <span class="token function">getUniqueInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>uniqueInstance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            uniqueInstance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> uniqueInstance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>（4）懒汉式同步锁：因为加了synchronized,所以性能消耗大</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> uniqueInstance<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token class-name">Singleton</span> <span class="token function">getUniqueInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>uniqueInstance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            uniqueInstance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> uniqueInstance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>（5）双重校验锁（DCL）：</p>
+<p>这是在懒汉式同步锁上因为加了synchronized关键字导致性能下降的优化，加锁操作只需要对实例化那部分的代码进行，</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">volatile</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> uniqueInstance<span class="token punctuation">;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> <span class="token function">getUniqueInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>uniqueInstance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span><span class="token class-name">Singleton</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>uniqueInstance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    uniqueInstance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> uniqueInstance<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意：（1）这里为什么要双重校验的，因为是多线程，所以进入第一个if的有很多线程，如果不要synchronized里面的if判断，那么线程都会最终执行uniqueInstance &#x3D; new Singleton();只是拿到锁的先执行，后来的就后执行，所以这里就不是单例模式了。</p>
+<p>​            （2）这里的实例必须用volatile修饰，因为uniqueInstance &#x3D; new Singleton();这一句是分为三个步骤执行的</p>
+<ul>
+<li>分配内存空间</li>
+<li>初始化对象</li>
+<li>将对象指向分配的内存空间</li>
+</ul>
+<p>但是在jvm的优化下，有可能会产生指令重排，就会出现1-》3-》2的顺序，所以这时如果在执行了3还未执行2的时候，来了新的线程判断对象不为空，就会直接返回给调用方，但是因为此时还未执行2初始化对象，所以这个时候返回给调用方的对象是不正确的，就会导致出错，所以这里必须使用volatile来禁止指令重排</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/20200425180018774.png"></p>
+<p>（6）静态内部类：因为初始化在加载外部类的时候，是不会加载内部类的（静态内部类就属于被动引用的行列），所以就实现了延迟加载，又因为这里getInstantce时并没有去new,而是去获得内部的变量，这时就加载该内部类，有因为是静态内部类，所以在jvm加载时自动就保证了线程安全。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">SingletonHolder</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Singleton</span> INSTANCE <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Singleton</span> <span class="token function">getUniqueInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token class-name">SingletonHolder</span><span class="token punctuation">.</span>INSTANCE<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>使用单例模式的好处</strong> :</p>
+<ul>
+<li>对于频繁使用的对象，可以省略创建对象所花费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；</li>
+<li>由于 new 操作的次数减少，因而对系统内存的使用频率也会降低，这将减轻 GC 压力，缩短 GC 停顿时间。</li>
+</ul>
+<h5 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h5><p>​    工厂模式分为三种：简单工厂、工厂方法、抽象工厂。</p>
+<p>（1）简单工厂：就是将实例化的操作放在一个类来实现，调用方不用在意实例化的类的内部具体实现，只需要按照规则使用new对象即可。</p>
+<p>工厂类：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">SimpleFactory</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token class-name">Product</span> <span class="token function">createProduct</span><span class="token punctuation">(</span><span class="token keyword">int</span> type<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteProduct1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteProduct2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">ConcreteProduct</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+著作权归<span class="token annotation punctuation">@pdai</span>所有
+原文链接：https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>pdai<span class="token punctuation">.</span>tech<span class="token operator">/</span>md<span class="token operator">/</span>dev<span class="token operator">-</span>spec<span class="token operator">/</span>pattern<span class="token operator">/</span><span class="token number">3_</span>simple_factory<span class="token punctuation">.</span>html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>调用方：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Client</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">SimpleFactory</span> simpleFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Product</span> product <span class="token operator">=</span> simpleFactory<span class="token punctuation">.</span><span class="token function">createProduct</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// do something with the product</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+著作权归<span class="token annotation punctuation">@pdai</span>所有
+原文链接：https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>pdai<span class="token punctuation">.</span>tech<span class="token operator">/</span>md<span class="token operator">/</span>dev<span class="token operator">-</span>spec<span class="token operator">/</span>pattern<span class="token operator">/</span><span class="token number">3_</span>simple_factory<span class="token punctuation">.</span>html<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>（2）工厂方法：生成一个接口，由子类去选择实例化哪个对象：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+ * 定义一个抽象的咖啡工厂
+ * @author Lsj
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">CoffeeFactory</span> <span class="token punctuation">&#123;</span>
+    
+    <span class="token comment">/**
+     * 生产可制造的咖啡
+     * @return
+     */</span>
+    <span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 中国咖啡工厂
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ChinaCoffeeFactory</span> <span class="token keyword">extends</span> <span class="token class-name">CoffeeFactory</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token keyword">new</span> <span class="token class-name">Cappuccino</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Latte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 美国咖啡工厂
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AmericaCoffeeFactory</span> <span class="token keyword">extends</span> <span class="token class-name">CoffeeFactory</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token keyword">new</span> <span class="token class-name">Americano</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Latte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 工厂方法测试
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FactoryMethodTest</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> c<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Coffee</span> coffee <span class="token operator">:</span> c<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>coffee<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">CoffeeFactory</span> chinaCoffeeFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChinaCoffeeFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> chinaCoffees <span class="token operator">=</span> chinaCoffeeFactory<span class="token punctuation">.</span><span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"中国咖啡工厂可以生产的咖啡有："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>chinaCoffees<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">CoffeeFactory</span> americaCoffeeFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AmericaCoffeeFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Coffee</span><span class="token punctuation">[</span><span class="token punctuation">]</span> americaCoffees <span class="token operator">=</span> americaCoffeeFactory<span class="token punctuation">.</span><span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"美国咖啡工厂可以生产的咖啡有："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>americaCoffees<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p>（3）抽象工厂：定义一系列有关的接口：也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+ * 抽象的饮料产品家族制造工厂
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AbstractDrinksFactory</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token comment">/**
+     * 制造咖啡
+     * @return
+     */</span>
+    <span class="token class-name">Coffee</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">/**
+     * 制造茶
+     * @return
+     */</span>
+    <span class="token class-name">Tea</span> <span class="token function">createTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">/**
+     * 制造碳酸饮料
+     * @return
+     */</span>
+    <span class="token class-name">Sodas</span> <span class="token function">createSodas</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 中国饮品工厂
+ * 制造咖啡与茶
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ChinaDrinksFactory</span> <span class="token keyword">implements</span> <span class="token class-name">AbstractDrinksFactory</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Coffee</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Latte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Tea</span> <span class="token function">createTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">MilkTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Sodas</span> <span class="token function">createSodas</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 美国饮品制造工厂
+ * 制造咖啡和碳酸饮料
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AmericaDrinksFactory</span> <span class="token keyword">implements</span> <span class="token class-name">AbstractDrinksFactory</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Coffee</span> <span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Latte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Tea</span> <span class="token function">createTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">Sodas</span> <span class="token function">createSodas</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// TODO Auto-generated method stub</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CocaCola</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+
+<span class="token comment">/**
+ * 抽象工厂测试类
+ * @author Lsj
+ *
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AbstractFactoryTest</span> <span class="token punctuation">&#123;</span>
+    
+    <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">print</span><span class="token punctuation">(</span><span class="token class-name">Drink</span> drink<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>drink <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"产品：--"</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"产品："</span> <span class="token operator">+</span> drink<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">AbstractDrinksFactory</span> chinaDrinksFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ChinaDrinksFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Coffee</span> coffee <span class="token operator">=</span> chinaDrinksFactory<span class="token punctuation">.</span><span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Tea</span> tea <span class="token operator">=</span> chinaDrinksFactory<span class="token punctuation">.</span><span class="token function">createTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Sodas</span> sodas <span class="token operator">=</span> chinaDrinksFactory<span class="token punctuation">.</span><span class="token function">createSodas</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"中国饮品工厂有如下产品："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>coffee<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>tea<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>sodas<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        
+        <span class="token class-name">AbstractDrinksFactory</span> americaDrinksFactory <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AmericaDrinksFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        coffee <span class="token operator">=</span> americaDrinksFactory<span class="token punctuation">.</span><span class="token function">createCoffee</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        tea <span class="token operator">=</span> americaDrinksFactory<span class="token punctuation">.</span><span class="token function">createTea</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        sodas <span class="token operator">=</span> americaDrinksFactory<span class="token punctuation">.</span><span class="token function">createSodas</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"美国饮品工厂有如下产品："</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>coffee<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>tea<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">print</span><span class="token punctuation">(</span>sodas<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="建造器模式"><a href="#建造器模式" class="headerlink" title="建造器模式"></a>建造器模式</h5><p>​    当我们需要实例化一个比较复杂类，而且还要根据要求实例化不同结构和不同内部状态的对象时，我们可以用类将其不同的实例化逻辑封装，这些类就叫建造者。</p>
+<p>建造者分为四种角色：</p>
+<ul>
+<li>Product(产品类) :我们具体需要生成的类对象</li>
+<li>Builder(抽象建造者类)：为我们需要生成的类对象，构建不同的模块属性，即：公开构建产品类的属性，隐藏产品类的其他功能</li>
+<li>ConcreteBuilder(具体建造者类)：实现我们要生成的类对象</li>
+<li>Director(导演类)：确定构建我们的类对象具体有哪些模块属性，在实际应用中可以不需要这个角色，直接通过client处理</li>
+</ul>
+<p>在电商中有多种不同类型的商品 <strong>普通实物商品</strong>，<strong>电子卡券商品</strong>，<strong>虚拟视频学习商品</strong> 等多种不同的商品，他们都是商品但是他们的属性却不一样，电子卡券：独有券码，学习视频：独有视频链接等。</p>
+<p>具体:<a class="link"   target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/h7iEyxgN34FPn191S8qUpA" >https://mp.weixin.qq.com/s/h7iEyxgN34FPn191S8qUpA<i class="fas fa-external-link-alt"></i></a></p>
+<h5 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h5><p>​    原型模式出现的原因：场景：当我们实例化对象时需要耗费很多资源以及硬件密集型操作而且已有实例对象与新对象的各方面结构或者状态一致的话，我们可以通过克隆来产生新对象。</p>
+<p>​    假设现在我们有这么一种场景，公司搞一场活动有五万个商品参加此次活动，我们需要从后台能定时同步每个商品的销量，方便我们为后面的活动做商品分析，我们要怎么处理这个销量同步问题？</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/clone.png"></p>
+<p>​    这里设计浅拷贝和深拷贝。其实在其他的地方我们可以用到原型模式，比如我们在发松活动的PUSH通知，针对平台百万、千万、甚至上亿的用户发送通知的时候通知的内容基本都是一样的只是推送用户不一样或者有些特别字段值的小改动，那我们这里就可以用原型模式来做，同时开启多线程来做push，需要注意的是这里的线程安全问题，所以在每个线程内部去做copy对象。在一般情况下是不建议用这种模式的除非创建的对象成本特别大，或者在一些特殊场景使用</p>
+<h4 id="结构型设计模式"><a href="#结构型设计模式" class="headerlink" title="结构型设计模式"></a>结构型设计模式</h4><h5 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h5><p>​    这个模式充分体现了设计原则中的最少知道原则，也就是说客户对象所需要交互的对象应当尽可能少。</p>
+<p>​    外观模式就是将他们的关系放在一个Facade类中，降低了类类之间的耦合度，该模式中没有涉及到接口。</p>
+<h5 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h5><p>适配器模式(Adapter Pattern) 将一个接口转换成客户希望的另一个接口，适配器模式使接口不兼容的那些类可以一起工作。</p>
+<p>​    例如spring mvc中的DispatcherServlet根据请求信息调用handlermappering,然后由handlerAadpter对目标类适配，就解决了不同类型的 <code>Controller</code> 通过不同的方法来对请求进行处理。</p>
+<h2 id="day-5-12-13"><a href="#day-5-12-13" class="headerlink" title="day 5 12.13"></a>day 5 12.13</h2><h5 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h5><p>​    就是将抽象和实现分开，某些类型由于自身的逻辑，它具有两个或多个维度的变化，</p>
+<ul>
+<li>比如在电脑商城中有分类</li>
+</ul>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/qiaojie.png"></p>
+<p>我们用代码实现就需要台式电脑和笔记本继承电脑，然后华硕、小米继承台式以及继承笔记本，那这时增加了平板电脑（在电脑类型维度上变化），此时就需要增加华硕、小米继承平板电脑，这就导致了不是一个维度变化。还有这是增加了索尼品牌，也需要增加。所以我们这里如果根据桥接模式，就分为品牌和电脑类型，那么增加了电脑类型就只修改电脑类型，不会影响品牌。</p>
+<ul>
+<li>比如在driver驱动程序，有mysql的driver和OracleDriver，那么根据桥接模式实现，实现和抽象分开，driver和drivermanager分开，就能实现这种在driver和drivermanager维度变化互不影响</li>
+</ul>
+<h5 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h5><p>​    什么时候需要用到组合模式，当你想要将对象组合成树形结构，使单个对象和组合对象具有一致性的时候，这个时候就需要用到组合模式。</p>
+<p>​    组合模式有三个角色：</p>
+<ul>
+<li>一个是统一的对象声明接口：对象都需要实现该接口。</li>
+<li>一个是定义有枝节点行为，用来存储子部件。</li>
+<li>一个是叶子节点，就是没有子节点</li>
+</ul>
+<h5 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h5><p>​    享元模式的主要目的是实现对象的共享，即共享池，当系统中对象多的时候可以减少内存的开销，通常与工厂模式一起使用。比如我们的jdbc连接池，作为共享的对象，其中一个特点就是，该对象的某些属性值是相同的，那么就可以用享元模式，建一个工厂类，将上述类似属性作为内部数据，其它的作为外部数据，在方法调用时，当做参数传进来，这样就节省了空间，减少了实例的数量。</p>
+<h5 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h5><p>就是在装饰一个功能时，给被装饰者的功能加上对应的处理</p>
+<h4 id="行为性设计模式"><a href="#行为性设计模式" class="headerlink" title="行为性设计模式"></a>行为性设计模式</h4><h5 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h5><p>将请求和接收方解耦，让多个接收对象都能够处理该请求，将这些对象串成一条链，并沿着该请求传递请求，直到链上某个对象处理该请求为止。</p>
+<p>​    优点：</p>
+<ul>
+<li>增加新的请求处理类很方便。</li>
+<li>降低耦合度。它将请求的发送者和接收者解耦。</li>
+</ul>
+<p>使用场景：SpringMVC中的 <strong>ServletFilter</strong>以及<strong>SpringInterceptor</strong>，</p>
+<p>自己实现一个责任链设计模式来实现日志打印，不同的信息调用同一个接口，来实现日志打印的不同效果。</p>
+<p>INFO打印在console,DEBUG打印在file中等等</p>
+<p><a class="link"   target="_blank" rel="noopener" href="http://www.bjpowernode.com/shejimoshi/1599.html" >http://www.bjpowernode.com/shejimoshi/1599.html<i class="fas fa-external-link-alt"></i></a></p>
+<h5 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h5><p>​    当一个对象发现变化时，同时能够通知到与他相关的对象，当一个对象的状态发生改变时，已经登记的其他对象能够观察到这一改变从而作出自己相对应的改变。通过这种方式来达到减少依赖关系，解耦合的作用。</p>
+<ul>
+<li>Subject（主题）: 主要由类实现的可观察的接口，通知观察者使用attach方法，以及取消观察的detach方法。</li>
+<li>ConcreteSubject（具体主题）: 是一个实现主题接口的类，处理观察者的变化</li>
+<li>Observe（观察者）: 观察者是一个由对象水岸的接口，根据主题中的更改而进行更新。</li>
+</ul>
+<p>类似与消息队列的原理</p>
+<p>​    熟悉JDK的人应该知道 在java.util 包下 除了常用的 集合 和map之外还有一个<strong>Observable</strong>类，他的实现方式其实就是观察者模式。里面也有<strong>添加、删除、通知</strong>等方法。</p>
+<p>这里需要注意是的 他是用Vector 作为订阅关系的容器，同时在他的定义方法中都添加synchronized关键字修饰类，以达到线程安全的目的。</p>
+<p>应用场景：当前现在有更加好的中间件<strong>MQ消息队列</strong>来处理这个业务问题，使得我们更加从容的面对这类场景问题，但是一些资源不足，不想引入新的系统。还是可以用这种方式来处理问题的。</p>
+<h2 id="day-6-12-14"><a href="#day-6-12-14" class="headerlink" title="day 6 12.14"></a>day 6 12.14</h2><h5 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h5><p>​    定义一系列算法，封装每个算法，不同的策略可以调用不同的算法。</p>
+<p>​    用大白话来讲，就是调用方根据不同的参数传入进去之后，会根据这个参数有不同的算法逻辑处理。</p>
+<ul>
+<li>Strategy（抽象策略）：抽象策略类，并且定义策略执行入口</li>
+<li>ConcreteStrategy（具体策略）：实现抽象策略，实现algorithm方法</li>
+<li>Context（环境）：运行特定的策略类。</li>
+</ul>
+<p>一个抽象策略接口Strategy，然后各种具体的策略实现该接口ConcreteStrategy，然后实现context来运行策略接口方法，</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/celue.png"></p>
+<p>context对象：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Context</span> <span class="token punctuation">&#123;</span>
+   <span class="token keyword">private</span> <span class="token class-name">Strategy</span> strategy<span class="token punctuation">;</span>
+ 
+   <span class="token keyword">public</span> <span class="token class-name">Context</span><span class="token punctuation">(</span><span class="token class-name">Strategy</span> strategy<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>strategy <span class="token operator">=</span> strategy<span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+ 
+   <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">executeStrategy</span><span class="token punctuation">(</span><span class="token keyword">int</span> num1<span class="token punctuation">,</span> <span class="token keyword">int</span> num2<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+      <span class="token keyword">return</span> strategy<span class="token punctuation">.</span><span class="token function">doOperation</span><span class="token punctuation">(</span>num1<span class="token punctuation">,</span> num2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StrategyPatternDemo</span> <span class="token punctuation">&#123;</span>
+   <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token class-name">Context</span> context <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Context</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OperationAdd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"10 + 5 = "</span> <span class="token operator">+</span> context<span class="token punctuation">.</span><span class="token function">executeStrategy</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+      context <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Context</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OperationSubtract</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"10 - 5 = "</span> <span class="token operator">+</span> context<span class="token punctuation">.</span><span class="token function">executeStrategy</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ 
+      context <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Context</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">OperationMultiply</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    
+      <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"10 * 5 = "</span> <span class="token operator">+</span> context<span class="token punctuation">.</span><span class="token function">executeStrategy</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>框架的应用：</p>
+<p><strong>ThreadPoolExecutor</strong>中的里面实现线程池的异常策略,传入什么参数，就是什么策略</p>
+<p><img src="/HexoBlog/2022/11/30/%E5%87%86%E5%A4%872/xianchengchi.png"></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/AFbt7VJMASenD2S8KbPKJQ" >https://mp.weixin.qq.com/s/AFbt7VJMASenD2S8KbPKJQ<i class="fas fa-external-link-alt"></i></a></p>
+<h5 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h5><p>​    定义一个模板，模板里面有子类必须实现的接口（abstract），也有可以选择重写的接口，也有直接写好了的方法（final）</p>
+<p>框架应用：HttpServlet 继承GenericServlet中也还是模版方法的体现，可以自己实现doget等</p>
+<h5 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h5><p>​    我们可以用相同的方式处理集合，无论它是列表还是数组，它都提供了一种迭代其元素而不用暴露其内部结构的机制，更重要的是，不同的类型的集合都可以使用相同的统一机制</p>
+<p> 这里需要注意在java 集合遍历的时候，是不允许增删数据的，因为会导致指针位置变化，导致遍历的时候，数据漏掉或重复。</p>
+<h3 id="设计模式总结："><a href="#设计模式总结：" class="headerlink" title="设计模式总结："></a>设计模式总结：</h3><p><a class="link"   target="_blank" rel="noopener" href="http://www.bjpowernode.com/shejimoshi/1595.html" >http://www.bjpowernode.com/shejimoshi/1595.html<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://pdai.tech/md/dev-spec/pattern/1_overview.html" >https://pdai.tech/md/dev-spec/pattern/1_overview.html<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/AobingJava/JavaFamily" >https://github.com/AobingJava/JavaFamily<i class="fas fa-external-link-alt"></i></a></p>
 
         </div>
 
         
 
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/HexoBlog/tags/%E5%87%86%E5%A4%87/">#准备</a>&nbsp;
+                    </li>
+                
+            </ul>
         
 
         
@@ -473,7 +1021,7 @@
         <aside class="page-aside">
             <div class="post-toc-wrap">
     <div class="post-toc">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#day1"><span class="nav-number">1.</span> <span class="nav-text">day1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">1.1.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.存储引擎是什么，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-mysql%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">2.mysql中常见的存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">数据库的事务隔离级别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">mysql 索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BB%E9%94%AE%E9%80%9A%E5%B8%B8%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E8%87%AA%E5%A2%9Eid"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">为什么主键通常建议使用自增id</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MyISAM-%E5%92%8C-InnoDB-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%9F"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">MyISAM 和 InnoDB 如何选择？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MySQL-%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98"><span class="nav-number">1.1.0.8.</span> <span class="nav-text">MySQL 查询缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MVCC"><span class="nav-number">1.1.0.9.</span> <span class="nav-text">MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.0.9.1.</span> <span class="nav-text">MVCC 是什么</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E5%92%8C%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="nav-number">1.1.0.9.2.</span> <span class="nav-text">当前读和快照读</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E5%A5%BD%E5%A4%84"><span class="nav-number">1.1.0.9.3.</span> <span class="nav-text">MVCC 解决的问题以及好处</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E5%92%8C%E5%BD%93%E5%89%8D%E8%AF%BB%E3%80%81%E5%BF%AB%E7%85%A7%E8%AF%BB%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.0.9.4.</span> <span class="nav-text">MVCC和当前读、快照读的关系</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4%E4%B8%AA%E9%9A%90%E5%BC%8F%E5%AD%97%E6%AE%B5"><span class="nav-number">1.1.0.9.5.</span> <span class="nav-text">4个隐式字段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#undo-log"><span class="nav-number">1.1.0.9.6.</span> <span class="nav-text">undo log</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#read-view%EF%BC%88%E8%AF%BB%E8%A7%86%E5%9B%BE%EF%BC%89"><span class="nav-number">1.1.0.9.7.</span> <span class="nav-text">read view（读视图）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%EF%BC%9ARR%E5%92%8CRC%E7%BA%A7%E5%88%AB%E4%B8%8B%E7%9A%84read-view"><span class="nav-number">1.1.0.9.8.</span> <span class="nav-text">MVCC相关问题：RR和RC级别下的read view</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E9%94%81"><span class="nav-number">1.1.0.10.</span> <span class="nav-text">mysql 锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%A8%E9%94%81%E5%92%8C%E8%A1%8C%E9%94%81"><span class="nav-number">1.1.0.10.1.</span> <span class="nav-text">表锁和行锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%8C%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.1.0.10.2.</span> <span class="nav-text">行锁的使用的注意事项</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#day1"><span class="nav-number">1.</span> <span class="nav-text">day1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">1.1.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.存储引擎是什么，</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-mysql%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">2.mysql中常见的存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">数据库的事务隔离级别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">mysql 索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%BB%E9%94%AE%E9%80%9A%E5%B8%B8%E5%BB%BA%E8%AE%AE%E4%BD%BF%E7%94%A8%E8%87%AA%E5%A2%9Eid"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">为什么主键通常建议使用自增id</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day2"><span class="nav-number">2.</span> <span class="nav-text">day2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#MyISAM-%E5%92%8C-InnoDB-%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%EF%BC%9F"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">MyISAM 和 InnoDB 如何选择？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MySQL-%E6%9F%A5%E8%AF%A2%E7%BC%93%E5%AD%98"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">MySQL 查询缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MVCC"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">MVCC</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.0.0.3.1.</span> <span class="nav-text">MVCC 是什么</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E8%AF%BB%E5%92%8C%E5%BF%AB%E7%85%A7%E8%AF%BB"><span class="nav-number">2.0.0.3.2.</span> <span class="nav-text">当前读和快照读</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E5%A5%BD%E5%A4%84"><span class="nav-number">2.0.0.3.3.</span> <span class="nav-text">MVCC 解决的问题以及好处</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E5%92%8C%E5%BD%93%E5%89%8D%E8%AF%BB%E3%80%81%E5%BF%AB%E7%85%A7%E8%AF%BB%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.0.0.3.4.</span> <span class="nav-text">MVCC和当前读、快照读的关系</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#4%E4%B8%AA%E9%9A%90%E5%BC%8F%E5%AD%97%E6%AE%B5"><span class="nav-number">2.0.0.3.5.</span> <span class="nav-text">4个隐式字段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#undo-log"><span class="nav-number">2.0.0.3.6.</span> <span class="nav-text">undo log</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#read-view%EF%BC%88%E8%AF%BB%E8%A7%86%E5%9B%BE%EF%BC%89"><span class="nav-number">2.0.0.3.7.</span> <span class="nav-text">read view（读视图）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#MVCC%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%EF%BC%9ARR%E5%92%8CRC%E7%BA%A7%E5%88%AB%E4%B8%8B%E7%9A%84read-view"><span class="nav-number">2.0.0.3.8.</span> <span class="nav-text">MVCC相关问题：RR和RC级别下的read view</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day-3-12-5"><span class="nav-number">3.</span> <span class="nav-text">day 3 12.5</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E9%94%81"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">mysql 锁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%A8%E9%94%81%E5%92%8C%E8%A1%8C%E9%94%81"><span class="nav-number">3.0.0.1.1.</span> <span class="nav-text">表锁和行锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%8C%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.0.0.1.2.</span> <span class="nav-text">行锁的使用的注意事项</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E6%8E%92%E4%BB%96%E9%94%81"><span class="nav-number">3.0.0.1.3.</span> <span class="nav-text">共享锁和排他锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%84%8F%E5%90%91%E9%94%81"><span class="nav-number">3.0.0.1.4.</span> <span class="nav-text">意向锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#innoDb-%E6%9C%89%E5%93%AA%E4%BA%9B%E8%A1%8C%E9%94%81"><span class="nav-number">3.0.0.1.5.</span> <span class="nav-text">innoDb 有哪些行锁</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#mysql-%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">mysql 三大日志</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#redo-log"><span class="nav-number">3.0.0.2.1.</span> <span class="nav-text">redo log</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#redo-log%E5%B0%8F%E7%BB%93"><span class="nav-number">3.0.0.2.2.</span> <span class="nav-text">redo log小结</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#bin-log"><span class="nav-number">3.0.0.2.3.</span> <span class="nav-text">bin log</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">两阶段提交</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sql%E8%AF%AD%E5%8F%A5%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">sql语句执行流程</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day4-12-12"><span class="nav-number">4.</span> <span class="nav-text">day4 12.12</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.1.</span> <span class="nav-text">创建型设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BB%BA%E9%80%A0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">建造器模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.1.4.</span> <span class="nav-text">原型模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.2.</span> <span class="nav-text">结构型设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">适配器模式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day-5-12-13"><span class="nav-number">5.</span> <span class="nav-text">day 5 12.13</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">组合模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.0.3.</span> <span class="nav-text">享元模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.0.4.</span> <span class="nav-text">装饰器模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E6%80%A7%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.1.</span> <span class="nav-text">行为性设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.1.1.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.0.1.2.</span> <span class="nav-text">观察者模式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#day-6-12-14"><span class="nav-number">6.</span> <span class="nav-text">day 6 12.14</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.0.0.1.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.0.0.2.</span> <span class="nav-text">模板方法模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.0.0.3.</span> <span class="nav-text">迭代器模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="nav-number">6.1.</span> <span class="nav-text">设计模式总结：</span></a></li></ol></li></ol>
     </div>
 </div>
         </aside>
