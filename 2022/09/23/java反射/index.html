@@ -176,9 +176,16 @@
         <div class="article-content markdown-body">
             <h3 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h3><p>首先了解反射是什么，就是一种通过class类获取实例的方法，</p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://nyimac.gitee.io/2020/10/13/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/#%E4%BA%8C%E3%80%81%E5%8F%8D%E5%B0%84" >https://nyimac.gitee.io/2020/10/13/%E6%B3%A8%E8%A7%A3%E4%B8%8E%E5%8F%8D%E5%B0%84/#%E4%BA%8C%E3%80%81%E5%8F%8D%E5%B0%84<i class="fas fa-external-link-alt"></i></a></p>
-<p>但是大家比较熟悉的获取实例的就是new，那为什么还要反射呢</p>
+<p>但是大家比较熟悉的获取实例的就是new，那为什么还要反射呢，</p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://www.zhihu.com/question/377483107" >https://www.zhihu.com/question/377483107<i class="fas fa-external-link-alt"></i></a></p>
-<p>在第二篇文章中补充一点，在进行log时，需要获取请求的对用controller的方法名就需要反射，获取url以及请求ip时，就只需要解析报文就可以</p>
+<p>在第二篇文章中补充一点，在进行log时，需要获取请求的对应信息用controller的方法名就需要反射，获取url以及请求ip时，就只需要解析报文就可以</p>
+<p>反射的实例：</p>
+<ul>
+<li><p>jdbc加载驱动：将驱动的信息写在配置文件中</p>
+</li>
+<li><p>springMVC：在传参数时的对应字段就可以不用request.getparameters</p>
+</li>
+</ul>
 
         </div>
 
