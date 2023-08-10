@@ -174,11 +174,46 @@
         
 
         <div class="article-content markdown-body">
-            <p>访客的token：eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmOWI1NDYzY2YzMWQ0YTJhOTQzM2ZmYWVhMzIzNzM1YyIsInN1YiI6InZpc2l0b3IiLCJpc3MiOiJsaXVqaWFuIiwiaWF0IjoxNjg2NzEzMjY5LCJleHAiOjE2ODY3OTk2Njl9.Xn0crbl-oAN6TuHhxfZzzXvsXsxl9smUHDA7PiDlfow</p>
-<p>eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlNzMwM2YyNzA4MzE0MzU4OTNiYjBiMDEzNzM1YjQ2NSIsInN1YiI6InZpc2l0b3IiLCJpc3MiOiJsaXVqaWFuIiwiaWF0IjoxNjg2ODE2OTQ4LCJleHAiOjE2ODY5MDMzNDh9.TRujGF99xEt5WTFBQ2fg9o5auv0rpgDgNoX9m6TTEGU</p>
-<p>医生和用户的分开认证？</p>
-<p>权限校验的确保改的是自己的信息？应用上下文</p>
-<p>医生的时间段的挂号？根据头衔动态获取</p>
+            <p>1.去重：select distinct prod_id</p>
+<p>2.排序：DESC 降序，默认升序</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">select cust_id<span class="token punctuation">,</span>order_num
+from <span class="token class-name">Orders</span>
+order by
+     cust_id<span class="token punctuation">,</span>
+     order_num DESC<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3.拼接字符串：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">select cust_id<span class="token punctuation">,</span>cust_name<span class="token punctuation">,</span>
+<span class="token function">upper</span><span class="token punctuation">(</span><span class="token function">concat</span><span class="token punctuation">(</span><span class="token function">substring</span><span class="token punctuation">(</span>cust_name<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token function">substring</span><span class="token punctuation">(</span>cust_city<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> as user_login
+from <span class="token class-name">Customers</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>4.where后面不能直接加聚合函数（分组函数），我们也可以这样记忆：<strong>where后面只能跟表中存在的字段。</strong></p>
+<p>having 不能单独使用，必须跟 group by 联合使用。</p>
+<p>5.子查询</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">select cust_id
+from <span class="token class-name">Orders</span> as a
+where a<span class="token punctuation">.</span>order_num <span class="token function">in</span><span class="token punctuation">(</span>
+    select order_num
+    from <span class="token class-name">OrderItems</span>
+    where item_price<span class="token operator">>=</span><span class="token number">10</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>6.子查询+group by +having 过滤+where 过滤</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">select a<span class="token punctuation">.</span>id<span class="token punctuation">,</span>a<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span>a<span class="token punctuation">.</span>name<span class="token punctuation">,</span>a<span class="token punctuation">.</span>score
+    from <span class="token class-name">A</span> as a right join <span class="token punctuation">(</span>
+        select <span class="token class-name">A</span><span class="token punctuation">.</span><span class="token keyword">class</span> as oneclass<span class="token punctuation">,</span><span class="token function">max</span><span class="token punctuation">(</span>score<span class="token punctuation">)</span> as maxScore
+        from <span class="token class-name">A</span>
+        group by <span class="token keyword">class</span>
+    <span class="token punctuation">)</span>as b on a<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token operator">=</span>b<span class="token punctuation">.</span>oneclass and a<span class="token punctuation">.</span>score<span class="token operator">=</span>b<span class="token punctuation">.</span>maxScore<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>iass 底层的硬件支持：存储、虚拟化、网络</p>
+<p>Sass：一些中间件的服务能力</p>
+<p>Pass：平台服务能力的接入，订购服务，开通服务之后的安全权限访问授权，，然后开始分配it资源</p>
+<p>第二个关键能力点：从软件开发、测试到构建打包部署整个持续集成和持续交付的过程管理，DevpOps实现应用的资源托管以及动态调度，实现软件全生命周期的管理，以及发布到我们整个的云门户里面去。</p>
+<p>公有云的特点：高可用、高可靠、以及弹性水平扩展，</p>
+<p>从资源到服务的抽象，是开发和治理分离</p>
+<p>将程序员专心去实现业务，而不是去关注底层复杂的技术架构</p>
 
         </div>
 

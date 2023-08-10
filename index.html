@@ -181,7 +181,13 @@
 
                 <div class="home-article-content markdown-body">
                     
-                        访客的token：eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmOWI1NDYzY2YzMWQ0YTJhOTQzM2ZmYWVhMzIzNzM1YyIsInN1YiI6InZpc2l0b3IiLCJpc3MiOiJsaXVqaWF...
+                        1.去重：select distinct prod_id
+2.排序：DESC 降序，默认升序
+select cust_id,order_num
+from Orders
+order by
+     cust_id,
+     order_num DES...
                     
                 </div>
 
